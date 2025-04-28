@@ -1,0 +1,841 @@
+/* NurseIO Theme for Core Verify - Exact Match */
+
+:root {
+  --blue-purple: #4155B8;
+  --blue-purple-light: #F5F8FF;
+  --blue-purple-dark: #2C3E7C;
+  --gray-100: #f8f9fa;
+  --gray-200: #f3f3f3;
+  --gray-300: #dee2e6;
+  --gray-400: #ced4da;
+  --gray-500: #adb5bd;
+  --gray-600: #6c757d;
+  --gray-800: #343a40;
+  --border-color: #ddd;
+  --success-green: #00df09;
+  --white: #ffffff;
+  
+  /* New pink color variants */
+  --pink-base: #e91e63;
+  --pink-lighten-5: #fce4ec;
+  --pink-lighten-4: #f8bbd0;
+  --pink-darken-1: #d81b60;
+  --pink-accent-1: #ff80ab;
+}
+
+/* Full-width iframe styles */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.iframe-uploader-container {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.iframe-uploader-container .modal {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  position: relative;
+}
+
+.iframe-uploader-container .modal-dialog {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+.iframe-uploader-container .modal-content {
+  border-radius: 0;
+  border: none;
+  height: 100%;
+  width: 100%;
+}
+
+.iframe-uploader-container .modal-body {
+  padding: 15px;
+}
+
+.iframe-uploader-container .container-fluid {
+  padding: 0;
+}
+
+/* Modal Positioning */
+.modal-dialog.modal-right {
+  position: fixed;
+  margin: auto;
+  width: 500px;
+  height: 80vh;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* NurseIO Certificate Modal Styles */
+.new-shift-model {
+  max-width: 500px !important;
+  margin-right: 0 !important;
+}
+
+.new-shift-model .modal-content {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  height: 80vh;
+  overflow-y: auto;
+}
+
+.new-shift-model .modal-header {
+  background-color: var(--blue-purple-light);
+  color: var(--blue-purple);
+  font-weight: 600;
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--gray-300);
+}
+
+.blue-purple-light {
+  background-color: var(--blue-purple-light);
+  color: var(--blue-purple);
+}
+
+.new-shift-model .modal-body {
+  padding: 25px;
+}
+
+.new-shift-model .close {
+  color: var(--blue-purple);
+  text-shadow: none;
+  opacity: 0.8;
+}
+
+.new-shift-model .close:hover {
+  opacity: 1;
+}
+
+/* Form controls */
+.form-control {
+  display: block;
+  width: 100%;
+  height: calc(2.25rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: var(--white);
+  background-clip: padding-box;
+  border: 1px solid var(--gray-400);
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+  color: #495057;
+  background-color: var(--white);
+  border-color: var(--blue-purple);
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(65, 85, 184, 0.25);
+}
+
+/* Form label styles */
+label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--gray-800);
+}
+
+/* Row spacing */
+.row {
+  margin-bottom: 1rem;
+}
+
+/* Button styles */
+.btn-primary {
+  color: #fff;
+  background-color: var(--blue-purple);
+  border-color: var(--blue-purple);
+  min-width: 120px;
+  box-shadow: 0 2px 5px rgba(65, 85, 184, 0.2);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--blue-purple-dark);
+  border-color: var(--blue-purple-dark);
+  box-shadow: 0 4px 8px rgba(65, 85, 184, 0.3);
+}
+
+.btn-primary[outline] {
+  color: var(--blue-purple);
+  background-color: transparent;
+  border-color: var(--blue-purple);
+}
+
+.btn-primary[outline]:hover:not(:disabled) {
+  background-color: var(--blue-purple-light);
+  color: var(--blue-purple);
+  box-shadow: 0 2px 5px rgba(65, 85, 184, 0.15);
+}
+
+/* Pink button variants */
+.btn-pink {
+  color: #fff;
+  background-color: var(--pink-base);
+  border-color: var(--pink-base);
+  min-width: 120px;
+  box-shadow: 0 2px 5px rgba(233, 30, 99, 0.2);
+}
+
+.btn-pink:hover:not(:disabled) {
+  background-color: var(--pink-darken-1);
+  border-color: var(--pink-darken-1);
+  box-shadow: 0 4px 8px rgba(233, 30, 99, 0.3);
+}
+
+.btn-pink[outline] {
+  color: var(--pink-base);
+  background-color: transparent;
+  border-color: var(--pink-base);
+}
+
+.btn-pink[outline]:hover:not(:disabled) {
+  background-color: var(--pink-lighten-5);
+  color: var(--pink-base);
+  box-shadow: 0 2px 5px rgba(233, 30, 99, 0.15);
+}
+
+/* Certificate Detail View Styling */
+.certificate-detail .row {
+  margin-bottom: 10px;
+}
+
+.certificate-detail label {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: 600;
+}
+
+.certificate-detail label + label {
+  font-weight: 400;
+}
+
+/* Alert styling */
+.alert {
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+/* Loading spinner */
+.spinner-border {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  vertical-align: text-bottom;
+  border: 0.25em solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spinner-border 0.75s linear infinite;
+}
+
+.text-primary {
+  color: var(--blue-purple) !important;
+}
+
+@keyframes spinner-border {
+  to { transform: rotate(360deg); }
+}
+
+/* Positioning classes */
+.text-center {
+  text-align: center !important;
+}
+
+.my-5 {
+  margin-top: 3rem !important;
+  margin-bottom: 3rem !important;
+}
+
+.my-3 {
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.mb-3 {
+  margin-bottom: 1rem !important;
+}
+
+.mt-3 {
+  margin-top: 1rem !important;
+}
+
+.mt-2 {
+  margin-top: 0.5rem !important;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem !important;
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem !important;
+}
+
+.mr-3 {
+  margin-right: 1rem !important;
+}
+
+.mr-2 {
+  margin-right: 0.5rem !important;
+}
+
+.ml-auto {
+  margin-left: auto !important;
+}
+
+.d-flex {
+  display: flex !important;
+}
+
+.d-flex-wrap {
+  flex-wrap: wrap !important;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+@media (min-width: 576px) {
+  .col-sm-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .col-md-2 {
+    flex: 0 0 16.666667%;
+    max-width: 16.666667%;
+  }
+}
+
+/* Embedded Mode Styles */
+.embedded-iframe {
+  background-color: transparent;
+  border: none;
+  overflow: hidden;
+}
+
+body.embedded-iframe {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* Match NurseIO Form Styles */
+.container-fluid {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* Match NurseIO Row Styles */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.row > div {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border-radius: 0.2rem;
+}
+
+/* File Link Styles */
+a {
+  color: var(--blue-purple);
+  text-decoration: none;
+  background-color: transparent;
+}
+
+a:hover {
+  color: var(--blue-purple-dark);
+  text-decoration: underline;
+}
+
+.justify-content-center {
+  justify-content: center !important;
+}
+
+.alert-heading {
+  color: inherit;
+}
+
+/* NurseIO Theme Styles */
+
+.nurseio-theme {
+  --primary-color: #4361ee;
+  --secondary-color: #3f37c9;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #17a2b8;
+  --light-color: #f8f9fa;
+  --dark-color: #343a40;
+  --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Certificate Modal Styles */
+.nurseio-theme .certificate-modal {
+  max-width: 800px;
+}
+
+.nurseio-theme .certificate-modal .modal-header {
+  border-bottom: 2px solid var(--primary-color);
+  padding: 1rem 1.5rem;
+}
+
+.nurseio-theme .certificate-modal .modal-header .modal-title {
+  font-weight: 600;
+  color: white;
+}
+
+.nurseio-theme .certificate-modal .modal-body {
+  padding: 1.5rem;
+}
+
+.nurseio-theme .certificate-modal .modal-footer {
+  border-top: 1px solid #eee;
+  padding: 1rem 1.5rem;
+}
+
+.nurseio-theme .form-group {
+  margin-bottom: 1.25rem;
+}
+
+.nurseio-theme .form-label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  display: block;
+  color: #333;
+}
+
+.nurseio-theme .form-control {
+  border-radius: 0.25rem;
+  border: 1px solid #ced4da;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.nurseio-theme .form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(67, 97, 238, 0.25);
+}
+
+.nurseio-theme .btn {
+  font-weight: 500;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.25rem;
+  transition: all 0.2s ease;
+}
+
+.nurseio-theme .btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.nurseio-theme .btn-primary:hover {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+.nurseio-theme .btn-block {
+  display: block;
+  width: 100%;
+}
+
+.nurseio-theme .document-success-container {
+  padding: 1rem;
+}
+
+.nurseio-theme .success-icon {
+  margin: 0 auto;
+  width: 64px;
+  height: 64px;
+}
+
+.nurseio-theme .alert {
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1.5rem;
+  border-radius: 0.25rem;
+}
+
+.nurseio-theme .alert-success {
+  background-color: rgba(40, 167, 69, 0.1);
+  border-left: 4px solid var(--success-color);
+  color: #155724;
+}
+
+.nurseio-theme .alert-danger {
+  background-color: rgba(220, 53, 69, 0.1);
+  border-left: 4px solid var(--danger-color);
+  color: #721c24;
+}
+
+/* Document Preview Styles */
+.nurseio-theme .document-preview {
+  border: 1px solid #ddd;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  margin-top: 1rem;
+  background-color: #f9f9f9;
+}
+
+.nurseio-theme .document-preview-image {
+  max-width: 100%;
+  max-height: 200px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nurseio-theme .document-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.nurseio-theme .document-detail-row {
+  display: flex;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.75rem;
+}
+
+.nurseio-theme .document-detail-label {
+  width: 150px;
+  font-weight: 500;
+  color: #555;
+}
+
+.nurseio-theme .document-detail-value {
+  flex: 1;
+  color: #333;
+}
+
+/* File Upload Styles */
+.nurseio-theme .file-upload-container {
+  border: 2px dashed #ddd;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.nurseio-theme .file-upload-container:hover,
+.nurseio-theme .file-upload-container.dragging {
+  border-color: var(--primary-color);
+  background-color: rgba(67, 97, 238, 0.05);
+}
+
+.nurseio-theme .file-upload-icon {
+  font-size: 2.5rem;
+  color: #aaa;
+  margin-bottom: 1rem;
+}
+
+.nurseio-theme .file-upload-text {
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.nurseio-theme .file-upload-input {
+  display: none;
+}
+
+.nurseio-theme .file-name-display {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background-color: #e9ecef;
+  border-radius: 0.25rem;
+  display: inline-block;
+}
+
+/* View-only mode styles */
+.nurseio-theme .view-mode .document-detail-row {
+  margin-bottom: 0.5rem;
+  border-bottom: none;
+}
+
+.nurseio-theme .view-mode .document-detail-label {
+  font-size: 0.875rem;
+}
+
+.iframe-content {
+  padding: 10px;
+  margin: 0;
+  width: 100%;
+}
+
+.certificate-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--gray-300);
+}
+
+.certificate-modal-footer .btn {
+  min-width: 120px;
+  font-weight: 500;
+  border-radius: 4px;
+}
+
+.certificate-modal-footer .btn-primary {
+  background-color: var(--blue-purple);
+  border-color: var(--blue-purple);
+}
+
+.certificate-modal-footer .btn-primary:hover {
+  background-color: var(--blue-purple-dark);
+  border-color: var(--blue-purple-dark);
+}
+
+.certificate-modal-footer .btn-primary.btn-outline-primary,
+.certificate-modal-footer .btn-primary[outline] {
+  background-color: transparent;
+  color: var(--blue-purple);
+  border-color: var(--blue-purple);
+}
+
+.certificate-modal-footer .btn-primary.btn-outline-primary:hover,
+.certificate-modal-footer .btn-primary[outline]:hover {
+  background-color: var(--blue-purple-light);
+}
+
+.certificate-modal-footer .btn-secondary[outline] {
+  background-color: transparent;
+  color: var(--gray-600);
+  border-color: var(--gray-600);
+}
+
+.certificate-modal-footer .btn-secondary[outline]:hover {
+  background-color: var(--gray-200);
+}
+
+.certificate-modal-header {
+  background-color: var(--blue-purple);
+  color: white;
+  padding: 1rem 1.5rem;
+  font-weight: 600;
+  border-bottom: none;
+}
+
+.certificate-modal-header .close {
+  display: none;
+}
+
+/* Form styles matching NurseIO */
+.btn-rounded {
+  border-radius: 30px !important;
+}
+
+.font-weight-bold {
+  font-weight: 600 !important;
+}
+
+.py-1 {
+  padding-top: 0.25rem !important;
+  padding-bottom: 0.25rem !important;
+}
+
+.py-2 {
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+}
+
+.px-2 {
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+}
+
+.pt-4 {
+  padding-top: 1.5rem !important;
+}
+
+.nowrap {
+  white-space: nowrap !important;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.border-info {
+  border: 1px solid var(--blue-purple) !important;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.form-control:focus {
+  border-color: var(--blue-purple);
+  box-shadow: 0 0 0 0.2rem rgba(65, 85, 184, 0.25);
+}
+
+label {
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+  color: #495057;
+}
+
+.btn-secondary {
+  color: #fff;
+  background-color: var(--blue-purple);
+  border-color: var(--blue-purple);
+  min-width: 120px;
+  box-shadow: 0 2px 5px rgba(65, 85, 184, 0.2);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--blue-purple-dark);
+  border-color: var(--blue-purple-dark);
+  box-shadow: 0 4px 8px rgba(65, 85, 184, 0.3);
+}
+
+.btn-secondary[outline] {
+  color: var(--blue-purple);
+  background-color: transparent;
+  border-color: var(--blue-purple);
+}
+
+.btn-secondary[outline]:hover:not(:disabled) {
+  background-color: var(--blue-purple-light);
+  color: var(--blue-purple);
+  box-shadow: 0 2px 5px rgba(65, 85, 184, 0.15);
+}
+
+/* Certificate Modal Styles - Seamless Look */
+.certificate-modal .modal-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 100vh;
+  border-radius: 0;
+  border: none;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  background-color: #ffffff;
+}
+
+.certificate-modal-body-scrollable {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 1.5rem 1.5rem 0.5rem 1.5rem;
+  max-height: calc(100vh - 60px); /* Adjust for footer height only */
+  background-color: #ffffff;
+}
+
+.certificate-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem 1.5rem 1.5rem;
+  border-top: none;
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 10;
+  background-color: #ffffff;
+  box-shadow: 0 -5px 10px -5px rgba(0, 0, 0, 0.05);
+}
+
+/* Form styles for seamless appearance */
+.form-scrollable-container {
+  padding: 0;
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.btn-rounded {
+  border-radius: 30px !important;
+  font-weight: 500 !important;
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+  transition: all 0.2s ease !important;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem !important;
+}
+
+.form-title {
+  color: var(--blue-purple);
+  font-size: 1.5rem;
+  font-weight: 600;
+  border-bottom: 1px solid var(--gray-300);
+  padding-bottom: 0.75rem;
+}
+
+/* File input styling with check icon */
+.file-input-container {
+  position: relative;
+}
+
+.file-input-success-icon {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  color: #28a745;
+  background: white;
+  border-radius: 50%;
+  padding: 2px;
+  box-shadow: 0 0 4px rgba(0,0,0,0.1);
+  z-index: 5;
+}
+
+/* Form styles matching NurseIO */ 

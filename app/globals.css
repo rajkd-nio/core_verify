@@ -1,0 +1,63 @@
+:root {
+  --max-width: 1200px;
+  --border-radius: 0.5rem;
+  --font-mono: ui-monospace, monospace;
+  --foreground-rgb: 0, 0, 0;
+  --background-rgb: 255, 255, 255;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Upload component styles */
+.document-uploader-container {
+  margin-bottom: 2rem;
+}
+
+.progress {
+  height: 1.5rem;
+}
+
+.progress-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+/* Iframe-specific styles */
+.iframe-mode {
+  background: transparent;
+}
+
+.iframe-mode header,
+.iframe-mode footer {
+  display: none;
+}
+
+/* File uploader styles */
+.file-upload-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.select-file-font {
+  color: #007bff;
+} 

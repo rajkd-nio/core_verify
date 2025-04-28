@@ -1,0 +1,6 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/page": "app/page.js",
+  "/api/form-schema/route": "app/api/form-schema/route.js",
+  "/iframe-uploader/page": "app/iframe-uploader/page.js"
+}

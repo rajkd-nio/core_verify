@@ -1,0 +1,25 @@
+{
+  "name": "core_verify",
+  "version": "1.0.0",
+  "engines": {
+    "node": "12.22.x"
+  },
+  "scripts": {
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "cross-env NODE_ENV=production node server.js"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "bootstrap": "^4.3.1",
+    "cross-env": "^5.2.0",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "formidable": "^1.2.2",
+    "next": "^9.1.1",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "reactstrap": "7.1.0",
+    "uuid": "^8.3.2"
+  }
+}

@@ -1,0 +1,179 @@
+{
+  "title": "Document Form Schema",
+  "description": "Schema for standard document upload form fields",
+  "formId": "document-form",
+  "documentType": "document",
+  "hideHeader": true,
+  "showFormButtons": false,
+  "fields": [
+    {
+      "id": "documentType",
+      "name": "documentType",
+      "type": "select",
+      "label": "Document Type",
+      "placeholder": "Select document type",
+      "options": [
+        {"value": "contract", "label": "Contract"},
+        {"value": "agreement", "label": "Agreement"},
+        {"value": "identification", "label": "Identification"},
+        {"value": "proof_of_address", "label": "Proof of Address"},
+        {"value": "finger_print_clearance", "label": "Finger Print Clearance"},
+        {"value": "other", "label": "Other"}
+      ],
+      "required": true,
+      "order": 1,
+      "fullWidth": true
+    },
+    {
+      "id": "certificateAbbreviation",
+      "name": "certificateAbbreviation",
+      "type": "text",
+      "label": "Document Title",
+      "placeholder": "Enter document title",
+      "required": true,
+      "order": 2,
+      "fullWidth": true,
+      "conditionalDisplay": {
+        "field": "documentType",
+        "notEqual": "finger_print_clearance"
+      }
+    },
+    {
+      "id": "issuer",
+      "name": "issuer",
+      "type": "text",
+      "label": "Issuing Organization",
+      "placeholder": "Enter organization name",
+      "required": false,
+      "order": 3,
+      "fullWidth": true,
+      "conditionalDisplay": {
+        "field": "documentType",
+        "notEqual": "finger_print_clearance"
+      }
+    },
+    {
+      "id": "recipient",
+      "name": "recipient",
+      "type": "text",
+      "label": "Recipient",
+      "placeholder": "Enter recipient name",
+      "required": false,
+      "order": 4,
+      "fullWidth": true,
+      "conditionalDisplay": {
+        "field": "documentType",
+        "notEqual": "finger_print_clearance"
+      }
+    },
+    {
+      "id": "documentId",
+      "name": "documentId",
+      "type": "text",
+      "label": "Document ID",
+      "placeholder": "Enter document ID",
+      "required": false,
+      "order": 5,
+      "fullWidth": true,
+      "conditionalDisplay": {
+        "field": "documentType",
+        "notEqual": "finger_print_clearance"
+      }
+    },
+    {
+      "id": "tags",
+      "name": "tags",
+      "type": "text",
+      "label": "Tags",
+      "placeholder": "Enter tags separated by commas",
+      "required": false,
+      "order": 6,
+      "fullWidth": true,
+      "conditionalDisplay": {
+        "field": "documentType",
+        "notEqual": "finger_print_clearance"
+      }
+    },
+    {
+      "id": "effectiveDate",
+      "name": "effectiveDate",
+      "type": "date",
+      "label": "Issue Date",
+      "placeholder": "Select issue date",
+      "required": true,
+      "order": 7,
+      "fullWidth": true
+    },
+    {
+      "id": "expirationDate",
+      "name": "expirationDate",
+      "type": "date",
+      "label": "Expiration Date",
+      "placeholder": "Select expiration date",
+      "required": true,
+      "order": 8,
+      "fullWidth": true,
+      "validation": {
+        "afterField": "effectiveDate",
+        "maxMonths": 6,
+        "message": "Expiration date must be after issue date and within 6 months of it"
+      }
+    },
+    {
+      "id": "notes",
+      "name": "notes",
+      "type": "textarea",
+      "label": "Additional Notes",
+      "placeholder": "Enter any additional information",
+      "required": false,
+      "order": 9,
+      "fullWidth": true,
+      "rows": 3,
+      "conditionalDisplay": {
+        "field": "documentType",
+        "notEqual": "finger_print_clearance"
+      }
+    },
+    {
+      "id": "fileUpload",
+      "name": "fileUpload",
+      "type": "file",
+      "label": "Upload Document",
+      "accept": "*/*",
+      "required": true,
+      "order": 10,
+      "fullWidth": true
+    },
+    {
+      "id": "shareable",
+      "name": "shareable",
+      "type": "checkbox",
+      "label": "Shareable",
+      "defaultValue": true,
+      "required": false,
+      "order": 11,
+      "fullWidth": true,
+      "conditionalDisplay": {
+        "field": "documentType",
+        "notEqual": "finger_print_clearance"
+      }
+    }
+  ],
+  "conditionalButtons": {
+    "finger_print_clearance": {
+      "submitButtonText": "Add",
+      "cancelButtonText": "Cancel",
+      "deleteButtonText": "Delete"
+    },
+    "default": {
+      "submitButtonText": "Add",
+      "cancelButtonText": "Cancel",
+      "deleteButtonText": "Delete"
+    }
+  },
+  "submitButtonText": "Add",
+  "cancelButtonText": "Cancel",
+  "deleteButtonText": "Delete",
+  "successMessage": "Document uploaded successfully!",
+  "errorMessage": "There was an error uploading your document. Please try again."
+} 
