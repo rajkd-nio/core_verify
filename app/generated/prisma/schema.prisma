@@ -1,0 +1,142 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model DocumentType {
+  id                     Int                     @id @default(autoincrement())
+  name                   String                  @unique
+  description            String?
+  formId                 String?                 @map("form_id")
+  hideHeader             Boolean                 @default(false) @map("hide_header")
+  showFormButtons        Boolean                 @default(true) @map("show_form_buttons")
+  createdAt              DateTime                @default(now()) @map("created_at")
+  updatedAt              DateTime                @updatedAt @map("updated_at")
+  documentTitles         DocumentTitle[]
+  documentFields         DocumentField[]
+  documentConfigurations DocumentConfiguration[]
+
+  @@map("document_types")
+}
+
+model DocumentTitle {
+  id                     Int                     @id @default(autoincrement())
+  title                  String
+  description            String?
+  createdAt              DateTime                @default(now()) @map("created_at")
+  updatedAt              DateTime                @updatedAt @map("updated_at")
+  shareable              Boolean                 @default(false)
+  documentTypeId         Int                     @map("document_type_id")
+  isDisplay              Boolean                 @default(true) @map("is_display")
+  requireNumber          Boolean                 @default(false) @map("require_number")
+  requireValidDate       Boolean                 @default(false) @map("require_valid_date")
+  requireExpireDate      Boolean                 @default(false) @map("require_expire_date")
+  requireDocData         Boolean                 @default(false) @map("require_doc_data")
+  docDataOptions         Json?                   @map("doc_data_options")
+  docDataName            String?                 @map("doc_data_name")
+  requireAttachmentFront Boolean                 @default(false) @map("require_attachment_front")
+  requireAttachmentBack  Boolean                 @default(false) @map("require_attachment_back")
+  formTitle              String?                 @map("form_title")
+  formDescription        String?                 @map("form_description")
+  documentType           DocumentType            @relation(fields: [documentTypeId], references: [id], onDelete: Cascade)
+  documentConfigurations DocumentConfiguration[]
+  documentFields         DocumentField[]         @relation("TitleFields")
+  formFields             FormField[]
+
+  @@index([documentTypeId])
+  @@map("document_titles")
+}
+
+model DocumentField {
+  id                 Int            @id @default(autoincrement())
+  fieldId            String         @map("field_id")
+  name               String
+  label              String
+  type               String
+  placeholder        String?
+  required           Boolean        @default(false)
+  order              Int
+  fullWidth          Boolean        @default(true) @map("full_width")
+  hidden             Boolean        @default(false)
+  defaultValue       String?        @map("default_value")
+  options            Json?
+  validation         Json?
+  conditionalDisplay Json?          @map("conditional_display")
+  helpText           String?        @map("help_text")
+  documentTypeId     Int            @map("document_type_id")
+  documentTitleId    Int?           @map("document_title_id")
+  createdAt          DateTime       @default(now()) @map("created_at")
+  updatedAt          DateTime       @updatedAt @map("updated_at")
+  documentTitle      DocumentTitle? @relation("TitleFields", fields: [documentTitleId], references: [id], onDelete: SetNull)
+  documentType       DocumentType   @relation(fields: [documentTypeId], references: [id], onDelete: Cascade)
+
+  @@index([documentTypeId])
+  @@index([documentTitleId])
+  @@map("document_fields")
+}
+
+model FormField {
+  id              Int           @id @default(autoincrement())
+  documentTitleId Int           @map("document_title_id")
+  fieldName       String        @map("field_name")
+  label           String
+  type            String
+  placeholder     String?
+  required        Boolean       @default(false)
+  order           Int           @default(0)
+  fullWidth       Boolean       @default(true) @map("full_width")
+  hidden          Boolean       @default(false)
+  defaultValue    String?       @map("default_value")
+  options         Json?
+  validation      Json?
+  conditionalShow Json?         @map("conditional_show")
+  helpText        String?       @map("help_text")
+  documentTitle   DocumentTitle @relation(fields: [documentTitleId], references: [id], onDelete: Cascade)
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  @@index([documentTitleId])
+  @@map("form_fields")
+}
+
+model DocumentConfiguration {
+  id              Int      @id @default(autoincrement())
+  regionId        Int      @map("region_id")
+  documentTypeId  Int      @map("document_type_id")
+  documentTitleId Int      @map("document_title_id")
+  typeOfCondition Int      @default(0) @map("type_of_condition")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+  active          Boolean  @default(true)
+  priority        Int      @default(0)
+  customFields    Json?    @map("custom_fields")
+
+  documentType  DocumentType  @relation(fields: [documentTypeId], references: [id], onDelete: Cascade)
+  documentTitle DocumentTitle @relation(fields: [documentTitleId], references: [id], onDelete: Cascade)
+  region        Region        @relation(fields: [regionId], references: [id], onDelete: Cascade)
+
+  @@unique([regionId, documentTitleId])
+  @@index([documentTypeId])
+  @@index([documentTitleId])
+  @@index([regionId])
+  @@map("document_configurations")
+}
+
+model Region {
+  id                     Int                     @id @default(autoincrement())
+  name                   String
+  code                   String                  @unique
+  country                String                  @default("US")
+  active                 Boolean                 @default(true)
+  createdAt              DateTime                @default(now()) @map("created_at")
+  updatedAt              DateTime                @updatedAt @map("updated_at")
+  documentConfigurations DocumentConfiguration[]
+
+  @@map("regions")
+}

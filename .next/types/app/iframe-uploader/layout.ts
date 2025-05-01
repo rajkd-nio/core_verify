@@ -1,4 +1,4 @@
-// File: /Users/swagatmishra/Desktop/raj/official/coreverify/core_verify/app/iframe-uploader/layout.js
+// File: /Users/swagatmishra/Desktop/raj/official/core_verify/app/iframe-uploader/layout.js
 import * as entry from '../../../../app/iframe-uploader/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

@@ -1,4 +1,4 @@
-// File: /Users/swagatmishra/Desktop/raj/official/coreverify/core_verify/app/api/form-schema/route.js
+// File: /Users/swagatmishra/Desktop/raj/official/core_verify/app/api/form-schema/route.js
 import * as entry from '../../../../../app/api/form-schema/route.js'
 import type { NextRequest } from 'next/server.js'
 

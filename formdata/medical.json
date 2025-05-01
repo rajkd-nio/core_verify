@@ -1,138 +1,168 @@
 {
-  "title": "Medical Record Form Schema",
-  "description": "Schema for medical record upload form fields",
-  "formId": "medical-form",
-  "documentType": "medical",
-  "hideHeader": true,
-  "showFormButtons": false,
-  "fields": [
-    {
-      "id": "certificateAbbreviation",
-      "name": "certificateAbbreviation",
-      "type": "text",
-      "label": "Medical Record Title",
-      "placeholder": "Enter medical record title",
-      "required": true,
-      "order": 1,
-      "fullWidth": true
-    },
-    {
-      "id": "recordType",
-      "name": "recordType",
-      "type": "select",
-      "label": "Record Type",
-      "placeholder": "Select record type",
+  "documentType": {
+    "id": 2,
+    "name": "Medical",
+    "created_at": "2023-08-01T00:00:00Z",
+    "updated_at": "2023-08-01T00:00:00Z"
+  },
+  "documentTitle": {
+    "id": 2,
+    "title": "Medical Record",
+    "created_at": "2023-08-01T00:00:00Z",
+    "updated_at": "2023-08-01T00:00:00Z",
+    "shareable": true,
+    "document_type_id": 2,
+    "is_display": true,
+    "require_number": true,
+    "require_valid_date": true,
+    "require_expire_date": true,
+    "require_doc_data": true,
+    "doc_data_options": {
       "options": [
-        {"value": "vaccination", "label": "Vaccination"},
-        {"value": "test_result", "label": "Test Result"},
-        {"value": "physical", "label": "Physical Examination"},
-        {"value": "medical_clearance", "label": "Medical Clearance"},
-        {"value": "other", "label": "Other Medical Record"}
-      ],
-      "required": true,
-      "order": 2,
-      "fullWidth": true
+        { "value": "vaccination", "label": "Vaccination" },
+        { "value": "test_result", "label": "Test Result" },
+        { "value": "tb_test", "label": "TB Test" },
+        { "value": "doctors_note", "label": "Doctor's Note" },
+        { "value": "prescription", "label": "Prescription" }
+      ]
     },
-    {
-      "id": "issuer",
-      "name": "issuer",
-      "type": "text",
-      "label": "Issuing Healthcare Provider",
-      "placeholder": "Enter healthcare provider name",
-      "required": false,
-      "order": 3,
-      "fullWidth": true
-    },
-    {
-      "id": "recipient",
-      "name": "recipient",
-      "type": "text",
-      "label": "Patient Name",
-      "placeholder": "Enter patient name",
-      "required": false,
-      "order": 4,
-      "fullWidth": true
-    },
-    {
-      "id": "documentId",
-      "name": "documentId",
-      "type": "text",
-      "label": "Medical Record ID",
-      "placeholder": "Enter medical record ID",
-      "required": false,
-      "order": 5,
-      "fullWidth": true
-    },
-    {
-      "id": "effectiveDate",
-      "name": "effectiveDate",
-      "type": "date",
-      "label": "Issue Date",
-      "placeholder": "Select issue date",
-      "required": false,
-      "order": 6,
-      "fullWidth": true
-    },
-    {
-      "id": "expirationDate",
-      "name": "expirationDate",
-      "type": "date",
-      "label": "Expiration Date (if applicable)",
-      "placeholder": "Select expiration date",
-      "required": false,
-      "order": 7,
-      "fullWidth": true,
-      "validation": {
-        "afterField": "effectiveDate",
-        "maxMonths": 6,
-        "message": "Expiration date must be after issue date and within 6 months of it"
+    "doc_data_name": "Medical Record Type",
+    "require_attachment_front": true,
+    "require_attachment_back": true
+  },
+  "form": {
+    "title": "Medical Form Schema",
+    "description": "Schema for medical document upload form fields",
+    "formId": "medical-form",
+    "documentType": "medical",
+    "hideHeader": true,
+    "showFormButtons": false,
+    "fields": [
+      {
+        "id": "recordTitle",
+        "name": "recordTitle",
+        "type": "text",
+        "label": "Medical Record Title",
+        "placeholder": "Enter medical record title",
+        "required": true,
+        "order": 1,
+        "fullWidth": true,
+        "validation": {
+          "minLength": 3,
+          "maxLength": 100,
+          "pattern": "^[A-Za-z0-9\\s\\-\\.\\(\\)]+$",
+          "message": "Medical record title must be between 3-100 characters"
+        }
+      },
+      {
+        "id": "recordType",
+        "name": "recordType",
+        "type": "select",
+        "label": "Record Type",
+        "placeholder": "Select record type",
+        "required": true,
+        "order": 2,
+        "fullWidth": true,
+        "options": [
+          { "value": "vaccination", "label": "Vaccination" },
+          { "value": "test_result", "label": "Test Result" },
+          { "value": "tb_test", "label": "TB Test" },
+          { "value": "doctors_note", "label": "Doctor's Note" },
+          { "value": "prescription", "label": "Prescription" }
+        ]
+      },
+      {
+        "id": "specialities",
+        "name": "specialities",
+        "type": "text",
+        "label": "Medical Specialities",
+        "placeholder": "Enter medical specialities",
+        "required": false,
+        "order": 3,
+        "fullWidth": true
+      },
+      {
+        "id": "recordNumber",
+        "name": "recordNumber",
+        "type": "text",
+        "label": "Record Number",
+        "placeholder": "Enter record number",
+        "required": false,
+        "order": 4,
+        "fullWidth": true,
+        "validation": {
+          "pattern": "^[A-Za-z0-9\\-\\#]+$",
+          "message": "Record number can only contain letters, numbers, hyphens, and hash"
+        }
+      },
+      {
+        "id": "recordDate",
+        "name": "recordDate",
+        "type": "date",
+        "label": "Record Date",
+        "placeholder": "Select record date",
+        "required": true,
+        "order": 5,
+        "fullWidth": true,
+        "validation": {
+          "notInFuture": true,
+          "message": "Record date cannot be in the future"
+        }
+      },
+      {
+        "id": "validUntil",
+        "name": "validUntil",
+        "type": "date",
+        "label": "Valid Until",
+        "placeholder": "Select validity date",
+        "required": false,
+        "order": 6,
+        "fullWidth": true,
+        "validation": {
+          "afterField": "recordDate",
+          "message": "Valid until date must be after record date"
+        }
+      },
+      {
+        "id": "fileUpload",
+        "name": "fileUpload",
+        "type": "file",
+        "label": "Upload Medical Record (PDF, JPG, PNG)",
+        "accept": ".pdf,.jpg,.jpeg,.png",
+        "required": true,
+        "order": 7,
+        "fullWidth": true,
+        "validation": {
+          "maxSize": 5000000,
+          "fileTypes": ["application/pdf", "image/jpeg", "image/png"],
+          "message": "Please upload a PDF, JPG, or PNG file less than 5MB"
+        }
+      },
+      {
+        "id": "notes",
+        "name": "notes",
+        "type": "textarea",
+        "label": "Notes",
+        "placeholder": "Enter any additional notes about this record",
+        "required": false,
+        "order": 8,
+        "fullWidth": true
+      },
+      {
+        "id": "shareable",
+        "name": "shareable",
+        "type": "checkbox",
+        "label": "Shareable",
+        "defaultValue": true,
+        "required": false,
+        "order": 9,
+        "fullWidth": true
       }
-    },
-    {
-      "id": "notes",
-      "name": "notes",
-      "type": "textarea",
-      "label": "Additional Notes",
-      "placeholder": "Enter any additional information",
-      "required": false,
-      "order": 8,
-      "fullWidth": true,
-      "rows": 3
-    },
-    {
-      "id": "fileUpload",
-      "name": "fileUpload",
-      "type": "file",
-      "label": "Upload Medical Record (PDF, JPG, PNG)",
-      "accept": ".pdf,.jpg,.jpeg,.png",
-      "required": true,
-      "order": 9,
-      "fullWidth": true
-    },
-    {
-      "id": "shareable",
-      "name": "shareable",
-      "type": "checkbox",
-      "label": "Shareable",
-      "defaultValue": true,
-      "required": false,
-      "order": 10,
-      "fullWidth": true
-    },
-    {
-      "id": "confidential",
-      "name": "confidential",
-      "type": "checkbox",
-      "label": "Confidential Record",
-      "defaultValue": false,
-      "required": false,
-      "order": 11,
-      "fullWidth": true
-    }
-  ],
-  "submitButtonText": "Add",
-  "cancelButtonText": "Cancel",
-  "deleteButtonText": "Delete",
-  "successMessage": "Medical record uploaded successfully!",
-  "errorMessage": "There was an error uploading your medical record. Please try again."
+    ],
+    "submitButtonText": "Add",
+    "cancelButtonText": "Cancel",
+    "deleteButtonText": "Delete",
+    "successMessage": "Medical record uploaded successfully!",
+    "errorMessage": "There was an error uploading your medical record. Please try again."
+  }
 } 

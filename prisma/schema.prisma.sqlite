@@ -1,0 +1,117 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Base reference models
+model DocumentType {
+  id                   String                 @id @default(uuid())
+  name                 String                 @unique
+  createdAt            DateTime               @default(now()) @map("created_at")
+  updatedAt            DateTime               @updatedAt @map("updated_at")
+  documentTitles       DocumentTitle[]
+  documentFields       DocumentField[]
+  documentConfigurations DocumentConfiguration[]
+
+  @@map("document_types")
+}
+
+model DocumentTitle {
+  id                    String               @id @default(uuid())
+  title                 String
+  createdAt             DateTime             @default(now()) @map("created_at")
+  updatedAt             DateTime             @updatedAt @map("updated_at")
+  shareable             Boolean              @default(false)
+  documentTypeId        String               @map("document_type_id")
+  isDisplay             Boolean              @default(true) @map("is_display")
+  requireNumber         Boolean              @default(false) @map("require_number")
+  requireValidDate      Boolean              @default(false) @map("require_valid_date")
+  requireExpireDate     Boolean              @default(false) @map("require_expire_date")
+  requireDocData        Boolean              @default(false) @map("require_doc_data")
+  docDataOptions        Json?                @map("doc_data_options") // Changed to Json type for PostgreSQL
+  docDataName           String?              @map("doc_data_name") // User-friendly name for doc data
+  requireAttachmentFront Boolean             @default(false) @map("require_attachment_front")
+  requireAttachmentBack  Boolean             @default(false) @map("require_attachment_back")
+  documentType          DocumentType         @relation(fields: [documentTypeId], references: [id], onDelete: Cascade)
+  documentConfigurations DocumentConfiguration[]
+  documentFields        DocumentField[]      @relation("TitleFields") // Fields specific to this title
+
+  @@index([documentTypeId])
+  @@map("document_titles")
+}
+
+// Form field definition model
+model DocumentField {
+  id                String       @id @default(uuid())
+  fieldId           String       @map("field_id") // Machine-readable field identifier
+  name              String       // Human-readable name
+  label             String       // Display label
+  type              String       // Field type (text, select, date, file, etc.)
+  placeholder       String?      
+  required          Boolean      @default(false)
+  order             Int          // Order of appearance in form
+  fullWidth         Boolean      @default(true) @map("full_width")
+  hidden            Boolean      @default(false)
+  defaultValue      String?      @map("default_value") // Default value if any
+  options           Json?        // Changed to Json type for PostgreSQL
+  validation        Json?        // Changed to Json type for PostgreSQL
+  conditionalDisplay Json?       @map("conditional_display") // Changed to Json type for PostgreSQL
+  helpText          String?      @map("help_text") // Optional help text for the field
+  documentTypeId    String       @map("document_type_id") // Related document type
+  documentType      DocumentType @relation(fields: [documentTypeId], references: [id], onDelete: Cascade)
+  
+  // Optional relationship to specific document titles
+  documentTitleId   String?      @map("document_title_id")
+  documentTitle     DocumentTitle? @relation("TitleFields", fields: [documentTitleId], references: [id], onDelete: SetNull)
+
+  createdAt         DateTime     @default(now()) @map("created_at")
+  updatedAt         DateTime     @updatedAt @map("updated_at")
+
+  @@index([documentTypeId])
+  @@index([documentTitleId])
+  @@map("document_fields")
+}
+
+// Regional document configuration
+model DocumentConfiguration {
+  id                String       @id @default(uuid())
+  regionId          String       @map("region_id") // Reference to region
+  documentTypeId    String       @map("document_type_id") 
+  documentTitleId   String       @map("document_title_id")
+  typeOfCondition   Int          @default(0) @map("type_of_condition") // 0: Required, 1: Optional, etc.
+  createdAt         DateTime     @default(now()) @map("created_at")
+  updatedAt         DateTime     @updatedAt @map("updated_at")
+  active            Boolean      @default(true)
+  priority          Int          @default(0) // Display order priority
+  
+  // Relations
+  documentType      DocumentType  @relation(fields: [documentTypeId], references: [id], onDelete: Cascade)
+  documentTitle     DocumentTitle @relation(fields: [documentTitleId], references: [id], onDelete: Cascade)
+  region            Region        @relation(fields: [regionId], references: [id], onDelete: Cascade)
+
+  @@unique([regionId, documentTitleId]) // Prevent duplicate configurations
+  @@index([documentTypeId])
+  @@index([documentTitleId])
+  @@index([regionId])
+  @@map("document_configurations")
+}
+
+// Region model to support location-based document requirements
+model Region {
+  id                  String                @id @default(uuid())
+  name                String
+  code                String                @unique // State code like "CA", "NY", etc.
+  country             String                @default("US")
+  active              Boolean               @default(true)
+  createdAt           DateTime              @default(now()) @map("created_at")
+  updatedAt           DateTime              @updatedAt @map("updated_at")
+  
+  // Relations
+  documentConfigurations DocumentConfiguration[]
+
+  @@map("regions")
+}

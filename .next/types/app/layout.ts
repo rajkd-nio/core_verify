@@ -1,4 +1,4 @@
-// File: /Users/swagatmishra/Desktop/raj/official/coreverify/core_verify/app/layout.js
+// File: /Users/swagatmishra/Desktop/raj/official/core_verify/app/layout.js
 import * as entry from '../../../app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
