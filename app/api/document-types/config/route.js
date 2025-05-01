@@ -10,13 +10,21 @@ export async function GET(request) {
     // Get search params (if any)
     const url = new URL(request.url);
     const parentTypeId = url.searchParams.get('parentTypeId');
+    const locationId = url.searchParams.get('locationId');
     
     // If parentTypeId is provided, get child types
     if (parentTypeId) {
-      const childTypes = await DocumentService.getChildDocumentTypes(parentTypeId);
+      // Parse locationId as integer if provided
+      const options = {};
+      if (locationId) {
+        options.locationId = parseInt(locationId, 10);
+      }
+      
+      const childTypes = await DocumentService.getChildDocumentTypes(parentTypeId, options);
       return NextResponse.json({ 
         parentTypeId, 
-        childTypes 
+        childTypes,
+        locationId: options.locationId || null
       });
     } 
     // Otherwise get the full configuration by using private method via a custom method

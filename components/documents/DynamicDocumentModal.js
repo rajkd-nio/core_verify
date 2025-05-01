@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Alert, Row, Col, Label } from 'reactstrap';
 import DynamicDocumentUploader from './DynamicDocumentUploader';
 import moment from 'moment';
@@ -94,6 +94,13 @@ const DynamicDocumentModal = ({
   containerClassName = "rounded-10 border-radius-10",
   onCustomButtonClick = null
 }) => {
+  // Add debug logging for incoming props
+  useEffect(() => {
+    console.log('DynamicDocumentModal received config:', config);
+    console.log('DynamicDocumentModal received verifyConfig:', verifyConfig);
+    console.log('DynamicDocumentModal documentType:', documentType);
+  }, [config, verifyConfig, documentType]);
+
   const [documentTitle, setDocumentTitle] = useState('Document');
   const [submitting, setSubmitting] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
@@ -107,6 +114,9 @@ const DynamicDocumentModal = ({
     submitFormAction: () => true,
     getSubmitButtonText: () => 'Add'
   });
+  
+  // Add ref to track previous actionInfo to prevent unnecessary updates
+  const previousActionInfoId = useRef(null);
   
   // Setup unload handler to ensure parent iframe closes
   useEffect(() => {
@@ -288,31 +298,52 @@ const DynamicDocumentModal = ({
       return;
     }
     
-    setFormSchema(actionInfo.schema);
-    setFormActions(actionInfo);
+    // Additional logging for Fingerprint Clearance
+    if (actionInfo.selectedChildType === 'fingerprint_clearance') {
+      console.log('Fingerprint Clearance form schema received:', {
+        fields: actionInfo.schema?.fields?.map(f => f.id) || [],
+        childType: actionInfo.selectedChildType,
+        locationId: actionInfo.locationId,
+        formId: actionInfo.schema?.formId
+      });
+    }
     
-    // Safely extract the functions with extra safety checks
-    const functions = {
-      hasValidForm: typeof actionInfo.hasValidForm === 'function' 
-        ? actionInfo.hasValidForm 
-        : () => {
-            console.log('Using fallback hasValidForm function');
-            return true;
-          },
-      submitFormAction: typeof actionInfo.submitFormAction === 'function' 
-        ? actionInfo.submitFormAction 
-        : () => {
-            console.log('Using fallback submitFormAction function');
-            return true;
-          },
-      getSubmitButtonText: typeof actionInfo.getSubmitButtonText === 'function' 
-        ? actionInfo.getSubmitButtonText 
-        : () => 'Add'
-    };
-    setActionsFunctions(functions);
+    // Create a unique identifier for this actionInfo to compare with previous
+    const actionInfoId = JSON.stringify({
+      schemaId: actionInfo.schema?.id,
+      schemaDocType: actionInfo.schema?.documentType,
+      isChildTypeSelector: actionInfo.isChildTypeSelector,
+      selectedChildType: actionInfo.selectedChildType,
+      childTypeOptionsCount: actionInfo.childTypeOptions?.length
+    });
     
-    // Log the received data for debugging
-    console.log('Received actionInfo:', actionInfo);
+    // Only update state if the actionInfo has meaningful changes
+    if (previousActionInfoId.current !== actionInfoId) {
+      previousActionInfoId.current = actionInfoId;
+      
+      setFormSchema(actionInfo.schema);
+      setFormActions(actionInfo);
+      
+      // Safely extract the functions with extra safety checks
+      const functions = {
+        hasValidForm: typeof actionInfo.hasValidForm === 'function' 
+          ? actionInfo.hasValidForm 
+          : () => {
+              console.log('Using fallback hasValidForm function');
+              return true;
+            },
+        submitFormAction: typeof actionInfo.submitFormAction === 'function' 
+          ? actionInfo.submitFormAction 
+          : () => {
+              console.log('Using fallback submitFormAction function');
+              return false;
+            },
+        getSubmitButtonText: typeof actionInfo.getSubmitButtonText === 'function'
+          ? actionInfo.getSubmitButtonText
+          : () => 'Submit'
+      };
+      setActionsFunctions(functions);
+    }
   };
 
   // Explicit cancel handler for the footer cancel button

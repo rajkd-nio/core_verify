@@ -252,49 +252,42 @@ const convertToFormSchema = (documentType, documentTitle) => {
   } catch (error) {
     console.error(`Failed to generate form schema:`, error);
     
-    // Fallback to JSON file if it exists
-    try {
-      // Try to load from JSON file as fallback
-      const formData = require(`../../formdata/${typeId}.json`);
-      return formData.form;
-    } catch (jsonError) {
-      // Return a basic schema if all else fails
-      return {
-        title: `${documentTitle.title} Form Schema`,
-        description: `Schema for ${documentTitle.title.toLowerCase()} upload form fields`,
-        formId: `${typeId}-form`,
-        documentType: typeId,
-        hideHeader: true,
-        showFormButtons: false,
-        fields: [
-          {
-            id: "certificateAbbreviation",
-            name: "certificateAbbreviation",
-            type: "text",
-            label: "Document Title",
-            placeholder: "Enter document title",
-            required: true,
-            order: 1,
-            fullWidth: true
-          },
-          {
-            id: "fileUpload",
-            name: "fileUpload",
-            type: "file",
-            label: "Upload Document",
-            accept: ".pdf,.jpg,.jpeg,.png",
-            required: true,
-            order: 2,
-            fullWidth: true
-          }
-        ],
-        submitButtonText: "Submit",
-        cancelButtonText: "Cancel",
-        deleteButtonText: "Delete",
-        successMessage: "Document uploaded successfully!",
-        errorMessage: "There was an error uploading your document. Please try again."
-      };
-    }
+    // Create a basic schema if all else fails
+    return {
+      title: documentTitle ? `${documentTitle.title} Form Schema` : "Document Form Schema",
+      description: documentTitle ? `Schema for ${documentTitle.title.toLowerCase()} upload form fields` : "Schema for document upload form fields",
+      formId: `${typeId}-form`,
+      documentType: typeId,
+      hideHeader: true,
+      showFormButtons: false,
+      fields: [
+        {
+          id: "certificateAbbreviation",
+          name: "certificateAbbreviation",
+          type: "text",
+          label: "Document Title",
+          placeholder: "Enter document title",
+          required: true,
+          order: 1,
+          fullWidth: true
+        },
+        {
+          id: "fileUpload",
+          name: "fileUpload",
+          type: "file",
+          label: "Upload Document",
+          accept: ".pdf,.jpg,.jpeg,.png",
+          required: true,
+          order: 2,
+          fullWidth: true
+        }
+      ],
+      submitButtonText: "Submit",
+      cancelButtonText: "Cancel",
+      deleteButtonText: "Delete",
+      successMessage: "Document uploaded successfully!",
+      errorMessage: "There was an error uploading your document. Please try again."
+    };
   }
 };
 
@@ -1113,8 +1106,7 @@ export class DocumentService {
         try {
           // Query document type and title
           const capitalizedTypeId = this._capitalizeFirstLetter(mappedTypeId);
-          const query = `
-            SELECT dtl.requireDocData, dtl.docDataOptions, dtl.docDataName,
+          const query = `            SELECT dtl.requireDocData, dtl.docDataOptions, dtl.docDataName,
                   dtl.requireAttachmentFront, dtl.requireAttachmentBack
             FROM document_types dt
             LEFT JOIN document_titles dtl ON dt.id = dtl.documentTypeId
@@ -1239,6 +1231,22 @@ export class DocumentService {
         where: { code: regionCode }
       });
       
+      if (!region) {
+        logData('REGION_NOT_FOUND_IN_DATABASE', { 
+          locationId,
+          regionCode
+        });
+        
+        // Return a minimal region object for New York if the database doesn't have it yet
+        if (regionCode === 'NY') {
+          return {
+            id: 2,
+            code: 'NY',
+            name: 'New York'
+          };
+        }
+      }
+      
       return region;
     } catch (error) {
       logData('ERROR_MAPPING_REGION', { 
@@ -1334,6 +1342,24 @@ export class DocumentService {
         }
       }
       
+      // Check if this child type is location-specific and if the current location matches
+      if (childType.locations && Array.isArray(childType.locations) && options.locationId) {
+        const locationId = parseInt(options.locationId, 10);
+        if (!childType.locations.includes(locationId)) {
+          // Log but continue - we'll let the caller handle the response appropriately
+          logData('LOCATION_MISMATCH_FOR_CHILD_TYPE', {
+            childTypeId: subTypeId,
+            allowedLocations: childType.locations,
+            requestedLocation: locationId
+          });
+        } else {
+          logData('LOCATION_MATCH_FOR_CHILD_TYPE', {
+            childTypeId: subTypeId,
+            locationId
+          });
+        }
+      }
+      
       // Create the base form schema
       let formSchema = {
         title: `${childType.name} Form`,
@@ -1358,23 +1384,28 @@ export class DocumentService {
         fullWidth: true
       });
 
-      // Add the standard title field
-      formSchema.fields.push({
-        id: "certificateAbbreviation",
-        name: "certificateAbbreviation",
-        type: "text",
-        label: `${childType.name} Title`,
-        placeholder: `Enter ${childType.name.toLowerCase()} title`,
-        required: true,
-        order: 1,
-        fullWidth: true,
-        validation: {
-          minLength: 3,
-          maxLength: 100,
-          pattern: "^[A-Za-z0-9\\s\\-\\.\\(\\)]+$",
-          message: `Title must be between 3-100 characters`
-        }
-      });
+      // Special handling for Fingerprint Clearance
+      const isFingerPrintClearance = subTypeId.toLowerCase() === 'fingerprint_clearance';
+      
+      // Add the title field only for non-fingerprint clearance documents
+      if (!isFingerPrintClearance) {
+        formSchema.fields.push({
+          id: "certificateAbbreviation",
+          name: "certificateAbbreviation",
+          type: "text",
+          label: `${childType.name} Title`,
+          placeholder: `Enter ${childType.name.toLowerCase()} title`,
+          required: true,
+          order: 1,
+          fullWidth: true,
+          validation: {
+            minLength: 3,
+            maxLength: 100,
+            pattern: "^[A-Za-z0-9\\s\\-\\.\\(\\)]+$",
+            message: `Title must be between 3-100 characters`
+          }
+        });
+      }
       
       // Add all fields from the child document type configuration
       if (childType.fields && Array.isArray(childType.fields)) {
@@ -1382,28 +1413,65 @@ export class DocumentService {
         childType.fields.forEach((field, index) => {
           const fieldWithAdjustedOrder = {
             ...field,
-            order: field.order + 1 // Add 1 to allow for title field
+            order: field.order + (isFingerPrintClearance ? 0 : 1) // Add 1 to allow for title field, except for fingerprint clearance
           };
           formSchema.fields.push(fieldWithAdjustedOrder);
         });
       }
       
-      // Add file upload field (always required)
-      formSchema.fields.push({
-        id: "fileUpload",
-        name: "fileUpload",
-        type: "file",
-        label: `Upload ${childType.name} (PDF, JPG, PNG)`,
-        accept: ".pdf,.jpg,.jpeg,.png",
-        required: true,
-        order: 100, // High order to ensure it appears after all other fields
-        fullWidth: true,
-        validation: {
-          maxSize: 10000000,
-          fileTypes: ["application/pdf", "image/jpeg", "image/png"],
-          message: "Please upload a PDF, JPG, or PNG file less than 10MB"
-        }
-      });
+      // Special case for Finger Print Clearance in New York (locationId = 2)
+      if (isFingerPrintClearance && options.locationId && parseInt(options.locationId, 10) === 2) {
+        // Add file upload field for front of the document
+        formSchema.fields.push({
+          id: "fileUpload",
+          name: "fileUpload",
+          type: "file",
+          label: `Attach Front (PDF, JPG, PNG)`,
+          accept: ".pdf,.jpg,.jpeg,.png",
+          required: true,
+          order: 90, // High order to ensure it appears after all other fields but before the back side
+          fullWidth: true,
+          validation: {
+            maxSize: 10000000,
+            fileTypes: ["application/pdf", "image/jpeg", "image/png"],
+            message: "Please upload a PDF, JPG, or PNG file less than 10MB"
+          }
+        });
+        
+        // Add file upload field for back of the document
+        formSchema.fields.push({
+          id: "fileUploadBack",
+          name: "fileUploadBack",
+          type: "file",
+          label: `Attach Back (PDF, JPG, PNG)`,
+          accept: ".pdf,.jpg,.jpeg,.png",
+          required: true,
+          order: 91, // Right after the front side upload
+          fullWidth: true,
+          validation: {
+            maxSize: 10000000,
+            fileTypes: ["application/pdf", "image/jpeg", "image/png"],
+            message: "Please upload a PDF, JPG, or PNG file less than 10MB"
+          }
+        });
+      } else {
+        // Standard file upload field for other document types
+        formSchema.fields.push({
+          id: "fileUpload",
+          name: "fileUpload",
+          type: "file",
+          label: `Upload ${childType.name} (PDF, JPG, PNG)`,
+          accept: ".pdf,.jpg,.jpeg,.png",
+          required: true,
+          order: 100, // High order to ensure it appears after all other fields
+          fullWidth: true,
+          validation: {
+            maxSize: 10000000,
+            fileTypes: ["application/pdf", "image/jpeg", "image/png"],
+            message: "Please upload a PDF, JPG, or PNG file less than 10MB"
+          }
+        });
+      }
       
       // Add notes field
       formSchema.fields.push({
@@ -1417,21 +1485,23 @@ export class DocumentService {
         fullWidth: true
       });
       
-      // Add shareable field
-      formSchema.fields.push({
-        id: "shareable",
-        name: "shareable",
-        type: "radio",
-        label: "Is this document shareable with facilities?",
-        required: true,
-        order: 102,
-        fullWidth: true,
-        options: [
-          { value: "true", label: "Yes" },
-          { value: "false", label: "No" }
-        ],
-        defaultValue: "true"
-      });
+      // Add shareable field for non-fingerprint clearance documents
+      if (!isFingerPrintClearance) {
+        formSchema.fields.push({
+          id: "shareable",
+          name: "shareable",
+          type: "radio",
+          label: "Is this document shareable with facilities?",
+          required: true,
+          order: 102,
+          fullWidth: true,
+          options: [
+            { value: "true", label: "Yes" },
+            { value: "false", label: "No" }
+          ],
+          defaultValue: "true"
+        });
+      }
 
       // Sort fields by order
       formSchema.fields.sort((a, b) => a.order - b.order);
@@ -1494,13 +1564,20 @@ export class DocumentService {
 
   /**
    * Get all child document types for a parent document type
-   * @param {string} typeId - Parent document type ID (e.g., 'mandatory', 'documents')
+   * @param {string} typeId - Parent document type ID
+   * @param {Object} options - Additional options
    * @returns {Promise<Array>} - Array of child document types
    */
-  static async getChildDocumentTypes(typeId) {
+  static async getChildDocumentTypes(typeId, options = {}) {
     try {
-      // Map NurseIO type to CoreVerify type if needed
+      // Map NurseIO type to CoreVerify type
       const mappedTypeId = mapDocumentType(typeId);
+      
+      logData('FETCHING_CHILD_DOCUMENT_TYPES', { 
+        originalTypeId: typeId,
+        mappedTypeId,
+        options
+      });
       
       // Load the document types configuration
       const config = this._loadDocumentTypesConfig();
@@ -1511,17 +1588,46 @@ export class DocumentService {
       );
       
       if (!parentType) {
+        throw new Error(`Parent document type not found: ${mappedTypeId}`);
+      }
+      
+      // If no child types, return empty array
+      if (!parentType.childTypes || !Array.isArray(parentType.childTypes)) {
         return [];
       }
       
-      // Return array of child types with simplified structure
-      return parentType.childTypes.map(childType => ({
+      // Filter child types based on locationId if provided
+      let childTypes = [...parentType.childTypes];
+      
+      if (options.locationId) {
+        const locationId = parseInt(options.locationId, 10);
+        
+        // Keep child types that either don't have location restrictions OR include this locationId
+        childTypes = childTypes.filter(childType => 
+          !childType.locations || 
+          !Array.isArray(childType.locations) || 
+          childType.locations.includes(locationId)
+        );
+        
+        logData('FILTERED_CHILD_TYPES_BY_LOCATION', {
+          locationId,
+          originalCount: parentType.childTypes.length,
+          filteredCount: childTypes.length
+        });
+      }
+      
+      return childTypes.map(childType => ({
         id: childType.id,
         name: childType.name,
-        parentTypeId: parentType.id
+        displayName: childType.displayName || childType.name,
+        description: childType.description || `Child document type: ${childType.name}`
       }));
     } catch (error) {
-      logData('ERROR_FETCHING_CHILD_DOCUMENT_TYPES', { typeId, error: error.message });
+      logData('ERROR_FETCHING_CHILD_DOCUMENT_TYPES', { 
+        typeId,
+        error: error.message 
+      });
+      
       return [];
     }
   }

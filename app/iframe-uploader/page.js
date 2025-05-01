@@ -58,6 +58,8 @@ export default function IframeUploader() {
     const urlToken = urlParams.get('token');
     const docType = urlParams.get('docType') || 'certificate';
     const viewMode = urlParams.get('modalType') || 'edit';
+    const locationId = urlParams.get('locationId');
+    const locationName = urlParams.get('locationName') || null;
     
     // Configure initial document type from URL
     if (docType) {
@@ -67,8 +69,19 @@ export default function IframeUploader() {
       
       const initialConfig = {
         ...configData || {},
-        documentType: normalizedDocType
+        documentType: normalizedDocType,
+        // Add locationId to the initial config if available
+        ...(locationId && { locationId: parseInt(locationId, 10) }),
+        ...(locationName && { locationName }),
       };
+      
+      // Log the extracted location information from URL
+      logData('Extracted location info from URL', {
+        locationId,
+        locationName,
+        parsedLocationId: locationId ? parseInt(locationId, 10) : null
+      });
+      
       setConfigData(initialConfig);
     }
     

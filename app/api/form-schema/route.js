@@ -117,69 +117,34 @@ export async function GET(request) {
         });
       }
       
-      // Fall back to JSON file if database and config fail
-      try {
-        // Get the path to the schema file
-        const schemaDirectory = path.join(process.cwd(), 'formdata');
-        const schemaPath = path.join(schemaDirectory, `${documentType}.json`);
-        
-        // Read the schema file
-        const fileContents = await fs.readFile(schemaPath, 'utf8');
-        const schema = JSON.parse(fileContents);
-        
-        logDebug('FALLBACK_TO_FILE_SCHEMA', {
-          documentType,
-          fieldCount: schema.fields.length
-        });
-        
-        return NextResponse.json({ 
-          schema,
-          locationId: locationId ? parseInt(locationId) : null,
-          usingFallback: true
-        });
-      } catch (fileError) {
-        // If both database and file fail, try to use default
-        if (documentType !== 'certificate') {
-          try {
-            const defaultSchema = await DocumentService.getFormSchemaByTypeId('certificate');
-            
-            logDebug('USING_DEFAULT_SCHEMA', {
-              documentType: 'certificate',
-              fieldCount: defaultSchema.fields.length
-            });
-            
-            return NextResponse.json({ 
-              schema: defaultSchema,
-              locationId: locationId ? parseInt(locationId) : null,
-              usingDefault: true
-            });
-          } catch (defaultError) {
-            // If even default DB schema fails, try file
-            const defaultSchemaPath = path.join(process.cwd(), 'formdata', 'certificate.json');
-            const defaultFileContents = await fs.readFile(defaultSchemaPath, 'utf8');
-            const defaultSchema = JSON.parse(defaultFileContents);
-            
-            logDebug('USING_DEFAULT_FILE_SCHEMA', {
-              documentType: 'certificate',
-              fieldCount: defaultSchema.fields.length
-            });
-            
-            return NextResponse.json({ 
-              schema: defaultSchema,
-              locationId: locationId ? parseInt(locationId) : null,
-              usingDefault: true,
-              usingFallback: true
-            });
-          }
+      // If both database and config fail, try to use default
+      if (documentType !== 'certificate') {
+        try {
+          const defaultSchema = await DocumentService.getFormSchemaByTypeId('certificate');
+          
+          logDebug('USING_DEFAULT_SCHEMA', {
+            documentType: 'certificate',
+            fieldCount: defaultSchema.fields.length
+          });
+          
+          return NextResponse.json({ 
+            schema: defaultSchema,
+            locationId: locationId ? parseInt(locationId) : null,
+            usingDefault: true
+          });
+        } catch (defaultError) {
+          logDebug('DEFAULT_SCHEMA_NOT_FOUND', {
+            error: defaultError.message
+          });
         }
-        
-        // Return error if neither the requested schema nor default schema can be found
-        return NextResponse.json({ 
-          error: 'Schema not found',
-          message: `No schema found for document type: ${documentType}`,
-          locationId: locationId ? parseInt(locationId) : null
-        }, { status: 404 });
       }
+      
+      // Return error if neither the requested schema nor default schema can be found
+      return NextResponse.json({ 
+        error: 'Schema not found',
+        message: `No schema found for document type: ${documentType}`,
+        locationId: locationId ? parseInt(locationId) : null
+      }, { status: 404 });
     }
   } catch (error) {
     logDebug('FORM_SCHEMA_ERROR', { error: error.message });
@@ -254,24 +219,16 @@ export async function POST(request) {
         locationId: locationId ? parseInt(locationId) : null
       });
     } catch (dbError) {
-      // Fall back to file if database fails
-      const schemaDirectory = path.join(process.cwd(), 'formdata');
-      const schemaPath = path.join(schemaDirectory, `${documentType || 'certificate'}.json`);
-      const fileContents = await fs.readFile(schemaPath, 'utf8');
-      const baseSchema = JSON.parse(fileContents);
-      
-      logDebug('FALLBACK_TO_FILE_FOR_CUSTOM_SCHEMA', {
+      logDebug('ERROR_FETCHING_BASE_SCHEMA', {
         documentType,
         error: dbError.message
       });
       
       return NextResponse.json({
-        schema: baseSchema,
-        customized: false,
-        usingFallback: true,
-        locationId: locationId ? parseInt(locationId) : null,
-        message: 'Schema customization is not yet supported (using fallback)'
-      });
+        error: 'Schema customization failed',
+        message: 'Failed to fetch base schema for customization',
+        locationId: locationId ? parseInt(locationId) : null
+      }, { status: 500 });
     }
   } catch (error) {
     logDebug('CUSTOM_FORM_SCHEMA_ERROR', { error: error.message });

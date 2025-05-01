@@ -47,7 +47,10 @@ export async function GET(request, { params }) {
     try {
       // If multipleTypes is true and childTypeId is "all", fetch schemas for all child types
       if (childTypeId === 'all' || multipleTypes) {
-        const childTypes = await DocumentService.getChildDocumentTypes(processedTypeId);
+        const childTypes = await DocumentService.getChildDocumentTypes(
+          processedTypeId, 
+          { locationId: locationId ? parseInt(locationId) : null }
+        );
         
         if (!childTypes || childTypes.length === 0) {
           if (enableLogging || isVaccinationRecord) {
@@ -129,10 +132,19 @@ export async function GET(request, { params }) {
         console.log(`Fetching single schema for ${processedTypeId}/${childTypeId}`);
       }
       
+      // Special handling for fingerprint clearance - ensure locationId is set to 2 for NY
+      let finalLocationId = locationId ? parseInt(locationId) : null;
+      
+      // If this is fingerprint_clearance and no locationId is set, default to NY (2)
+      if (childTypeId.toLowerCase() === 'fingerprint_clearance' && !finalLocationId) {
+        finalLocationId = 2; // New York
+        console.log('Setting default locationId=2 (New York) for Fingerprint Clearance document');
+      }
+      
       const schema = await DocumentService.getFormSchemaByTypeAndSubType(
         processedTypeId, 
         childTypeId, 
-        { locationId: locationId ? parseInt(locationId) : null }
+        { locationId: finalLocationId }
       );
       
       if (!schema) {
