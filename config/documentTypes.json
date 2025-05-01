@@ -219,12 +219,14 @@
     },
     {
       "id": "vaccination_record",
-      "name": "Vaccination Record",
+      "name": "vaccination_record",
+      "displayName": "Vaccination Record",
       "description": "Medical and vaccination records",
       "childTypes": [
         {
           "id": "covid19_vaccine",
-          "name": "COVID-19 Vaccine",
+          "name": "covid19_vaccine",
+          "displayName": "COVID-19 Vaccine",
           "fields": [
             {
               "id": "vaccineType",
@@ -290,7 +292,8 @@
         },
         {
           "id": "tb_test",
-          "name": "TB Test",
+          "name": "tb_test",
+          "displayName": "TB Test",
           "fields": [
             {
               "id": "testType",
@@ -349,7 +352,8 @@
         },
         {
           "id": "flu_vaccine",
-          "name": "Flu Vaccine",
+          "name": "flu_vaccine",
+          "displayName": "Flu Vaccine",
           "fields": [
             {
               "id": "season",
@@ -398,6 +402,83 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "id": "mmr_vaccine",
+          "name": "mmr_vaccine",
+          "displayName": "MMR Vaccine",
+          "fields": [
+            {
+              "id": "vaccinationDate",
+              "name": "vaccinationDate",
+              "type": "date",
+              "label": "Vaccination Date",
+              "placeholder": "Select vaccination date",
+              "required": true,
+              "order": 1,
+              "fullWidth": true
+            },
+            {
+              "id": "expirationDate",
+              "name": "expirationDate",
+              "type": "date",
+              "label": "Expiration Date",
+              "placeholder": "Select expiration date",
+              "required": true,
+              "order": 2,
+              "fullWidth": true
+            }
+          ],
+          "buttons": {
+            "submitButtonText": "Submit MMR Vaccine",
+            "cancelButtonText": "Cancel"
+          }
+        },
+        {
+          "id": "hepatitis_vaccine",
+          "name": "hepatitis_vaccine",
+          "displayName": "Hepatitis Vaccine",
+          "fields": [
+            {
+              "id": "vaccineType",
+              "name": "vaccineType",
+              "type": "select",
+              "label": "Vaccine Type",
+              "placeholder": "Select vaccine type",
+              "required": true,
+              "order": 1,
+              "fullWidth": true,
+              "options": [
+                {"value": "hepatitis_a", "label": "Hepatitis A"},
+                {"value": "hepatitis_b", "label": "Hepatitis B"},
+                {"value": "hepatitis_a_b", "label": "Hepatitis A & B Combined"}
+              ]
+            },
+            {
+              "id": "vaccinationDate",
+              "name": "vaccinationDate",
+              "type": "date",
+              "label": "Vaccination Date",
+              "placeholder": "Select vaccination date",
+              "required": true,
+              "order": 2,
+              "fullWidth": true
+            },
+            {
+              "id": "expirationDate",
+              "name": "expirationDate",
+              "type": "date",
+              "label": "Expiration Date",
+              "placeholder": "Select expiration date",
+              "required": true,
+              "order": 3,
+              "fullWidth": true
+            }
+          ],
+          "buttons": {
+            "submitButtonText": "Submit Hepatitis Vaccine",
+            "cancelButtonText": "Cancel"
           }
         }
       ]

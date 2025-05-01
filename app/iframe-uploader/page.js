@@ -33,11 +33,11 @@ const sendMessageToParent = (message, targetOrigin) => {
 
 // Global variables to store type mappings
 let documentTypeMappings = {
-  // Default mappings
-  'vaccination_record': 'Vaccination Record',
-  'mandatory': 'Mandatory',
-  'documents': 'Documents',
-  'other': 'Other'
+  // Default mappings - use IDs consistently
+  'vaccination_record': 'vaccination_record',
+  'mandatory': 'mandatory',
+  'documents': 'documents',
+  'other': 'other'
 };
 
 // Store child document types for each parent type
@@ -61,11 +61,13 @@ export default function IframeUploader() {
     
     // Configure initial document type from URL
     if (docType) {
-      setDocumentType(docType);
+      // Normalize document type if needed
+      const normalizedDocType = docType.toLowerCase() === 'vaccination record' ? 'vaccination_record' : docType;
+      setDocumentType(normalizedDocType);
       
       const initialConfig = {
         ...configData || {},
-        documentType: docType
+        documentType: normalizedDocType
       };
       setConfigData(initialConfig);
     }
@@ -135,13 +137,16 @@ export default function IframeUploader() {
           
           // Also specifically handle vaccination record type
           if (mapping.nurseioType === 'vaccination_record' || 
-              mapping.coreVerifyType === 'Vaccination Record') {
-            // Add special mappings for vaccination records
-            documentTypeMappings['vaccination_record'] = 'Vaccination Record';
-            documentTypeMappings['vaccination record'] = 'Vaccination Record';
-            // Ensure these are set properly
-            window.vaccinationRecordType = 'Vaccination Record';
-            window.vaccinationRecordNurseIOType = 'vaccination_record';
+              mapping.coreVerifyType === 'Vaccination Record' ||
+              mapping.nurseioType?.toLowerCase()?.includes('vaccination')) {
+            // Always use 'vaccination_record' as the ID
+            documentTypeMappings['vaccination_record'] = 'vaccination_record';
+            documentTypeMappings['vaccination record'] = 'vaccination_record';
+            documentTypeMappings['Vaccination Record'] = 'vaccination_record';
+            
+            // Store this for consistency
+            window.vaccinationRecordType = 'vaccination_record';
+            window.vaccinationRecordDisplayName = 'Vaccination Record';
           }
           
           logData('Updated document type mappings', documentTypeMappings);
@@ -160,16 +165,20 @@ export default function IframeUploader() {
           
           // For vaccination records, ensure we store these types under all possible parent type IDs
           if (mapping.nurseioType === 'vaccination_record' || 
-              mapping.coreVerifyType === 'Vaccination Record') {
+              mapping.coreVerifyType === 'Vaccination Record' ||
+              mapping.nurseioType?.toLowerCase()?.includes('vaccination')) {
             
+            // Always store using the consistent ID
             childDocumentTypesByParent['vaccination_record'] = event.data.childTypes;
+            
+            // Also store for backward compatibility with any code that might still use display names
             childDocumentTypesByParent['Vaccination Record'] = event.data.childTypes;
             childDocumentTypesByParent['vaccination record'] = event.data.childTypes;
             
-            // Also store a global vaccination record child types for easy access
+            // Store a global reference for easy access
             window.vaccinationRecordChildTypes = event.data.childTypes;
             
-            console.log('Stored vaccination record child types under multiple keys');
+            console.log('Stored vaccination record child types consistently as vaccination_record');
           }
           
           logData('Updated child document types', childDocumentTypesByParent);

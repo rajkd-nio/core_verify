@@ -1,6 +1,5 @@
 {
   "/api/form-schema/route": "app/api/form-schema/route.js",
   "/api/form-schema/[typeId]/[childTypeId]/route": "app/api/form-schema/[typeId]/[childTypeId]/route.js",
-  "/api/location-document-types/[locationId]/route": "app/api/location-document-types/[locationId]/route.js",
   "/iframe-uploader/page": "app/iframe-uploader/page.js"
 }

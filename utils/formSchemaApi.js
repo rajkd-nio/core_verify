@@ -21,6 +21,14 @@ export const fetchFormSchema = async (documentType = 'certificate', options = {}
       childTypeId: options.childTypeId
     });
     
+    // Normalize document type for vaccination records
+    let adjustedDocumentType = documentType;
+    if (documentType === 'Vaccination Record' || 
+        documentType.toLowerCase().includes('vaccination')) {
+      adjustedDocumentType = 'vaccination_record';
+      console.log(`Normalized document type from ${documentType} to ${adjustedDocumentType}`);
+    }
+    
     // Determine the base URL (different in development vs production)
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || '';
     
@@ -29,9 +37,9 @@ export const fetchFormSchema = async (documentType = 'certificate', options = {}
     
     // If childTypeId is provided, use the specific endpoint
     if (options.childTypeId) {
-      url = `${baseUrl}/api/form-schema/${documentType}/${options.childTypeId}`;
+      url = `${baseUrl}/api/form-schema/${adjustedDocumentType}/${options.childTypeId}`;
     } else {
-      url = `${baseUrl}/api/form-schema?type=${documentType}`;
+      url = `${baseUrl}/api/form-schema?type=${adjustedDocumentType}`;
     }
     
     // Add locationId if provided
@@ -122,7 +130,7 @@ export const fetchAllChildSchemas = async (parentTypeId, options = {}) => {
       isVaccinationRecord: options.isVaccinationRecord
     });
     
-    // Special handling for vaccination records
+    // Special handling for vaccination records - ALWAYS use vaccination_record (lowercase with underscore)
     let adjustedParentTypeId = parentTypeId;
     if (options.isVaccinationRecord || 
         parentTypeId === 'vaccination_record' || 
@@ -131,22 +139,9 @@ export const fetchAllChildSchemas = async (parentTypeId, options = {}) => {
       
       console.log('Special handling for vaccination record type');
       
-      // Try multiple variants of the vaccination record ID
-      const possibleIds = [
-        'Vaccination Record', 
-        'vaccination_record',
-        'vaccination record'
-      ];
-      
-      // Check if any global vaccination record type is set by the iframe
-      if (typeof window !== 'undefined' && window.vaccinationRecordType) {
-        adjustedParentTypeId = window.vaccinationRecordType;
-        console.log(`Using window.vaccinationRecordType: ${adjustedParentTypeId}`);
-      } else {
-        // Otherwise use the first possible ID
-        adjustedParentTypeId = possibleIds[0];
-        console.log(`Using default vaccination record type: ${adjustedParentTypeId}`);
-      }
+      // Always use the consistent ID for API calls
+      adjustedParentTypeId = 'vaccination_record';
+      console.log(`Using consistent vaccination record ID: ${adjustedParentTypeId}`);
     }
     
     // Determine the base URL (different in development vs production)

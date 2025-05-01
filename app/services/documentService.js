@@ -25,16 +25,16 @@ const mapDocumentType = (nurseIOType) => {
   // Map from NurseIO type to CoreVerify type
   const typeMap = {
     // Original mappings
-    'certificate': 'Mandatory',
-    'document': 'Documents',
-    'medical': 'Vaccination Record',
-    'other': 'Other',
+    'certificate': 'mandatory',
+    'document': 'documents',
+    'medical': 'vaccination_record',
+    'other': 'other',
     
     // New mappings (since NurseIO now uses the same names as CoreVerify)
-    'mandatory': 'Mandatory',
-    'documents': 'Documents',
-    'vaccination_record': 'Vaccination Record'
-    // 'other' already maps to 'Other'
+    'mandatory': 'mandatory',
+    'documents': 'documents',
+    'vaccination_record': 'vaccination_record'
+    // 'other' already maps to 'other'
   };
   
   // Check if the nurseIOType is in the map

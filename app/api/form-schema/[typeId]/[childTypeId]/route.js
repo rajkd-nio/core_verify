@@ -39,38 +39,9 @@ export async function GET(request, { params }) {
     // Special handling for vaccination_record to ensure proper mapping
     let processedTypeId = typeId;
     if (isVaccinationRecord) {
-      // Check all possible case variants - the actual ID in config might be "vaccination_record" or any other case variant
-      const possibleIds = [
-        'Vaccination Record', 
-        'vaccination_record',
-        'VACCINATION_RECORD',
-        'Vaccination_Record',
-        'vaccination record'
-      ];
-      
-      // Instead of hardcoding the transformation, first check what's in the config
-      const config = DocumentService._loadDocumentTypesConfig();
-      let foundType = null;
-      
-      // Try to find the exact match in the config
-      for (const possibleId of possibleIds) {
-        foundType = config.documentTypes.find(dt => 
-          dt.id.toLowerCase() === possibleId.toLowerCase()
-        );
-        if (foundType) {
-          processedTypeId = foundType.id; // Use the exact ID as it appears in the config
-          console.log(`Found matching document type in config: ${foundType.id}`);
-          break;
-        }
-      }
-      
-      // If still not found, use the default mapping but log a warning
-      if (!foundType) {
-        processedTypeId = 'Vaccination Record';
-        console.warn(`Couldn't find matching document type in config, using default: ${processedTypeId}`);
-      }
-      
-      console.log(`Mapped document type from ${typeId} to ${processedTypeId}`);
+      // Always use consistent ID format
+      processedTypeId = 'vaccination_record';
+      console.log(`Using consistent vaccination_record ID: ${processedTypeId}`);
     }
     
     try {
