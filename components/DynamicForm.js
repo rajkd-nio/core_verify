@@ -8,6 +8,8 @@ import { Row, Col, FormGroup, Label, Input, Button, Alert, FormFeedback, Progres
 import moment from 'moment';
 import { extractDocumentData } from '../utils/api';
 import LoadingOverlay from './LoadingOverlay';
+import DragDropFileUpload from './DragDropFileUpload';
+import { useDocumentExtraction } from '../hooks';
 
 // Helper function to log data
 const logData = (label, data) => {
@@ -149,10 +151,14 @@ const DynamicForm = ({
   const [selectedFile, setSelectedFile] = useState(null);
   const [validationErrors, setValidationErrors] = useState(null);
   
-  // State for document data extraction
-  const [extracting, setExtracting] = useState(false);
-  const [extractionError, setExtractionError] = useState(null);
-  const [extractedData, setExtractedData] = useState(null);
+  // Use the document extraction hook
+  const {
+    extracting,
+    extractionError,
+    extractedData,
+    extractDataFromFile,
+    resetExtraction
+  } = useDocumentExtraction();
   
   // Generate Zod schema based on the form schema
   const zodSchema = useMemo(() => generateZodSchema(schema), [schema]);
@@ -214,10 +220,12 @@ const DynamicForm = ({
   // Create file preview when file is selected
   useEffect(() => {
     if (selectedFile) {
+      // Always create a blob URL for the file to ensure it can be opened in a new tab
       const fileUrl = URL.createObjectURL(selectedFile);
       setFileUrls([{ file: fileUrl }]);
       
       return () => {
+        // Clean up blob URL when component unmounts or file changes
         URL.revokeObjectURL(fileUrl);
       };
     }
@@ -301,8 +309,8 @@ const DynamicForm = ({
     return null;
   };
   
-  // Submit handler with additional validation
-  const handleFormSubmit = (data) => {
+  // Handle form submission
+  const handleFormSubmit = async (data) => {
     // Validate date fields
     const dateErrors = validateDateFields(data);
     
@@ -329,6 +337,26 @@ const DynamicForm = ({
     // Clear any previous validation errors
     setValidationErrors(null);
     
+    // Process document data from file, if not already done
+    if (selectedFile && !extractedData) {
+      try {
+        // Show loading state
+        const extractedFields = await extractDataFromFile(selectedFile);
+        
+        // Apply extracted fields to the form
+        Object.entries(extractedFields).forEach(([field, value]) => {
+          if (value) {
+            setValue(field, value);
+            // Update data object with extracted values
+            data[field] = value;
+          }
+        });
+      } catch (error) {
+        console.error("Error during document extraction:", error);
+        // Continue submission even if extraction fails
+      }
+    }
+    
     logData('FORM_SUBMISSION', data);
     
     // Create payload with file
@@ -344,7 +372,7 @@ const DynamicForm = ({
     }
   };
   
-  // Handle file selection with validation and document data extraction
+  // Handle file selection with validation and preview
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -362,7 +390,12 @@ const DynamicForm = ({
         return;
       }
       
+      // Reset extraction state when file changes
+      resetExtraction();
+      
+      // Set selected file for preview
       setSelectedFile(file);
+      
       logData('FILE_SELECTED', {
         fileName: file.name,
         fileSize: file.size,
@@ -377,82 +410,28 @@ const DynamicForm = ({
           return Object.keys(newErrors).length > 0 ? newErrors : null;
         });
       }
-      
-      // Extract data from any file
-      extractDocumentDataFromFile(file);
     }
   };
   
-  // Function to extract data from document file
-  const extractDocumentDataFromFile = async (file) => {
-    try {
-      // No file type validation - accept any file type
-      setExtracting(true);
-      setExtractionError(null);
-      
+  // Process document data separately with a button click
+  const handleProcessDocument = async () => {
+    if (selectedFile) {
       try {
-        // Call the NIOVerify API
-        const response = await extractDocumentData(file);
+        // Process the document data
+        const extractedFields = await extractDataFromFile(selectedFile);
         
-        // If we have standardized fields, update form values
-        if (response && response.standardized_fields) {
-          setExtractedData(response.standardized_fields);
-          
-          // Map the fields from the API response to our form fields
-          if (response.standardized_fields.issue_date) {
-            const issueDate = moment(response.standardized_fields.issue_date, ['M/D/YYYY', 'MM/DD/YYYY']).format('YYYY-MM-DD');
-            setValue('effectiveDate', issueDate);
+        // Apply extracted fields to the form
+        Object.entries(extractedFields).forEach(([field, value]) => {
+          if (value) {
+            setValue(field, value);
           }
-          
-          if (response.standardized_fields.valid_until) {
-            const expirationDate = moment(response.standardized_fields.valid_until, ['M/D/YYYY', 'MM/DD/YYYY']).format('YYYY-MM-DD');
-            setValue('expirationDate', expirationDate);
-          }
-          
-          // Log the extracted data without setting document ID
-          logData('EXTRACTED_DATA_APPLIED', {
-            effectiveDate: response.standardized_fields.issue_date,
-            expirationDate: response.standardized_fields.valid_until,
-            name: response.standardized_fields.name
-          });
-        } else {
-          // If no standardized fields were returned, use demo data
-          throw new Error('No standardized fields returned from API');
-        }
-      } catch (apiError) {
-        console.error('API Error, using demo data instead:', apiError);
-        
-        // Use demo data for testing purpose
-        const demoData = {
-          standardized_fields: {
-            issue_date: "3/15/2023",
-            valid_until: "3/15/2024",
-            name: "Sample User"
-          }
-        };
-        
-        setExtractedData(demoData.standardized_fields);
-        
-        // Set the demo data to form fields
-        setValue('effectiveDate', moment(demoData.standardized_fields.issue_date, 'M/D/YYYY').format('YYYY-MM-DD'));
-        setValue('expirationDate', moment(demoData.standardized_fields.valid_until, 'M/D/YYYY').format('YYYY-MM-DD'));
-        
-        // Show a message instead of error
-        setExtractionError("We couldn't read your document automatically. Sample data has been applied. You can modify it if needed.");
+        });
+      } catch (error) {
+        console.error("Error processing document:", error);
       }
-      
-      // Set a slight delay to show complete
-      setTimeout(() => {
-        setExtracting(false);
-      }, 500);
-    } catch (error) {
-      // Use generic error message
-      setExtractionError("There was an issue processing your document. You can still enter the information manually.");
-      setExtracting(false);
-      console.error('Error extracting document data:', error);
     }
   };
-
+  
   // Render form field based on field type
   const renderField = (field) => {
     const {
@@ -611,18 +590,17 @@ const DynamicForm = ({
             
             {type === 'file' && (
               <div className="file-input-container">
-                <Input
+                <DragDropFileUpload
                   id={id}
                   name={name}
-                  type="file"
                   accept={accept}
                   onChange={handleFileChange}
                   invalid={validationErrors && validationErrors[name]}
                   disabled={extracting}
+                  errorMessage={validationErrors && validationErrors[name]}
+                  onProcessDocument={(name === "fileUploadBack" ? null : handleProcessDocument)}
+                  showProcessButton={name === "fileUploadBack" ? false : (watchedValues.documentType === 'finger_print_clearance' ? name === "fileUpload" : true)}
                 />
-                {validationErrors && validationErrors[name] && (
-                  <FormFeedback>{validationErrors[name]}</FormFeedback>
-                )}
                 
                 {/* Green check icon for successful extraction */}
                 {extractedData && !extracting && !extractionError && watchedValues.documentType === 'finger_print_clearance' && (
@@ -639,18 +617,6 @@ const DynamicForm = ({
                     <small className="text-success">
                       Document data successfully extracted. Form fields have been updated.
                     </small>
-                  </div>
-                )}
-                
-                {fileUrls && fileUrls.length > 0 && (
-                  <div className="mt-2">
-                    {fileUrls.map((url, index) => (
-                      <div key={index} className="mb-1">
-                        <a href={url.file} target="_blank" rel="noopener noreferrer" className="text-primary">
-                          View File {index + 1}
-                        </a>
-                      </div>
-                    ))}
                   </div>
                 )}
               </div>

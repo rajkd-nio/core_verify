@@ -819,17 +819,19 @@ export class DocumentService {
           }
         });
         
-        // Add notes field
+        // Add notes field - Skip for fingerprint clearance
+        if (!isFingerPrintClearance) {
           formSchema.fields.push({
-          id: "notes",
-          name: "notes",
-          type: "textarea",
-          label: "Additional Notes",
-          placeholder: "Enter any additional notes or comments",
-          required: false,
+            id: "notes",
+            name: "notes",
+            type: "textarea",
+            label: "Additional Notes",
+            placeholder: "Enter any additional notes or comments",
+            required: false,
             order: 8,
-          fullWidth: true
-        });
+            fullWidth: true
+          });
+        }
         
         // Add shareable field
         formSchema.fields.push({
@@ -1473,17 +1475,19 @@ export class DocumentService {
         });
       }
       
-      // Add notes field
-      formSchema.fields.push({
-        id: "notes",
-        name: "notes",
-        type: "textarea",
-        label: "Additional Notes",
-        placeholder: "Enter any additional notes or comments",
-        required: false,
-        order: 101,
-        fullWidth: true
-      });
+      // Add notes field - Skip for fingerprint clearance
+      if (!isFingerPrintClearance) {
+        formSchema.fields.push({
+          id: "notes",
+          name: "notes",
+          type: "textarea",
+          label: "Additional Notes",
+          placeholder: "Enter any additional notes or comments",
+          required: false,
+          order: 101,
+          fullWidth: true
+        });
+      }
       
       // Add shareable field for non-fingerprint clearance documents
       if (!isFingerPrintClearance) {
@@ -1563,7 +1567,47 @@ export class DocumentService {
   }
 
   /**
-   * Get all child document types for a parent document type
+   * Filter child document types based on location
+   * @param {Array} childTypes - Array of child document types
+   * @param {Object} options - Additional options
+   * @returns {Array} - Filtered child document types
+   */
+  static filterChildTypesByLocation(childTypes, options = {}) {
+    if (!childTypes || !Array.isArray(childTypes)) {
+      return [];
+    }
+    
+    const locationId = options.locationId ? parseInt(options.locationId, 10) : null;
+    const parentType = options.parentType || 'mandatory';
+    
+    // Log for debugging
+    console.log('Filtering child types by location:', {
+      locationId,
+      parentType,
+      childTypesCount: childTypes.length,
+    });
+    
+    return childTypes.filter(childType => {
+      // Use the locations array directly from the child type
+      const isAvailable = !locationId || !childType.locations || 
+        (Array.isArray(childType.locations) && childType.locations.includes(locationId));
+      
+      // Log for debugging
+      if (childType.id === 'fingerprint_clearance') {
+        console.log('Fingerprint clearance availability check:', {
+          locationId,
+          parentType,
+          locations: childType.locations,
+          isAvailable
+        });
+      }
+      
+      return isAvailable;
+    });
+  }
+
+  /**
+   * Get all child document types for a parent document type, filtered by location
    * @param {string} typeId - Parent document type ID
    * @param {Object} options - Additional options
    * @returns {Promise<Array>} - Array of child document types
@@ -1579,56 +1623,55 @@ export class DocumentService {
         options
       });
       
-      // Load the document types configuration
+      // Load document type configuration from JSON file
       const config = this._loadDocumentTypesConfig();
       
-      // Find the parent document type
-      const parentType = config.documentTypes.find(
-        dt => dt.id.toLowerCase() === mappedTypeId.toLowerCase()
+      // Ensure we have documentTypes array from the config
+      if (!config.documentTypes || !Array.isArray(config.documentTypes)) {
+        logData('INVALID_DOCUMENT_TYPES_CONFIG', { 
+          hasDocTypes: !!config.documentTypes,
+          isArray: Array.isArray(config.documentTypes)
+        });
+        throw new Error('Invalid document types configuration: documentTypes is not an array');
+      }
+      
+      // Find matching parent type
+      const parentType = config.documentTypes.find(dt => 
+        dt.id === mappedTypeId || 
+        dt.id === typeId ||
+        dt.name?.toLowerCase() === mappedTypeId?.toLowerCase() ||
+        dt.name?.toLowerCase() === typeId?.toLowerCase()
       );
       
       if (!parentType) {
-        throw new Error(`Parent document type not found: ${mappedTypeId}`);
+        logData('PARENT_DOC_TYPE_NOT_FOUND', { typeId, mappedTypeId });
+        throw new Error(`Parent document type not found: ${typeId}`);
       }
       
-      // If no child types, return empty array
-      if (!parentType.childTypes || !Array.isArray(parentType.childTypes)) {
-        return [];
-      }
+      // Get child types for this parent
+      let childTypes = parentType.childTypes || [];
       
-      // Filter child types based on locationId if provided
-      let childTypes = [...parentType.childTypes];
+      // Filter child types based on location, passing the parent type
+      const filterOptions = {
+        ...options,
+        parentType: mappedTypeId || typeId // Pass the parent type ID for proper filtering
+      };
+      childTypes = this.filterChildTypesByLocation(childTypes, filterOptions);
       
-      if (options.locationId) {
-        const locationId = parseInt(options.locationId, 10);
-        
-        // Keep child types that either don't have location restrictions OR include this locationId
-        childTypes = childTypes.filter(childType => 
-          !childType.locations || 
-          !Array.isArray(childType.locations) || 
-          childType.locations.includes(locationId)
-        );
-        
-        logData('FILTERED_CHILD_TYPES_BY_LOCATION', {
-          locationId,
-          originalCount: parentType.childTypes.length,
-          filteredCount: childTypes.length
-        });
-      }
+      // Sort child types by name
+      childTypes.sort((a, b) => a.name.localeCompare(b.name));
       
-      return childTypes.map(childType => ({
-        id: childType.id,
-        name: childType.name,
-        displayName: childType.displayName || childType.name,
-        description: childType.description || `Child document type: ${childType.name}`
-      }));
-    } catch (error) {
-      logData('ERROR_FETCHING_CHILD_DOCUMENT_TYPES', { 
-        typeId,
-        error: error.message 
+      logData('CHILD_DOC_TYPES_FOUND', {
+        parentType: parentType.id,
+        mappedParentType: mappedTypeId,
+        childTypeCount: childTypes.length,
+        locationId: options.locationId
       });
       
-      return [];
+      return childTypes;
+    } catch (error) {
+      logData('GET_CHILD_DOC_TYPES_ERROR', { error: error.message });
+      throw error;
     }
   }
 } 

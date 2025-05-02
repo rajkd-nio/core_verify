@@ -1,6 +1,6 @@
 'use client';
 
-import DocumentUpload from '../../components/DocumentUpload';
+import DocumentUpload from '../../../components/app/DocumentUpload';
 import { Box, Heading, Text, Container } from '@chakra-ui/react';
 
 /**

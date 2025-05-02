@@ -1,0 +1,301 @@
+.drag-drop-file-upload {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+/* Selected file container to hold preview and button */
+.selected-file-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.drag-drop-area {
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 30px 20px;
+  text-align: center;
+  cursor: pointer;
+  background-color: #f8f9fa;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+}
+
+.drag-drop-area:hover {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+}
+
+.drag-drop-area.dragging {
+  background-color: #e2f0fd;
+  border-color: #007bff;
+}
+
+.drag-drop-area.is-invalid {
+  border-color: #dc3545;
+}
+
+.drag-drop-area.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #e9ecef;
+}
+
+.drag-drop-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.icon-container {
+  color: #6c757d;
+  margin-bottom: 5px;
+}
+
+.text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.drag-text {
+  font-weight: 500;
+  color: #212529;
+  font-size: 1rem;
+}
+
+.or-text {
+  font-size: 0.8rem;
+  color: #6c757d;
+  margin: 5px 0;
+}
+
+.browse-text {
+  color: #007bff;
+  font-weight: 500;
+}
+
+.file-types {
+  font-size: 0.8rem;
+  color: #6c757d;
+  margin-top: 5px;
+}
+
+/* File Preview Styles */
+.file-preview-container {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #f8f9fa;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+}
+
+.file-preview-container:hover {
+  background-color: #e9ecef;
+}
+
+.file-preview-container.is-invalid {
+  border-color: #dc3545;
+}
+
+.file-preview-content {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  position: relative;
+  min-height: 100px;
+  flex: 1;
+}
+
+.file-image-preview {
+  width: 70px;
+  height: 70px;
+  overflow: hidden;
+  border-radius: 4px;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  flex-shrink: 0;
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.file-image-preview:hover {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.file-image-preview img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.file-icon-preview {
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.file-icon-preview:hover {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.file-icon-preview.pdf-icon {
+  color: #dc3545;
+}
+
+.file-icon-preview.file-icon {
+  color: #6c757d;
+}
+
+.file-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: calc(100% - 90px);
+}
+
+.file-name-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.file-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.file-name {
+  font-weight: 500;
+  color: #28a745;
+  word-break: break-all;
+  max-width: calc(100% - 70px); /* Adjust for two buttons */
+  padding-right: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.file-name:hover {
+  text-decoration: underline;
+  color: #218838;
+}
+
+/* Change button (edit icon) */
+.change-file-btn {
+  background-color: #17a2b8;
+  border: none;
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  opacity: 0.8;
+  flex-shrink: 0;
+}
+
+.change-file-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.change-file-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Delete button (X icon) */
+.delete-file-btn {
+  background-color: #dc3545;
+  border: none;
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  opacity: 0.8;
+  flex-shrink: 0;
+}
+
+.delete-file-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.delete-file-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Process document button styles */
+.process-document-btn {
+  transition: all 0.3s ease;
+  font-size: 0.85rem;
+  border-radius: 4px;
+}
+
+.process-document-btn:hover:not(:disabled) {
+  background-color: #007bff;
+  color: white;
+}
+
+.process-document-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Animation for drag over effect */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.drag-drop-area.dragging {
+  animation: pulse 1.5s infinite ease-in-out;
+  background-color: rgba(0, 123, 255, 0.1);
+  border-color: #007bff;
+} 

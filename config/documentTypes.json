@@ -8,6 +8,7 @@
         {
           "id": "rn_license",
           "name": "Registered Nurse License",
+          "locations": [1, 2, 3, 4, 5],
           "fields": [
             {
               "id": "licenseNumber",
@@ -91,6 +92,7 @@
         {
           "id": "bls_certification",
           "name": "BLS/CPR Certification",
+          "locations": [1, 2, 3, 4, 5],
           "fields": [
             {
               "id": "certificationNumber",
@@ -127,6 +129,7 @@
         {
           "id": "acls_certification",
           "name": "ACLS Certification",
+          "locations": [1, 2, 3, 4, 5],
           "fields": [
             {
               "id": "certificationNumber",
@@ -134,6 +137,170 @@
               "type": "text",
               "label": "Certification Number",
               "placeholder": "Enter certification number",
+              "required": true,
+              "order": 1,
+              "fullWidth": true
+            },
+            {
+              "id": "issueDate",
+              "name": "issueDate",
+              "type": "date",
+              "label": "Issue Date",
+              "placeholder": "Select issue date",
+              "required": true,
+              "order": 2,
+              "fullWidth": true
+            },
+            {
+              "id": "expirationDate",
+              "name": "expirationDate",
+              "type": "date",
+              "label": "Expiration Date",
+              "placeholder": "Select expiration date",
+              "required": true,
+              "order": 3,
+              "fullWidth": true
+            }
+          ]
+        },
+        {
+          "id": "lpn_license",
+          "name": "Licensed Practical Nurse License",
+          "locations": [1, 2, 3, 4, 5],
+          "fields": [
+            {
+              "id": "licenseNumber",
+              "name": "licenseNumber",
+              "type": "text",
+              "label": "License Number",
+              "placeholder": "Enter license number",
+              "required": true,
+              "order": 1,
+              "fullWidth": true
+            },
+            {
+              "id": "state",
+              "name": "state",
+              "type": "select",
+              "label": "State",
+              "placeholder": "Select state",
+              "required": true,
+              "order": 2,
+              "fullWidth": true,
+              "options": [
+                {"value": "CA", "label": "California"},
+                {"value": "NY", "label": "New York"},
+                {"value": "TX", "label": "Texas"},
+                {"value": "FL", "label": "Florida"}
+              ]
+            },
+            {
+              "id": "issueDate",
+              "name": "issueDate",
+              "type": "date",
+              "label": "Issue Date",
+              "placeholder": "Select issue date",
+              "required": true,
+              "order": 3,
+              "fullWidth": true
+            },
+            {
+              "id": "expirationDate",
+              "name": "expirationDate",
+              "type": "date",
+              "label": "Expiration Date",
+              "placeholder": "Select expiration date",
+              "required": true,
+              "order": 4,
+              "fullWidth": true
+            }
+          ]
+        },
+        {
+          "id": "pals_certification",
+          "name": "PALS Certification",
+          "locations": [1, 2, 3, 4, 5],
+          "fields": [
+            {
+              "id": "certificationNumber",
+              "name": "certificationNumber",
+              "type": "text",
+              "label": "Certification Number",
+              "placeholder": "Enter certification number",
+              "required": true,
+              "order": 1,
+              "fullWidth": true
+            },
+            {
+              "id": "issueDate",
+              "name": "issueDate",
+              "type": "date",
+              "label": "Issue Date",
+              "placeholder": "Select issue date",
+              "required": true,
+              "order": 2,
+              "fullWidth": true
+            },
+            {
+              "id": "expirationDate",
+              "name": "expirationDate",
+              "type": "date",
+              "label": "Expiration Date",
+              "placeholder": "Select expiration date",
+              "required": true,
+              "order": 3,
+              "fullWidth": true
+            }
+          ]
+        },
+        {
+          "id": "ca_license_verification",
+          "name": "CA License Verification",
+          "locations": [1],
+          "fields": [
+            {
+              "id": "verificationNumber",
+              "name": "verificationNumber",
+              "type": "text",
+              "label": "Verification Number",
+              "placeholder": "Enter verification number",
+              "required": true,
+              "order": 1,
+              "fullWidth": true
+            },
+            {
+              "id": "issueDate",
+              "name": "issueDate",
+              "type": "date",
+              "label": "Issue Date",
+              "placeholder": "Select issue date",
+              "required": true,
+              "order": 2,
+              "fullWidth": true
+            },
+            {
+              "id": "expirationDate",
+              "name": "expirationDate",
+              "type": "date",
+              "label": "Expiration Date",
+              "placeholder": "Select expiration date",
+              "required": true,
+              "order": 3,
+              "fullWidth": true
+            }
+          ]
+        },
+        {
+          "id": "tx_nurse_compact",
+          "name": "TX Nurse Compact License",
+          "locations": [3],
+          "fields": [
+            {
+              "id": "compactNumber",
+              "name": "compactNumber",
+              "type": "text",
+              "label": "Compact License Number",
+              "placeholder": "Enter compact license number",
               "required": true,
               "order": 1,
               "fullWidth": true
@@ -170,6 +337,7 @@
         {
           "id": "resume",
           "name": "Resume/CV",
+          "locations": [1, 2, 3, 4, 5],
           "fields": [
             {
               "id": "lastUpdated",
@@ -186,6 +354,7 @@
         {
           "id": "reference_letter",
           "name": "Reference Letter",
+          "locations": [1, 2, 3, 4, 5],
           "fields": [
             {
               "id": "referenceType",
@@ -215,313 +384,9 @@
           ]
         },
         {
-          "id": "education_transcript",
-          "name": "Education Transcript",
-          "fields": [
-            {
-              "id": "degreeType",
-              "name": "degreeType",
-              "type": "select",
-              "label": "Degree Type",
-              "placeholder": "Select degree type",
-              "required": true,
-              "order": 1,
-              "fullWidth": true,
-              "options": [
-                {"value": "associate", "label": "Associate"},
-                {"value": "bachelor", "label": "Bachelor"},
-                {"value": "master", "label": "Master"},
-                {"value": "doctorate", "label": "Doctorate"}
-              ]
-            },
-            {
-              "id": "issueDate",
-              "name": "issueDate",
-              "type": "date",
-              "label": "Issue Date",
-              "placeholder": "Select issue date",
-              "required": true,
-              "order": 2,
-              "fullWidth": true
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "vaccination_record",
-      "name": "vaccination_record",
-      "displayName": "Vaccination Record",
-      "description": "Medical and vaccination records",
-      "childTypes": [
-        {
-          "id": "covid19_vaccine",
-          "name": "covid19_vaccine",
-          "displayName": "COVID-19 Vaccine",
-          "fields": [
-            {
-              "id": "vaccineType",
-              "name": "vaccineType",
-              "type": "select",
-              "label": "Vaccine Type",
-              "placeholder": "Select vaccine type",
-              "required": true,
-              "order": 1,
-              "fullWidth": true,
-              "options": [
-                {"value": "pfizer", "label": "Pfizer-BioNTech"},
-                {"value": "moderna", "label": "Moderna"},
-                {"value": "johnson", "label": "Johnson & Johnson"},
-                {"value": "other", "label": "Other"}
-              ]
-            },
-            {
-              "id": "doseNumber",
-              "name": "doseNumber",
-              "type": "select",
-              "label": "Dose Number",
-              "placeholder": "Select dose number",
-              "required": true,
-              "order": 2,
-              "fullWidth": true,
-              "options": [
-                {"value": "1", "label": "1st Dose"},
-                {"value": "2", "label": "2nd Dose"},
-                {"value": "3", "label": "3rd Dose/Booster"},
-                {"value": "4", "label": "4th Dose/Booster"}
-              ]
-            },
-            {
-              "id": "vaccinationDate",
-              "name": "vaccinationDate",
-              "type": "date",
-              "label": "Vaccination Date",
-              "placeholder": "Select vaccination date",
-              "required": true,
-              "order": 3,
-              "fullWidth": true
-            }
-          ],
-          "buttons": {
-            "submitButtonText": "Save Vaccine Record",
-            "cancelButtonText": "Go Back",
-            "showDeleteButton": true,
-            "deleteButtonText": "Delete Record",
-            "customButtons": [
-              {
-                "label": "Preview Record",
-                "action": "preview",
-                "color": "info",
-                "outline": true,
-                "style": {
-                  "borderColor": "#17a2b8",
-                  "color": "#17a2b8"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "id": "tb_test",
-          "name": "tb_test",
-          "displayName": "TB Test",
-          "fields": [
-            {
-              "id": "testType",
-              "name": "testType",
-              "type": "select",
-              "label": "Test Type",
-              "placeholder": "Select test type",
-              "required": true,
-              "order": 1,
-              "fullWidth": true,
-              "options": [
-                {"value": "ppd", "label": "PPD Skin Test"},
-                {"value": "quantiferon", "label": "QuantiFERON-TB Gold"},
-                {"value": "chest_xray", "label": "Chest X-Ray"}
-              ]
-            },
-            {
-              "id": "testDate",
-              "name": "testDate",
-              "type": "date",
-              "label": "Test Date",
-              "placeholder": "Select test date",
-              "required": true,
-              "order": 2,
-              "fullWidth": true
-            },
-            {
-              "id": "testResult",
-              "name": "testResult",
-              "type": "select",
-              "label": "Test Result",
-              "placeholder": "Select test result",
-              "required": true,
-              "order": 3,
-              "fullWidth": true,
-              "options": [
-                {"value": "negative", "label": "Negative"},
-                {"value": "positive", "label": "Positive"}
-              ]
-            },
-            {
-              "id": "expirationDate",
-              "name": "expirationDate",
-              "type": "date",
-              "label": "Expiration Date",
-              "placeholder": "Select expiration date",
-              "required": true,
-              "order": 4,
-              "fullWidth": true
-            }
-          ],
-          "buttons": {
-            "submitButtonText": "Upload TB Test",
-            "showCancelButton": false
-          }
-        },
-        {
-          "id": "flu_vaccine",
-          "name": "flu_vaccine",
-          "displayName": "Flu Vaccine",
-          "fields": [
-            {
-              "id": "season",
-              "name": "season",
-              "type": "text",
-              "label": "Flu Season",
-              "placeholder": "Enter flu season (e.g., 2023-2024)",
-              "required": true,
-              "order": 1,
-              "fullWidth": true
-            },
-            {
-              "id": "vaccinationDate",
-              "name": "vaccinationDate",
-              "type": "date",
-              "label": "Vaccination Date",
-              "placeholder": "Select vaccination date",
-              "required": true,
-              "order": 2,
-              "fullWidth": true
-            },
-            {
-              "id": "expirationDate",
-              "name": "expirationDate",
-              "type": "date",
-              "label": "Expiration Date",
-              "placeholder": "Select expiration date",
-              "required": true,
-              "order": 3,
-              "fullWidth": true
-            }
-          ],
-          "buttons": {
-            "submitButtonText": "Submit Flu Vaccine",
-            "cancelButtonText": "Cancel",
-            "showDeleteButton": false,
-            "customButtons": [
-              {
-                "label": "Mark as Declined",
-                "action": "decline",
-                "color": "warning",
-                "outline": true,
-                "style": {
-                  "borderColor": "#ffc107",
-                  "color": "#ffc107"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "id": "mmr_vaccine",
-          "name": "mmr_vaccine",
-          "displayName": "MMR Vaccine",
-          "fields": [
-            {
-              "id": "vaccinationDate",
-              "name": "vaccinationDate",
-              "type": "date",
-              "label": "Vaccination Date",
-              "placeholder": "Select vaccination date",
-              "required": true,
-              "order": 1,
-              "fullWidth": true
-            },
-            {
-              "id": "expirationDate",
-              "name": "expirationDate",
-              "type": "date",
-              "label": "Expiration Date",
-              "placeholder": "Select expiration date",
-              "required": true,
-              "order": 2,
-              "fullWidth": true
-            }
-          ],
-          "buttons": {
-            "submitButtonText": "Submit MMR Vaccine",
-            "cancelButtonText": "Cancel"
-          }
-        },
-        {
-          "id": "hepatitis_vaccine",
-          "name": "hepatitis_vaccine",
-          "displayName": "Hepatitis Vaccine",
-          "fields": [
-            {
-              "id": "vaccineType",
-              "name": "vaccineType",
-              "type": "select",
-              "label": "Vaccine Type",
-              "placeholder": "Select vaccine type",
-              "required": true,
-              "order": 1,
-              "fullWidth": true,
-              "options": [
-                {"value": "hepatitis_a", "label": "Hepatitis A"},
-                {"value": "hepatitis_b", "label": "Hepatitis B"},
-                {"value": "hepatitis_a_b", "label": "Hepatitis A & B Combined"}
-              ]
-            },
-            {
-              "id": "vaccinationDate",
-              "name": "vaccinationDate",
-              "type": "date",
-              "label": "Vaccination Date",
-              "placeholder": "Select vaccination date",
-              "required": true,
-              "order": 2,
-              "fullWidth": true
-            },
-            {
-              "id": "expirationDate",
-              "name": "expirationDate",
-              "type": "date",
-              "label": "Expiration Date",
-              "placeholder": "Select expiration date",
-              "required": true,
-              "order": 3,
-              "fullWidth": true
-            }
-          ],
-          "buttons": {
-            "submitButtonText": "Submit Hepatitis Vaccine",
-            "cancelButtonText": "Cancel"
-          }
-        }
-      ]
-    },
-    {
-      "id": "other",
-      "name": "Other",
-      "description": "Additional supporting documents",
-      "childTypes": [
-        {
-          "id": "personal_id",
-          "name": "Personal ID",
+          "id": "identification",
+          "name": "Identification",
+          "locations": [1, 2, 3, 4, 5],
           "fields": [
             {
               "id": "idType",
@@ -535,16 +400,15 @@
               "options": [
                 {"value": "driver_license", "label": "Driver's License"},
                 {"value": "passport", "label": "Passport"},
-                {"value": "state_id", "label": "State ID"},
-                {"value": "other", "label": "Other"}
+                {"value": "state_id", "label": "State ID"}
               ]
             },
             {
-              "id": "idNumber",
-              "name": "idNumber",
-              "type": "text",
-              "label": "ID Number",
-              "placeholder": "Enter ID number",
+              "id": "issueDate",
+              "name": "issueDate",
+              "type": "date",
+              "label": "Issue Date",
+              "placeholder": "Select issue date",
               "required": true,
               "order": 2,
               "fullWidth": true
@@ -560,49 +424,203 @@
               "fullWidth": true
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "id": "vaccination_record",
+      "name": "Vaccination Records",
+      "description": "Proof of vaccinations",
+      "childTypes": [
         {
-          "id": "liability_insurance",
-          "name": "Liability Insurance",
+          "id": "covid19_vaccine",
+          "name": "COVID-19 Vaccination",
+          "locations": [1, 2, 3, 4, 5],
           "fields": [
             {
-              "id": "provider",
-              "name": "provider",
+              "id": "vaccineType",
+              "name": "vaccineType",
+              "type": "select",
+              "label": "Vaccine Type",
+              "placeholder": "Select vaccine type",
+              "required": true,
+              "order": 1,
+              "fullWidth": true,
+              "options": [
+                {"value": "pfizer", "label": "Pfizer-BioNTech"},
+                {"value": "moderna", "label": "Moderna"},
+                {"value": "jj", "label": "Johnson & Johnson"},
+                {"value": "novavax", "label": "Novavax"},
+                {"value": "other", "label": "Other"}
+              ]
+            },
+            {
+              "id": "doseNumber",
+              "name": "doseNumber",
+              "type": "select",
+              "label": "Dose Number",
+              "placeholder": "Select dose number",
+              "required": true,
+              "order": 2,
+              "fullWidth": true,
+              "options": [
+                {"value": "1", "label": "First Dose"},
+                {"value": "2", "label": "Second Dose"},
+                {"value": "3", "label": "First Booster"},
+                {"value": "4", "label": "Second Booster"},
+                {"value": "5+", "label": "Additional Booster"}
+              ]
+            },
+            {
+              "id": "administrationDate",
+              "name": "administrationDate",
+              "type": "date",
+              "label": "Administration Date",
+              "placeholder": "Select administration date",
+              "required": true,
+              "order": 3,
+              "fullWidth": true
+            }
+          ]
+        },
+        {
+          "id": "flu_vaccine",
+          "name": "Flu Vaccination",
+          "locations": [1, 2, 3, 4, 5],
+          "fields": [
+            {
+              "id": "season",
+              "name": "season",
               "type": "text",
-              "label": "Insurance Provider",
-              "placeholder": "Enter insurance provider",
+              "label": "Flu Season",
+              "placeholder": "Enter flu season (e.g., 2022-2023)",
               "required": true,
               "order": 1,
               "fullWidth": true
             },
             {
-              "id": "policyNumber",
-              "name": "policyNumber",
+              "id": "administrationDate",
+              "name": "administrationDate",
+              "type": "date",
+              "label": "Administration Date",
+              "placeholder": "Select administration date",
+              "required": true,
+              "order": 2,
+              "fullWidth": true
+              }
+            ]
+        },
+        {
+          "id": "mmr_vaccine",
+          "name": "MMR Vaccination",
+          "locations": [1, 2, 3, 4, 5],
+          "fields": [
+            {
+              "id": "administrationDate",
+              "name": "administrationDate",
+              "type": "date",
+              "label": "Administration Date",
+              "placeholder": "Select administration date",
+              "required": true,
+              "order": 1,
+              "fullWidth": true
+            }
+          ]
+        },
+        {
+          "id": "tdap_vaccine",
+          "name": "Tdap Vaccination",
+          "locations": [1, 2, 3, 4, 5],
+          "fields": [
+            {
+              "id": "administrationDate",
+              "name": "administrationDate",
+              "type": "date",
+              "label": "Administration Date",
+              "placeholder": "Select administration date",
+              "required": true,
+              "order": 1,
+              "fullWidth": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "other",
+      "name": "Other",
+      "description": "Miscellaneous documents",
+      "childTypes": [
+        {
+          "id": "other_certificate",
+          "name": "Other Certificate",
+          "locations": [1, 2, 3, 4, 5],
+          "fields": [
+            {
+              "id": "certificateType",
+              "name": "certificateType",
               "type": "text",
-              "label": "Policy Number",
-              "placeholder": "Enter policy number",
+              "label": "Certificate Type",
+              "placeholder": "Enter certificate type",
+              "required": true,
+              "order": 1,
+              "fullWidth": true
+            },
+            {
+              "id": "issueDate",
+              "name": "issueDate",
+              "type": "date",
+              "label": "Issue Date",
+              "placeholder": "Select issue date",
               "required": true,
               "order": 2,
               "fullWidth": true
             },
             {
-              "id": "coverageAmount",
-              "name": "coverageAmount",
-              "type": "text",
-              "label": "Coverage Amount",
-              "placeholder": "Enter coverage amount",
-              "required": true,
+              "id": "expirationDate",
+              "name": "expirationDate",
+              "type": "date",
+              "label": "Expiration Date",
+              "placeholder": "Select expiration date",
+              "required": false,
               "order": 3,
+              "fullWidth": true
+            }
+          ]
+        },
+        {
+          "id": "other_license",
+          "name": "Other License",
+          "locations": [1, 2, 3, 4, 5],
+          "fields": [
+            {
+              "id": "licenseType",
+              "name": "licenseType",
+              "type": "text",
+              "label": "License Type",
+              "placeholder": "Enter license type",
+              "required": true,
+              "order": 1,
               "fullWidth": true
             },
             {
-              "id": "startDate",
-              "name": "startDate",
-              "type": "date",
-              "label": "Start Date",
-              "placeholder": "Select start date",
+              "id": "licenseNumber",
+              "name": "licenseNumber",
+              "type": "text",
+              "label": "License Number",
+              "placeholder": "Enter license number",
               "required": true,
-              "order": 4,
+              "order": 2,
+              "fullWidth": true
+            },
+            {
+              "id": "issueDate",
+              "name": "issueDate",
+              "type": "date",
+              "label": "Issue Date",
+              "placeholder": "Select issue date",
+              "required": true,
+              "order": 3,
               "fullWidth": true
             },
             {
@@ -612,7 +630,34 @@
               "label": "Expiration Date",
               "placeholder": "Select expiration date",
               "required": true,
-              "order": 5,
+              "order": 4,
+              "fullWidth": true
+            }
+          ]
+        },
+        {
+          "id": "other_document",
+          "name": "Other Document",
+          "locations": [1, 2, 3, 4, 5],
+          "fields": [
+            {
+              "id": "documentType",
+              "name": "documentType",
+              "type": "text",
+              "label": "Document Type",
+              "placeholder": "Enter document type",
+              "required": true,
+              "order": 1,
+              "fullWidth": true
+            },
+            {
+              "id": "documentDate",
+              "name": "documentDate",
+              "type": "date",
+              "label": "Document Date",
+              "placeholder": "Select document date",
+              "required": true,
+              "order": 2,
               "fullWidth": true
             }
           ]
