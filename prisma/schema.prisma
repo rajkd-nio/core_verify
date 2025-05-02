@@ -10,42 +10,44 @@ datasource db {
 }
 
 model DocumentType {
-  id                     Int                    @id @default(autoincrement())
-  name                   String                 @unique
+  id                     Int                     @id @default(autoincrement())
+  name                   String                  @unique
+  createdAt              DateTime                @default(now()) @map("created_at")
+  updatedAt              DateTime                @updatedAt @map("updated_at")
   description            String?
-  formId                 String?                @map("form_id")
-  hideHeader             Boolean                @default(false) @map("hide_header")
-  showFormButtons        Boolean                @default(true)  @map("show_form_buttons")
-  createdAt              DateTime               @default(now()) @map("created_at")
-  updatedAt              DateTime               @updatedAt @map("updated_at")
-  documentTitles         DocumentTitle[]
+  formId                 String?                 @map("form_id")
+  hideHeader             Boolean                 @default(false) @map("hide_header")
+  showFormButtons        Boolean                 @default(true) @map("show_form_buttons")
   documentConfigurations DocumentConfiguration[]
+  document_fields        document_fields[]
+  documentTitles         DocumentTitle[]
 
   @@map("document_types")
 }
 
 model DocumentTitle {
-  id                     Int                    @id @default(autoincrement())
+  id                     Int                     @id @default(autoincrement())
   title                  String
+  createdAt              DateTime                @default(now()) @map("created_at")
+  updatedAt              DateTime                @updatedAt @map("updated_at")
+  shareable              Boolean                 @default(false)
+  documentTypeId         Int                     @map("document_type_id")
+  isDisplay              Boolean                 @default(true) @map("is_display")
+  requireNumber          Boolean                 @default(false) @map("require_number")
+  requireValidDate       Boolean                 @default(false) @map("require_valid_date")
+  requireExpireDate      Boolean                 @default(false) @map("require_expire_date")
+  requireDocData         Boolean                 @default(false) @map("require_doc_data")
+  docDataOptions         Json?                   @map("doc_data_options")
+  docDataName            String?                 @map("doc_data_name")
+  requireAttachmentFront Boolean                 @default(false) @map("require_attachment_front")
+  requireAttachmentBack  Boolean                 @default(false) @map("require_attachment_back")
   description            String?
-  createdAt              DateTime               @default(now()) @map("created_at")
-  updatedAt              DateTime               @updatedAt @map("updated_at")
-  shareable              Boolean                @default(false)
-  documentTypeId         Int                    @map("document_type_id")
-  isDisplay              Boolean                @default(true) @map("is_display")
-  requireNumber          Boolean                @default(false) @map("require_number")
-  requireValidDate       Boolean                @default(false) @map("require_valid_date")
-  requireExpireDate      Boolean                @default(false) @map("require_expire_date")
-  requireDocData         Boolean                @default(false) @map("require_doc_data")
-  docDataOptions         Json?                  @map("doc_data_options")
-  docDataName            String?                @map("doc_data_name")
-  requireAttachmentFront Boolean                @default(false) @map("require_attachment_front")
-  requireAttachmentBack  Boolean                @default(false) @map("require_attachment_back")
-  formTitle              String?                @map("form_title")
-  formDescription        String?                @map("form_description")
-  formFields             Json?                  @map("form_fields")
-  documentType           DocumentType           @relation(fields: [documentTypeId], references: [id], onDelete: Cascade)
+  formDescription        String?                 @map("form_description")
+  formTitle              String?                 @map("form_title")
   documentConfigurations DocumentConfiguration[]
+  document_fields        document_fields[]
+  documentType           DocumentType            @relation(fields: [documentTypeId], references: [id], onDelete: Cascade)
+  formFieldEntries       FormField[]
 
   @@index([documentTypeId])
   @@map("document_titles")
@@ -67,29 +69,28 @@ model FormField {
   validation      Json?
   conditionalShow Json?         @map("conditional_show")
   helpText        String?       @map("help_text")
-  documentTitle   DocumentTitle @relation(fields: [documentTitleId], references: [id], onDelete: Cascade)
   createdAt       DateTime      @default(now()) @map("created_at")
   updatedAt       DateTime      @updatedAt @map("updated_at")
+  documentTitle   DocumentTitle @relation(fields: [documentTitleId], references: [id], onDelete: Cascade)
 
   @@index([documentTitleId])
   @@map("form_fields")
 }
 
 model DocumentConfiguration {
-  id                Int            @id @default(autoincrement())
-  regionId          Int            @map("region_id")
-  documentTypeId    Int            @map("document_type_id")
-  documentTitleId   Int            @map("document_title_id")
-  typeOfCondition   Int            @default(0) @map("type_of_condition")
-  createdAt         DateTime       @default(now()) @map("created_at")
-  updatedAt         DateTime       @updatedAt @map("updated_at")
-  active            Boolean        @default(true)
-  priority          Int            @default(0)
-  customFields      Json?          @map("custom_fields")
-  
-  documentType      DocumentType   @relation(fields: [documentTypeId], references: [id], onDelete: Cascade)
-  documentTitle     DocumentTitle  @relation(fields: [documentTitleId], references: [id], onDelete: Cascade)
-  region            Region         @relation(fields: [regionId], references: [id], onDelete: Cascade)
+  id              Int           @id @default(autoincrement())
+  regionId        Int           @map("region_id")
+  documentTypeId  Int           @map("document_type_id")
+  documentTitleId Int           @map("document_title_id")
+  typeOfCondition Int           @default(0) @map("type_of_condition")
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+  active          Boolean       @default(true)
+  priority        Int           @default(0)
+  customFields    Json?         @map("custom_fields")
+  documentTitle   DocumentTitle @relation(fields: [documentTitleId], references: [id], onDelete: Cascade)
+  documentType    DocumentType  @relation(fields: [documentTypeId], references: [id], onDelete: Cascade)
+  region          Region        @relation(fields: [regionId], references: [id], onDelete: Cascade)
 
   @@unique([regionId, documentTitleId])
   @@index([documentTypeId])
@@ -109,4 +110,31 @@ model Region {
   documentConfigurations DocumentConfiguration[]
 
   @@map("regions")
+}
+
+model document_fields {
+  id                  Int            @id @default(autoincrement())
+  field_id            String
+  name                String
+  label               String
+  type                String
+  placeholder         String?
+  required            Boolean        @default(false)
+  order               Int
+  full_width          Boolean        @default(true)
+  hidden              Boolean        @default(false)
+  default_value       String?
+  options             Json?
+  validation          Json?
+  conditional_display Json?
+  help_text           String?
+  document_type_id    Int
+  document_title_id   Int?
+  created_at          DateTime       @default(now())
+  updated_at          DateTime
+  document_titles     DocumentTitle? @relation(fields: [document_title_id], references: [id])
+  document_types      DocumentType   @relation(fields: [document_type_id], references: [id], onDelete: Cascade)
+
+  @@index([document_title_id])
+  @@index([document_type_id])
 }

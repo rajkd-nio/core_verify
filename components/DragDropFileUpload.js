@@ -18,12 +18,14 @@ const DragDropFileUpload = ({
   errorMessage,
   multiple = false,
   onProcessDocument,
-  showProcessButton = true
+  showProcessButton = true,
+  externalSelectedFile = null,
+  isFingerPrintClearance = false
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [fileName, setFileName] = useState('');
   const [filePreview, setFilePreview] = useState(null);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(externalSelectedFile);
   const [previewUrl, setPreviewUrl] = useState(null);
   const fileInputRef = useRef(null);
   
@@ -88,18 +90,18 @@ const DragDropFileUpload = ({
     try {
       // Create a blob URL for any file type for preview in new tab
       const blobUrl = URL.createObjectURL(file);
-      console.log('Created blob URL:', blobUrl, 'for file:', file.name, 'type:', file.type);
+      console.log(`Field ${name}: Created blob URL:`, blobUrl, 'for file:', file.name, 'type:', file.type);
       setPreviewUrl(blobUrl);
       
       // Create preview if it's an image
       if (file && file.type.startsWith('image/')) {
         const reader = new FileReader();
         reader.onload = () => {
-          console.log('Image loaded as data URL');
+          console.log(`Field ${name}: Image loaded as data URL`);
           setFilePreview(reader.result);
         };
         reader.onerror = (error) => {
-          console.error('Error reading file as data URL:', error);
+          console.error(`Field ${name}: Error reading file as data URL:`, error);
           // Fallback to file icon
           setFilePreview('file');
         };
@@ -107,10 +109,10 @@ const DragDropFileUpload = ({
       } else {
         // If not an image, show an icon based on file type
         if (file.type.includes('pdf')) {
-          console.log('Setting PDF icon for file preview');
+          console.log(`Field ${name}: Setting PDF icon for file preview`);
           setFilePreview('pdf');
         } else {
-          console.log('Setting generic file icon for preview');
+          console.log(`Field ${name}: Setting generic file icon for preview`);
           setFilePreview('file');
         }
       }
@@ -118,7 +120,7 @@ const DragDropFileUpload = ({
       // Call the parent onChange handler
       onChange(syntheticEvent);
     } catch (error) {
-      console.error('Error processing file for preview:', error);
+      console.error(`Field ${name}: Error processing file for preview:`, error);
       // Set a basic file preview even if URL creation fails
       if (file.type.includes('pdf')) {
         setFilePreview('pdf');
@@ -208,15 +210,34 @@ const DragDropFileUpload = ({
     onChange(syntheticEvent);
   };
   
+  // Create or recreate the preview URL when selectedFile changes
+  useEffect(() => {
+    if (selectedFile && !previewUrl) {
+      try {
+        // Create a blob URL for preview and tracking
+        const newUrl = URL.createObjectURL(selectedFile);
+        console.log('Created new blob URL for file:', selectedFile.name, 'URL:', newUrl);
+        setPreviewUrl(newUrl);
+      } catch (error) {
+        console.error('Error creating preview URL:', error);
+      }
+    }
+  }, [selectedFile, previewUrl]);
+  
   // Reset filename if component is disabled
   useEffect(() => {
     if (disabled) {
+      // Clean up any blob URLs before clearing state
+      if (previewUrl && previewUrl.startsWith('blob:')) {
+        URL.revokeObjectURL(previewUrl);
+      }
+      
       setFileName('');
       setFilePreview(null);
       setSelectedFile(null);
       setPreviewUrl(null);
     }
-  }, [disabled]);
+  }, [disabled, previewUrl]);
   
   // Cleanup file preview URL on unmount
   useEffect(() => {
@@ -226,6 +247,103 @@ const DragDropFileUpload = ({
       }
     };
   }, [previewUrl]);
+  
+  // Update if external file changes - fix infinite loop by checking properly
+  useEffect(() => {
+    // Only update if external file exists and is different from current file
+    if (externalSelectedFile) {
+      // Use a deep comparison instead of just reference check
+      const isNewFile = !selectedFile || 
+                      externalSelectedFile.name !== selectedFile.name || 
+                      externalSelectedFile.size !== selectedFile.size || 
+                      externalSelectedFile.lastModified !== selectedFile.lastModified;
+      
+      if (isNewFile) {
+        console.log(`Field ${name}: External file updated:`, externalSelectedFile.name || 'unknown');
+        setSelectedFile(externalSelectedFile);
+        
+        // Set filename if needed and only if the filename has changed
+        if (externalSelectedFile.name && fileName !== externalSelectedFile.name) {
+          setFileName(externalSelectedFile.name);
+        }
+      }
+    }
+  }, [externalSelectedFile]); // Only depend on externalSelectedFile to avoid loops
+  
+  // Ensure file preview is generated for the selected file - optimize to avoid loops
+  useEffect(() => {
+    // Only run this effect if we have a file but are missing preview elements
+    if (!selectedFile) return;
+    
+    // Batch state updates to avoid multiple re-renders
+    const updates = {};
+    
+    // Check if we need to create a preview
+    if (!filePreview && selectedFile) {
+      if (selectedFile.type?.startsWith('image/')) {
+        // For images, we need to read the file data
+        const reader = new FileReader();
+        reader.onload = () => {
+          setFilePreview(reader.result);
+        };
+        reader.readAsDataURL(selectedFile);
+      } else if (selectedFile.type?.includes('pdf')) {
+        updates.filePreview = 'pdf';
+      } else {
+        updates.filePreview = 'file';
+      }
+    }
+    
+    // Ensure we have the file name
+    if (!fileName && selectedFile.name) {
+      updates.fileName = selectedFile.name;
+    }
+    
+    // Ensure we have a preview URL
+    if (!previewUrl && selectedFile) {
+      try {
+        const newUrl = URL.createObjectURL(selectedFile);
+        console.log(`Field ${name}: Created preview URL for file:`, selectedFile.name);
+        updates.previewUrl = newUrl;
+      } catch (error) {
+        console.error(`Field ${name}: Error creating preview URL:`, error);
+      }
+    }
+    
+    // Apply all updates at once
+    if (updates.filePreview) setFilePreview(updates.filePreview);
+    if (updates.fileName) setFileName(updates.fileName);
+    if (updates.previewUrl) setPreviewUrl(updates.previewUrl);
+    
+  }, [selectedFile]); // Only depend on selectedFile to prevent loops
+  
+  // Process document button - needs special handling
+  const handleProcessClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Store current file reference
+    const currentFile = selectedFile;
+    
+    // Only proceed if we have a file and a handler
+    if (!currentFile || !onProcessDocument) {
+      console.log(`Field ${name}: Cannot process document - no file or handler available`);
+      return;
+    }
+    
+    // Log the processing attempt
+    console.log(`Field ${name}: Processing document:`, currentFile.name || 'unnamed file');
+    
+    // Call the parent handler with file and field name - add a try/catch for safety
+    try {
+      onProcessDocument(currentFile, name);
+    } catch (error) {
+      console.error(`Field ${name}: Error during document processing:`, error);
+    }
+    
+    // No need to manually set state here - parent component will handle this
+    // The setTimeout approach can cause loops, so we're removing it
+  };
   
   return (
     <div className="drag-drop-file-upload">
@@ -338,12 +456,13 @@ const DragDropFileUpload = ({
             </div>
           </div>
           
+          {/* Always show process button if onProcessDocument is provided, regardless of isFingerPrintClearance */}
           {onProcessDocument && showProcessButton && selectedFile && (
             <Button 
               color="primary" 
               outline 
               className="process-document-btn mt-2 w-100"
-              onClick={() => onProcessDocument(selectedFile)}
+              onClick={handleProcessClick}
               disabled={disabled || !selectedFile}
             >
               Process Document

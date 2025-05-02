@@ -1,6 +1,8 @@
 .drag-drop-file-upload {
   width: 100%;
   margin-bottom: 10px;
+  position: relative;
+  margin-bottom: 1rem;
 }
 
 /* Selected file container to hold preview and button */
@@ -9,31 +11,33 @@
   flex-direction: column;
   gap: 10px;
   width: 100%;
+  margin-top: 0.5rem;
+  position: relative;
 }
 
 .drag-drop-area {
   border: 2px dashed #ccc;
-  border-radius: 8px;
-  padding: 30px 20px;
+  border-radius: 5px;
+  padding: 1.5rem;
   text-align: center;
   cursor: pointer;
-  background-color: #f8f9fa;
   transition: all 0.3s ease;
+  background-color: #f8f9fa;
+  min-height: 120px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  min-height: 120px;
+  align-items: center;
 }
 
 .drag-drop-area:hover {
-  background-color: #e9ecef;
-  border-color: #adb5bd;
+  border-color: #007bff;
+  background-color: #f0f8ff;
 }
 
 .drag-drop-area.dragging {
-  background-color: #e2f0fd;
   border-color: #007bff;
+  background-color: #f0f8ff;
 }
 
 .drag-drop-area.is-invalid {
@@ -43,20 +47,19 @@
 .drag-drop-area.disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background-color: #e9ecef;
 }
 
 .drag-drop-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  width: 100%;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .icon-container {
+  margin-bottom: 0.5rem;
   color: #6c757d;
-  margin-bottom: 5px;
 }
 
 .text-container {
@@ -67,42 +70,34 @@
 
 .drag-text {
   font-weight: 500;
-  color: #212529;
-  font-size: 1rem;
+  margin-bottom: 0.25rem;
 }
 
 .or-text {
   font-size: 0.8rem;
   color: #6c757d;
-  margin: 5px 0;
+  margin: 0.25rem 0;
 }
 
 .browse-text {
   color: #007bff;
   font-weight: 500;
+  margin-bottom: 0.25rem;
 }
 
 .file-types {
   font-size: 0.8rem;
   color: #6c757d;
-  margin-top: 5px;
 }
 
 /* File Preview Styles */
 .file-preview-container {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  overflow: hidden;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  padding: 0.75rem;
   background-color: #f8f9fa;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  min-height: 120px;
   display: flex;
-  flex-direction: column;
-}
-
-.file-preview-container:hover {
-  background-color: #e9ecef;
+  align-items: stretch;
 }
 
 .file-preview-container.is-invalid {
@@ -112,173 +107,114 @@
 .file-preview-content {
   display: flex;
   align-items: center;
-  padding: 12px;
-  position: relative;
-  min-height: 100px;
-  flex: 1;
+  gap: 1rem;
+  width: 100%;
 }
 
 .file-image-preview {
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
+  border-radius: 5px;
   overflow: hidden;
-  border-radius: 4px;
-  background-color: #fff;
-  border: 1px solid #dee2e6;
-  flex-shrink: 0;
-  margin-right: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
-}
-
-.file-image-preview:hover {
-  border-color: #007bff;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
 .file-image-preview img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .file-icon-preview {
-  width: 70px;
-  height: 70px;
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  border-radius: 5px;
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin-right: 12px;
-  flex-shrink: 0;
-  border-radius: 4px;
-  border: 1px solid #dee2e6;
-  background-color: #fff;
+  align-items: center;
   cursor: pointer;
-}
-
-.file-icon-preview:hover {
-  border-color: #007bff;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  color: #6c757d;
 }
 
 .file-icon-preview.pdf-icon {
   color: #dc3545;
 }
 
-.file-icon-preview.file-icon {
-  color: #6c757d;
-}
-
 .file-info {
-  flex: 1;
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  max-width: calc(100% - 90px);
 }
 
 .file-name-wrapper {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
 }
 
-.file-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
 .file-name {
+  font-size: 0.9rem;
   font-weight: 500;
-  color: #28a745;
-  word-break: break-all;
-  max-width: calc(100% - 70px); /* Adjust for two buttons */
-  padding-right: 8px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  word-break: break-word;
   cursor: pointer;
+  color: #007bff;
+  flex-grow: 1;
+  margin-right: 0.5rem;
 }
 
 .file-name:hover {
   text-decoration: underline;
-  color: #218838;
 }
 
-/* Change button (edit icon) */
-.change-file-btn {
-  background-color: #17a2b8;
+.file-actions {
+  display: flex;
+  gap: 0.25rem;
+  margin-left: auto;
+}
+
+.change-file-btn,
+.delete-file-btn {
+  background: none;
   border: none;
-  color: white;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
+  padding: 0.25rem;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 0;
-  opacity: 0.8;
-  flex-shrink: 0;
+  color: #6c757d;
+  transition: color 0.2s;
 }
 
 .change-file-btn:hover {
-  opacity: 1;
-  transform: scale(1.1);
-}
-
-.change-file-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-/* Delete button (X icon) */
-.delete-file-btn {
-  background-color: #dc3545;
-  border: none;
-  color: white;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 0;
-  opacity: 0.8;
-  flex-shrink: 0;
+  color: #007bff;
 }
 
 .delete-file-btn:hover {
-  opacity: 1;
-  transform: scale(1.1);
+  color: #dc3545;
 }
 
-.delete-file-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-/* Process document button styles */
 .process-document-btn {
-  transition: all 0.3s ease;
-  font-size: 0.85rem;
-  border-radius: 4px;
+  margin-top: 0.5rem;
 }
 
-.process-document-btn:hover:not(:disabled) {
-  background-color: #007bff;
-  color: white;
+/* Ensure file preview persists during processing */
+.file-preview-container {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: flex !important;
 }
 
-.process-document-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+/* Improve visibility of file name during processing */
+.file-name {
+  color: #212529;
+  font-weight: 500;
+}
+
+/* Add a subtle glow effect to active process button */
+.process-document-btn:active {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
 /* Animation for drag over effect */
@@ -298,4 +234,112 @@
   animation: pulse 1.5s infinite ease-in-out;
   background-color: rgba(0, 123, 255, 0.1);
   border-color: #007bff;
+}
+
+/* Styles for green checkmark next to extracted date fields */
+.extracted-field-success {
+  color: #28a745;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+}
+
+.extracted-field-success svg {
+  margin-right: 4px;
+}
+
+/* Styles for extracted date fields */
+.extracted-date-field {
+  border: 1px solid #28a745 !important;
+  background-color: rgba(40, 167, 69, 0.05) !important;
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.15) !important;
+}
+
+.file-input-container {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.file-drop-zone {
+  border: 2px dashed #ccc;
+  border-radius: 6px;
+  padding: 20px;
+  text-align: center;
+  background-color: #f8f9fa;
+  color: #6c757d;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.file-drop-zone:hover {
+  border-color: #adb5bd;
+  background-color: #e9ecef;
+}
+
+.file-drop-zone.active {
+  border-color: #0d6efd;
+  background-color: rgba(13, 110, 253, 0.05);
+}
+
+.file-drop-zone.error {
+  border-color: #dc3545;
+  background-color: rgba(220, 53, 69, 0.05);
+}
+
+.file-selected {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  background-color: #e9ecef;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+.file-name {
+  flex-grow: 1;
+  margin-right: 10px;
+  word-break: break-all;
+}
+
+/* Fingerprint clearance specific styles */
+.fingerprint-clearance-form .extracted-date-field {
+  border-color: #28a745 !important;
+  background-color: rgba(40, 167, 69, 0.05) !important;
+}
+
+.fingerprint-clearance-form .extracted-field-success {
+  color: #28a745;
+  animation: fadeIn 0.5s;
+}
+
+.process-document-btn {
+  margin-top: 10px;
+  width: 100%;
+}
+
+/* Animation for success indicators */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Add custom styles for date inputs */
+input[type="date"]::-webkit-datetime-edit-text,
+input[type="date"]::-webkit-datetime-edit-month-field,
+input[type="date"]::-webkit-datetime-edit-day-field,
+input[type="date"]::-webkit-datetime-edit-year-field {
+  color: #6c757d;
+}
+
+input[type="date"]:focus::-webkit-datetime-edit-text,
+input[type="date"]:focus::-webkit-datetime-edit-month-field,
+input[type="date"]:focus::-webkit-datetime-edit-day-field,
+input[type="date"]:focus::-webkit-datetime-edit-year-field {
+  color: #212529;
+}
+
+/* Style for extracted date fields */
+.extracted-date-field {
+  border-color: #28a745 !important;
+  background-color: rgba(40, 167, 69, 0.05) !important;
 } 

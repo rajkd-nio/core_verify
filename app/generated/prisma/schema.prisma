@@ -12,15 +12,15 @@ datasource db {
 model DocumentType {
   id                     Int                     @id @default(autoincrement())
   name                   String                  @unique
+  createdAt              DateTime                @default(now()) @map("created_at")
+  updatedAt              DateTime                @updatedAt @map("updated_at")
   description            String?
   formId                 String?                 @map("form_id")
   hideHeader             Boolean                 @default(false) @map("hide_header")
   showFormButtons        Boolean                 @default(true) @map("show_form_buttons")
-  createdAt              DateTime                @default(now()) @map("created_at")
-  updatedAt              DateTime                @updatedAt @map("updated_at")
-  documentTitles         DocumentTitle[]
-  documentFields         DocumentField[]
   documentConfigurations DocumentConfiguration[]
+  document_fields        document_fields[]
+  documentTitles         DocumentTitle[]
 
   @@map("document_types")
 }
@@ -28,7 +28,6 @@ model DocumentType {
 model DocumentTitle {
   id                     Int                     @id @default(autoincrement())
   title                  String
-  description            String?
   createdAt              DateTime                @default(now()) @map("created_at")
   updatedAt              DateTime                @updatedAt @map("updated_at")
   shareable              Boolean                 @default(false)
@@ -42,43 +41,16 @@ model DocumentTitle {
   docDataName            String?                 @map("doc_data_name")
   requireAttachmentFront Boolean                 @default(false) @map("require_attachment_front")
   requireAttachmentBack  Boolean                 @default(false) @map("require_attachment_back")
-  formTitle              String?                 @map("form_title")
+  description            String?
   formDescription        String?                 @map("form_description")
-  documentType           DocumentType            @relation(fields: [documentTypeId], references: [id], onDelete: Cascade)
+  formTitle              String?                 @map("form_title")
   documentConfigurations DocumentConfiguration[]
-  documentFields         DocumentField[]         @relation("TitleFields")
-  formFields             FormField[]
+  document_fields        document_fields[]
+  documentType           DocumentType            @relation(fields: [documentTypeId], references: [id], onDelete: Cascade)
+  formFieldEntries       FormField[]
 
   @@index([documentTypeId])
   @@map("document_titles")
-}
-
-model DocumentField {
-  id                 Int            @id @default(autoincrement())
-  fieldId            String         @map("field_id")
-  name               String
-  label              String
-  type               String
-  placeholder        String?
-  required           Boolean        @default(false)
-  order              Int
-  fullWidth          Boolean        @default(true) @map("full_width")
-  hidden             Boolean        @default(false)
-  defaultValue       String?        @map("default_value")
-  options            Json?
-  validation         Json?
-  conditionalDisplay Json?          @map("conditional_display")
-  helpText           String?        @map("help_text")
-  documentTypeId     Int            @map("document_type_id")
-  documentTitleId    Int?           @map("document_title_id")
-  createdAt          DateTime       @default(now()) @map("created_at")
-  updatedAt          DateTime       @updatedAt @map("updated_at")
-  documentTitle      DocumentTitle? @relation("TitleFields", fields: [documentTitleId], references: [id], onDelete: SetNull)
-  documentType       DocumentType   @relation(fields: [documentTypeId], references: [id], onDelete: Cascade)
-
-  @@index([documentTypeId])
-  @@index([documentTitleId])
-  @@map("document_fields")
 }
 
 model FormField {
@@ -97,29 +69,28 @@ model FormField {
   validation      Json?
   conditionalShow Json?         @map("conditional_show")
   helpText        String?       @map("help_text")
-  documentTitle   DocumentTitle @relation(fields: [documentTitleId], references: [id], onDelete: Cascade)
   createdAt       DateTime      @default(now()) @map("created_at")
   updatedAt       DateTime      @updatedAt @map("updated_at")
+  documentTitle   DocumentTitle @relation(fields: [documentTitleId], references: [id], onDelete: Cascade)
 
   @@index([documentTitleId])
   @@map("form_fields")
 }
 
 model DocumentConfiguration {
-  id              Int      @id @default(autoincrement())
-  regionId        Int      @map("region_id")
-  documentTypeId  Int      @map("document_type_id")
-  documentTitleId Int      @map("document_title_id")
-  typeOfCondition Int      @default(0) @map("type_of_condition")
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @updatedAt @map("updated_at")
-  active          Boolean  @default(true)
-  priority        Int      @default(0)
-  customFields    Json?    @map("custom_fields")
-
-  documentType  DocumentType  @relation(fields: [documentTypeId], references: [id], onDelete: Cascade)
-  documentTitle DocumentTitle @relation(fields: [documentTitleId], references: [id], onDelete: Cascade)
-  region        Region        @relation(fields: [regionId], references: [id], onDelete: Cascade)
+  id              Int           @id @default(autoincrement())
+  regionId        Int           @map("region_id")
+  documentTypeId  Int           @map("document_type_id")
+  documentTitleId Int           @map("document_title_id")
+  typeOfCondition Int           @default(0) @map("type_of_condition")
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+  active          Boolean       @default(true)
+  priority        Int           @default(0)
+  customFields    Json?         @map("custom_fields")
+  documentTitle   DocumentTitle @relation(fields: [documentTitleId], references: [id], onDelete: Cascade)
+  documentType    DocumentType  @relation(fields: [documentTypeId], references: [id], onDelete: Cascade)
+  region          Region        @relation(fields: [regionId], references: [id], onDelete: Cascade)
 
   @@unique([regionId, documentTitleId])
   @@index([documentTypeId])
@@ -139,4 +110,31 @@ model Region {
   documentConfigurations DocumentConfiguration[]
 
   @@map("regions")
+}
+
+model document_fields {
+  id                  Int            @id @default(autoincrement())
+  field_id            String
+  name                String
+  label               String
+  type                String
+  placeholder         String?
+  required            Boolean        @default(false)
+  order               Int
+  full_width          Boolean        @default(true)
+  hidden              Boolean        @default(false)
+  default_value       String?
+  options             Json?
+  validation          Json?
+  conditional_display Json?
+  help_text           String?
+  document_type_id    Int
+  document_title_id   Int?
+  created_at          DateTime       @default(now())
+  updated_at          DateTime
+  document_titles     DocumentTitle? @relation(fields: [document_title_id], references: [id])
+  document_types      DocumentType   @relation(fields: [document_type_id], references: [id], onDelete: Cascade)
+
+  @@index([document_title_id])
+  @@index([document_type_id])
 }

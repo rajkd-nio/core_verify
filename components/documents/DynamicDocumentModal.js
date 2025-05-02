@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Alert, Row, Col, Label } from 'reactstrap';
 import DynamicDocumentUploader from './DynamicDocumentUploader';
 import moment from 'moment';
+import { useLoading } from '../../context/LoadingContext';
 
 // Version info for tracking integration
 const COMPONENT_VERSION = '1.0.0';
@@ -101,6 +102,9 @@ const DynamicDocumentModal = ({
     console.log('DynamicDocumentModal documentType:', documentType);
   }, [config, verifyConfig, documentType]);
 
+  // Get the global loading state
+  const { setLoading, setLoadingMessage } = useLoading();
+
   const [documentTitle, setDocumentTitle] = useState('Document');
   const [submitting, setSubmitting] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
@@ -175,17 +179,66 @@ const DynamicDocumentModal = ({
 
   // Handle successful document upload
   const handleSuccess = (data) => {
-    logData('Document upload successful', data);
+    // Detailed structured logging of the success data
+    logData('Document upload successful', {
+      documentType,
+      childDocumentType: formActions?.selectedChildType,
+      timestamp: new Date().toISOString(),
+      data
+    });
+    
     setUploadSuccess(true);
     setUploadError('');
     setSubmitting(false);
+    setLoading(false); // Ensure global loading is turned off
     
-    // Notify parent window
+    // Notify parent window with enhanced data
     if (window.parent && isEmbedded) {
-      window.parent.postMessage({
-        type: 'DOCUMENT_UPLOAD_SUCCESS',
-        data: data
-      }, parentOrigin);
+      // First use our helper function to ensure compatibility
+      // But with success=true to indicate successful processing
+      try {
+        // Format 1: New format with document data
+        window.parent.postMessage({
+          type: 'DOCUMENT_UPLOAD_SUCCESS',
+          data: data,
+          documentType: documentType,
+          childDocumentType: formActions?.selectedChildType,
+          timestamp: new Date().toISOString(),
+          authData: config?.authData || null,
+          locationId: config?.locationId || formActions?.schema?.locationId || null
+        }, parentOrigin);
+        
+        // Format 2: Legacy NurseIO format
+        window.parent.postMessage(JSON.stringify({
+          action: 'success',
+          documentType: documentType,
+          data: data,
+          event: 'upload_success'
+        }), parentOrigin);
+        
+        // Format 3: Force close message
+        window.parent.postMessage({
+          type: 'CLOSE_IFRAME',
+          reason: 'Document uploaded successfully',
+          success: true,
+          timestamp: new Date().toISOString()
+        }, parentOrigin);
+        
+        // Try to call parent methods directly
+        if (window.parent.closeIframe && typeof window.parent.closeIframe === 'function') {
+          window.parent.closeIframe(true); // true indicates success
+        }
+        if (window.parent.closeModal && typeof window.parent.closeModal === 'function') {
+          window.parent.closeModal(true); // true indicates success
+        }
+        if (window.parent.closeVerifyModal && typeof window.parent.closeVerifyModal === 'function') {
+          window.parent.closeVerifyModal(true); // true indicates success
+        }
+        
+        console.log('Successfully notified parent window of document upload success');
+      } catch (error) {
+        console.error('Error notifying parent window:', error);
+      }
     }
     
     if (onSuccess) {
@@ -199,6 +252,7 @@ const DynamicDocumentModal = ({
     setUploadError(error.message || 'An error occurred during document upload. Please try again.');
     setUploadSuccess(false);
     setSubmitting(false);
+    setLoading(false); // Ensure global loading is turned off
     
     // Notify parent window
     if (window.parent && isEmbedded) {
@@ -301,11 +355,20 @@ const DynamicDocumentModal = ({
     // Additional logging for Fingerprint Clearance
     if (actionInfo.selectedChildType === 'fingerprint_clearance') {
       console.log('Fingerprint Clearance form schema received:', {
-        fields: actionInfo.schema?.fields?.map(f => f.id) || [],
+        fields: actionInfo.schema?.fields?.map(f => f.name) || [],
+        documentType: actionInfo.schema?.documentType,
         childType: actionInfo.selectedChildType,
-        locationId: actionInfo.locationId,
-        formId: actionInfo.schema?.formId
+        locationId: actionInfo.schema?.locationId || config?.locationId,
+        formId: actionInfo.schema?.formId,
+        isChildTypeSelector: actionInfo.isChildTypeSelector,
+        hasChildSchemas: !!actionInfo.childFormSchemas && Object.keys(actionInfo.childFormSchemas || {}).includes('fingerprint_clearance')
       });
+
+      // Ensure the schema has the correct documentType for fingerprint clearance
+      if (actionInfo.schema && actionInfo.schema.documentType !== 'fingerprint_clearance') {
+        console.log('Setting documentType to fingerprint_clearance in schema');
+        actionInfo.schema.documentType = 'fingerprint_clearance';
+      }
     }
     
     // Create a unique identifier for this actionInfo to compare with previous
@@ -680,10 +743,46 @@ const DynamicDocumentModal = ({
                 form="document-upload-form"
                 className="btn-rounded font-weight-bold py-2"
                 style={{ backgroundColor: '#FF69B4', borderColor: '#FF69B4', color: 'white' }}
-                disabled={!!uploadError || submitting || (typeof actionsFunctions.hasValidForm === 'function' ? !actionsFunctions.hasValidForm() : false)}
+                disabled={
+                  uploadError || 
+                  submitting || 
+                  // Don't disable the button just because we're extracting data
+                  // for fingerprint clearance - that would prevent submission
+                  (formActions?.selectedChildType === 'fingerprint_clearance' ? 
+                    false : 
+                    (typeof actionsFunctions.hasValidForm === 'function' ? !actionsFunctions.hasValidForm() : false))
+                }
                 onClick={() => {
                   try {
+                    // Log the submission attempt with relevant context
+                    logData('FORM_SUBMISSION_ATTEMPT', {
+                      documentType,
+                      childDocumentType: formActions?.selectedChildType,
+                      timestamp: new Date().toISOString(),
+                      isEmbedded,
+                      hasAuthData: !!config?.authData,
+                      locationId: config?.locationId || formActions?.schema?.locationId
+                    });
+                    
                     setSubmitting(true);
+                    // Set global loading state
+                    setLoading(true);
+                    setLoadingMessage(`Uploading ${documentTitle.toLowerCase()}...`);
+                    
+                    // For fingerprint clearance, add special logging
+                    if (formActions?.selectedChildType === 'fingerprint_clearance') {
+                      console.log('Submitting fingerprint clearance document to NurseIO');
+                      
+                      // If there's auth data in the config, log it (without sensitive data)
+                      if (config?.authData) {
+                        console.log('Auth data available for submission:', {
+                          hasToken: !!config.authData.token,
+                          hasUserId: !!config.authData.userId,
+                          provider: config.authData.provider || 'unknown'
+                        });
+                      }
+                    }
+                    
                     // Use the safely stored function with error handling
                     if (typeof actionsFunctions.submitFormAction === 'function') {
                       actionsFunctions.submitFormAction();
@@ -692,6 +791,7 @@ const DynamicDocumentModal = ({
                       // Fall back to submitting the form directly
                       const form = document.getElementById('document-upload-form');
                       if (form) {
+                        console.log('Submitting form directly via DOM event');
                         form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
                       }
                     }
@@ -699,6 +799,7 @@ const DynamicDocumentModal = ({
                     console.error('Error submitting form:', error);
                     setUploadError('Error submitting form. Please try again.');
                     setSubmitting(false);
+                    setLoading(false); // Ensure global loading is turned off
                   }
                 }}
               >

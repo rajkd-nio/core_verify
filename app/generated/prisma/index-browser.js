@@ -120,18 +120,17 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.DocumentTypeScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   description: 'description',
   formId: 'formId',
   hideHeader: 'hideHeader',
-  showFormButtons: 'showFormButtons',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  showFormButtons: 'showFormButtons'
 };
 
 exports.Prisma.DocumentTitleScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  description: 'description',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   shareable: 'shareable',
@@ -145,30 +144,9 @@ exports.Prisma.DocumentTitleScalarFieldEnum = {
   docDataName: 'docDataName',
   requireAttachmentFront: 'requireAttachmentFront',
   requireAttachmentBack: 'requireAttachmentBack',
-  formTitle: 'formTitle',
-  formDescription: 'formDescription'
-};
-
-exports.Prisma.DocumentFieldScalarFieldEnum = {
-  id: 'id',
-  fieldId: 'fieldId',
-  name: 'name',
-  label: 'label',
-  type: 'type',
-  placeholder: 'placeholder',
-  required: 'required',
-  order: 'order',
-  fullWidth: 'fullWidth',
-  hidden: 'hidden',
-  defaultValue: 'defaultValue',
-  options: 'options',
-  validation: 'validation',
-  conditionalDisplay: 'conditionalDisplay',
-  helpText: 'helpText',
-  documentTypeId: 'documentTypeId',
-  documentTitleId: 'documentTitleId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  description: 'description',
+  formDescription: 'formDescription',
+  formTitle: 'formTitle'
 };
 
 exports.Prisma.FormFieldScalarFieldEnum = {
@@ -214,6 +192,28 @@ exports.Prisma.RegionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.Document_fieldsScalarFieldEnum = {
+  id: 'id',
+  field_id: 'field_id',
+  name: 'name',
+  label: 'label',
+  type: 'type',
+  placeholder: 'placeholder',
+  required: 'required',
+  order: 'order',
+  full_width: 'full_width',
+  hidden: 'hidden',
+  default_value: 'default_value',
+  options: 'options',
+  validation: 'validation',
+  conditional_display: 'conditional_display',
+  help_text: 'help_text',
+  document_type_id: 'document_type_id',
+  document_title_id: 'document_title_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -244,10 +244,10 @@ exports.Prisma.JsonNullValueFilter = {
 exports.Prisma.ModelName = {
   DocumentType: 'DocumentType',
   DocumentTitle: 'DocumentTitle',
-  DocumentField: 'DocumentField',
   FormField: 'FormField',
   DocumentConfiguration: 'DocumentConfiguration',
-  Region: 'Region'
+  Region: 'Region',
+  document_fields: 'document_fields'
 };
 
 /**

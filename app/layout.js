@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './globals.css';
 import ClientBootstrap from '../components/ClientBootstrap';
+import { LoadingProvider } from '../context/LoadingContext';
 
 export const metadata = {
   title: 'Core Verify',
@@ -12,7 +13,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <ClientBootstrap />
-        {children}
+        <LoadingProvider>
+          {children}
+        </LoadingProvider>
       </body>
     </html>
   );

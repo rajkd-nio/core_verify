@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import DynamicForm from '../DynamicForm';
+import FormSelector from '../FormSelector';
 import { fetchFormSchema, fetchLocationDocumentTypes } from '../../utils/formSchemaApi';
 import { uploadFile } from '../../utils/api';
 import { Alert, Spinner, Button } from 'reactstrap';
@@ -591,9 +591,11 @@ const DynamicDocumentUploader = ({
   return (
     <div className="dynamic-document-uploader">
       <div className="document-content">
-        <DynamicForm
+        <FormSelector
           schema={{
             ...schema,
+            // Set documentType to fingerprint_clearance if selectedChildType is fingerprint_clearance
+            documentType: selectedChildType === 'fingerprint_clearance' ? 'fingerprint_clearance' : schema.documentType,
             showFormButtons: false // Always hide form buttons as they're in the modal footer
           }}
           initialValues={initialValues}

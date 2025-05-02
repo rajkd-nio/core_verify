@@ -122,7 +122,7 @@ const convertToFormSchema = (documentType, documentTitle) => {
         name: "effectiveDate",
         type: "date",
         label: documentType.name === "Vaccination Record" ? "Record Date" : "Issue Date",
-        placeholder: `Select ${documentType.name === "Vaccination Record" ? "record" : "issue"} date`,
+        placeholder: `Select ${documentType.name === "Vaccination Record" ? "record" : "issue"} date (MM/DD/YYYY)`,
         required: true,
         order: 4,
         fullWidth: true,
@@ -140,7 +140,7 @@ const convertToFormSchema = (documentType, documentTitle) => {
         name: "expirationDate",
         type: "date",
         label: "Expiration Date",
-        placeholder: "Select expiration date",
+        placeholder: "Select expiration date (MM/DD/YYYY)",
         required: true,
         order: 5,
         fullWidth: true,
@@ -755,7 +755,7 @@ export class DocumentService {
             name: "effectiveDate",
             type: "date",
             label: "Issue Date",
-            placeholder: "Select issue date",
+            placeholder: "Select issue date (MM/DD/YYYY)",
             required: true,
             order: 4,
             fullWidth: true
@@ -769,7 +769,7 @@ export class DocumentService {
             name: "expirationDate",
             type: "date",
             label: "Expiration Date",
-            placeholder: "Select expiration date",
+            placeholder: "Select expiration date (MM/DD/YYYY)",
             required: true,
             order: 5,
             fullWidth: true
@@ -967,7 +967,7 @@ export class DocumentService {
       name: "effectiveDate",
       type: "date",
       label: "Effective Date",
-      placeholder: "Select effective date",
+      placeholder: "Select effective date (MM/DD/YYYY)",
       required: true,
       order: 5,
       fullWidth: true
@@ -978,7 +978,7 @@ export class DocumentService {
       name: "expirationDate",
       type: "date",
       label: "Expiration Date",
-      placeholder: "Select expiration date",
+      placeholder: "Select expiration date (MM/DD/YYYY)",
       required: true,
       order: 6,
       fullWidth: true

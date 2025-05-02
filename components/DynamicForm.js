@@ -10,6 +10,7 @@ import { extractDocumentData } from '../utils/api';
 import LoadingOverlay from './LoadingOverlay';
 import DragDropFileUpload from './DragDropFileUpload';
 import { useDocumentExtraction } from '../hooks';
+import '../styles/DragDropFileUpload.css';
 
 // Helper function to log data
 const logData = (label, data) => {
@@ -134,6 +135,71 @@ const generateZodSchema = (formSchema) => {
 };
 
 /**
+ * Convert MM/DD/YYYY format to YYYY-MM-DD for HTML date input
+ * @param {string} dateStr - Date string in MM/DD/YYYY format
+ * @returns {string} - Date string in YYYY-MM-DD format for input[type="date"]
+ */
+const formatDateForInput = (dateStr) => {
+  if (!dateStr) return '';
+  
+  // If already in YYYY-MM-DD format, return as is
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+    return dateStr;
+  }
+  
+  // First try to parse as MM/DD/YYYY
+  const formats = [
+    'MM/DD/YYYY', 
+    'M/D/YYYY',
+    'MM-DD-YYYY',
+    'M-D-YYYY'
+  ];
+  
+  // Try each format until one works
+  for (const format of formats) {
+    const parsed = moment(dateStr, format, true); // strict parsing
+    if (parsed.isValid()) {
+      return parsed.format('YYYY-MM-DD');
+    }
+  }
+  
+  // If none of our explicit formats worked, try a flexible parse
+  const parsed = moment(dateStr);
+  if (parsed.isValid()) {
+    return parsed.format('YYYY-MM-DD');
+  }
+  
+  // Return empty if parsing fails
+  console.warn(`Could not parse date for input: ${dateStr}`);
+  return '';
+};
+
+/**
+ * Convert YYYY-MM-DD format from HTML date input to MM/DD/YYYY for display/storage
+ * @param {string} dateStr - Date string in YYYY-MM-DD format
+ * @returns {string} - Date string in MM/DD/YYYY format
+ */
+const formatDateFromInput = (dateStr) => {
+  if (!dateStr) return '';
+  
+  // Parse as YYYY-MM-DD (the format from HTML date input)
+  const parsed = moment(dateStr, 'YYYY-MM-DD', true);
+  if (parsed.isValid()) {
+    return parsed.format('MM/DD/YYYY');
+  }
+  
+  // Try flexible parsing as fallback
+  const flexParsed = moment(dateStr);
+  if (flexParsed.isValid()) {
+    return flexParsed.format('MM/DD/YYYY');
+  }
+  
+  // If parsing fails, log and return empty
+  console.warn(`Could not parse date from input: ${dateStr}`);
+  return '';
+};
+
+/**
  * Dynamic Form component that builds a form based on a JSON schema
  */
 const DynamicForm = ({
@@ -146,9 +212,9 @@ const DynamicForm = ({
   success = '',
   className = ''
 }) => {
-  // State for file upload preview
-  const [fileUrls, setFileUrls] = useState([]);
-  const [selectedFile, setSelectedFile] = useState(null);
+  // State for file uploads - use a Map to track files by field name
+  const [fileMap, setFileMap] = useState({});
+  const [fileUrlMap, setFileUrlMap] = useState({});
   const [validationErrors, setValidationErrors] = useState(null);
   
   // Use the document extraction hook
@@ -157,7 +223,9 @@ const DynamicForm = ({
     extractionError,
     extractedData,
     extractDataFromFile,
-    resetExtraction
+    resetExtraction,
+    setExtractionSuccess,
+    extractionSuccess
   } = useDocumentExtraction();
   
   // Generate Zod schema based on the form schema
@@ -181,10 +249,14 @@ const DynamicForm = ({
   
   // Sort fields by order and filter out any null or undefined fields
   // Also filter out fields with hidden: true or conditional display rules
-  const sortedFields = [...(schema?.fields || [])]
+  const sortedFields = useMemo(() => {
+    const fields = [...(schema?.fields || [])];
+    
+    return fields
     .filter(field => {
       // Filter out null, undefined fields
       if (!field || !field.id) return false;
+        
       // Filter out fields with hidden: true
       if (field.hidden === true) return false;
       
@@ -208,6 +280,7 @@ const DynamicForm = ({
       return true;
     })
     .sort((a, b) => a.order - b.order);
+  }, [schema, watchedValues]);
   
   // Initialize form with initial values
   useEffect(() => {
@@ -217,19 +290,33 @@ const DynamicForm = ({
     }
   }, [initialValues, reset]);
   
-  // Create file preview when file is selected
+  // Create file preview URLs when files are selected
   useEffect(() => {
-    if (selectedFile) {
-      // Always create a blob URL for the file to ensure it can be opened in a new tab
-      const fileUrl = URL.createObjectURL(selectedFile);
-      setFileUrls([{ file: fileUrl }]);
-      
-      return () => {
-        // Clean up blob URL when component unmounts or file changes
-        URL.revokeObjectURL(fileUrl);
-      };
-    }
-  }, [selectedFile]);
+    // Cleanup function to track URLs to revoke
+    const urlsToRevoke = [];
+    
+    // Create blob URLs for all files in the map
+    Object.entries(fileMap).forEach(([fieldName, file]) => {
+      if (file && !fileUrlMap[fieldName]) {
+        // Create a new blob URL for this file
+        const fileUrl = URL.createObjectURL(file);
+        urlsToRevoke.push(fileUrl);
+        
+        // Update the URL map
+        setFileUrlMap(prev => ({
+          ...prev,
+          [fieldName]: fileUrl
+        }));
+      }
+    });
+    
+    // Cleanup function to revoke URLs when component unmounts or files change
+    return () => {
+      urlsToRevoke.forEach(url => {
+        URL.revokeObjectURL(url);
+      });
+    };
+  }, [fileMap, fileUrlMap]);
   
   // Custom validation for fields that can't be easily handled by Zod
   const validateDateFields = (data) => {
@@ -246,35 +333,47 @@ const DynamicForm = ({
         if (validation.afterField) {
           const compareValue = data[validation.afterField];
           
-          if (dateValue && compareValue && !moment(dateValue).isAfter(moment(compareValue))) {
-            dateValidationErrors[name] = validation.message;
+          if (dateValue && compareValue) {
+            // Parse both dates with moment to compare them correctly
+            const date1 = moment(dateValue, 'MM/DD/YYYY');
+            const date2 = moment(compareValue, 'MM/DD/YYYY');
+            
+            if (!date1.isAfter(date2)) {
+              dateValidationErrors[name] = validation.message;
+            }
           }
         }
         
         // Check notInFuture validation
         if (validation.notInFuture && dateValue) {
           const today = moment().startOf('day');
-          if (moment(dateValue).isAfter(today)) {
+          const date = moment(dateValue, 'MM/DD/YYYY');
+          
+          if (date.isAfter(today)) {
             dateValidationErrors[name] = validation.message || `${field.label} cannot be in the future`;
           }
         }
         
         // Check maxMonths validation
         if (validation.maxMonths && dateValue) {
-          const maxDate = moment();
           if (validation.afterField) {
             // If afterField is specified, calculate maxMonths from that date
             const compareValue = data[validation.afterField];
             if (compareValue) {
-              const maxAllowedDate = moment(compareValue).add(validation.maxMonths, 'months');
-              if (moment(dateValue).isAfter(maxAllowedDate)) {
+              const baseDate = moment(compareValue, 'MM/DD/YYYY');
+              const maxAllowedDate = baseDate.add(validation.maxMonths, 'months');
+              const date = moment(dateValue, 'MM/DD/YYYY');
+              
+              if (date.isAfter(maxAllowedDate)) {
                 dateValidationErrors[name] = validation.message || `${field.label} cannot be more than ${validation.maxMonths} months from the start date`;
               }
             }
           } else {
             // Otherwise, calculate from current date
             const maxAllowedDate = moment().add(validation.maxMonths, 'months');
-            if (moment(dateValue).isAfter(maxAllowedDate)) {
+            const date = moment(dateValue, 'MM/DD/YYYY');
+            
+            if (date.isAfter(maxAllowedDate)) {
               dateValidationErrors[name] = validation.message || `${field.label} cannot be more than ${validation.maxMonths} months in the future`;
             }
           }
@@ -309,10 +408,92 @@ const DynamicForm = ({
     return null;
   };
   
+  // Handle file selection with validation and preview
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const { name: fieldName } = e.target;
+      
+      // Validate file
+      const fileError = validateFileUpload(file, fieldName);
+      
+      if (fileError) {
+        // Set file validation error
+        setValidationErrors(prev => ({
+          ...(prev || {}),
+          [fieldName]: fileError
+        }));
+        return;
+      }
+      
+      // Reset extraction state when file changes, but keep the files
+      resetExtraction(true);
+      
+      // Update the file map with the new file for this field
+      setFileMap(prev => ({
+        ...prev,
+        [fieldName]: file
+      }));
+      
+      // If there's an existing URL, revoke it before creating a new one
+      if (fileUrlMap[fieldName]) {
+        URL.revokeObjectURL(fileUrlMap[fieldName]);
+      }
+      
+      // Create a new URL for this file
+      const newUrl = URL.createObjectURL(file);
+      setFileUrlMap(prev => ({
+        ...prev,
+        [fieldName]: newUrl
+      }));
+      
+      logData('FILE_SELECTED', {
+        fieldName,
+        fileName: file.name,
+        fileSize: file.size,
+        fileType: file.type
+      });
+      
+      // Clear file validation error if any
+      if (validationErrors && validationErrors[fieldName]) {
+        setValidationErrors(prev => {
+          const newErrors = { ...prev };
+          delete newErrors[fieldName];
+          return Object.keys(newErrors).length > 0 ? newErrors : null;
+        });
+      }
+    }
+  };
+  
   // Handle form submission
   const handleFormSubmit = async (data) => {
+    // Format any date fields to ensure consistency
+    sortedFields.forEach(field => {
+      if (field.type === 'date' && data[field.name]) {
+        // Make sure date is properly formatted as MM/DD/YYYY
+        const dateValue = data[field.name];
+        if (dateValue) {
+          const formattedDate = moment(dateValue, [
+            'MM/DD/YYYY', // Already correct format
+            'YYYY-MM-DD', // ISO format
+            'M/D/YYYY'    // Partial format
+          ], true);
+          
+          if (formattedDate.isValid()) {
+            // Consistently format as MM/DD/YYYY
+            data[field.name] = formattedDate.format('MM/DD/YYYY');
+          } else {
+            console.warn(`Invalid date in field ${field.name}: ${dateValue}`);
+          }
+        }
+      }
+    });
+    
     // Validate date fields
     const dateErrors = validateDateFields(data);
+    
+    // Log the formatted data for debugging
+    logData('FORM_DATA_WITH_FORMATTED_DATES', data);
     
     // Check if file is required but not provided
     const fileErrors = {};
@@ -321,7 +502,7 @@ const DynamicForm = ({
     fileFields.forEach(field => {
       const { name, label, required } = field;
       
-      if (required && !selectedFile && (!fileUrls || fileUrls.length === 0)) {
+      if (required && !fileMap[name] && (!fileUrlMap[name])) {
         fileErrors[name] = `${label} is required`;
       }
     });
@@ -337,33 +518,49 @@ const DynamicForm = ({
     // Clear any previous validation errors
     setValidationErrors(null);
     
-    // Process document data from file, if not already done
-    if (selectedFile && !extractedData) {
-      try {
-        // Show loading state
-        const extractedFields = await extractDataFromFile(selectedFile);
-        
-        // Apply extracted fields to the form
-        Object.entries(extractedFields).forEach(([field, value]) => {
-          if (value) {
-            setValue(field, value);
-            // Update data object with extracted values
-            data[field] = value;
-          }
-        });
-      } catch (error) {
-        console.error("Error during document extraction:", error);
-        // Continue submission even if extraction fails
+    // Extract file data for submission
+    const fileData = {};
+    
+    // Process any unprocessed files for fingerprint clearance
+    if (watchedValues.documentType === 'finger_print_clearance' && !extractedData) {
+      const frontAttachment = fileMap['fileUpload'];
+      
+      if (frontAttachment) {
+        try {
+          const extractedFields = await extractDataFromFile(frontAttachment, 'fileUpload');
+          
+          // Map extracted data to the form data
+          Object.entries(extractedFields).forEach(([field, value]) => {
+            if (value) {
+              data[field] = value;
+              
+              // Also set the field in the form state so it's visible if needed
+              setValue(field, value);
+            }
+          });
+          
+          // Set extraction success message to show date fields
+          setExtractionSuccess("Document processed for submission! Date fields extracted.");
+        } catch (error) {
+          console.error("Error during document extraction:", error);
+          // Continue submission even if extraction fails
+        }
       }
     }
     
     logData('FORM_SUBMISSION', data);
     
-    // Create payload with file
+    // Create file upload keys for submission
+    const fileUploadKeys = {};
+    Object.entries(fileUrlMap).forEach(([fieldName, url]) => {
+      fileUploadKeys[fieldName] = url;
+    });
+    
+    // Create payload with files
     const payload = {
       ...data,
-      file: selectedFile,
-      fileUploadKeys: fileUrls.map(url => url.file),
+      files: fileMap,
+      fileUploadKeys,
       documentType: schema.documentType
     };
     
@@ -372,63 +569,61 @@ const DynamicForm = ({
     }
   };
   
-  // Handle file selection with validation and preview
-  const handleFileChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      const { name } = e.target;
+  // Process document data separately with a button click
+  const handleProcessDocument = async (file, fieldName) => {
+    // Use the provided file or get it from the fileMap
+    const currentFile = file || fileMap[fieldName];
+    
+    if (!currentFile) {
+      console.warn(`No file available for processing in field ${fieldName}`);
+      return;
+    }
+    
+    // Don't process again if already extracting
+    if (extracting) {
+      console.log(`Already processing document for ${fieldName}, skipping duplicate request`);
+      return;
+    }
+    
+    try {
+      // Store reference to the current file
+      const shouldUpdateFileMap = !fileMap[fieldName] || 
+                               fileMap[fieldName].name !== currentFile.name || 
+                               fileMap[fieldName].size !== currentFile.size || 
+                               fileMap[fieldName].lastModified !== currentFile.lastModified;
       
-      // Validate file
-      const fileError = validateFileUpload(file, name);
-      
-      if (fileError) {
-        // Set file validation error
-        setValidationErrors(prev => ({
-          ...(prev || {}),
-          [name]: fileError
+      if (shouldUpdateFileMap) {
+        console.log(`Updating file map for ${fieldName}`);
+        setFileMap(prev => ({
+          ...prev,
+          [fieldName]: currentFile
         }));
-        return;
       }
       
-      // Reset extraction state when file changes
-      resetExtraction();
-      
-      // Set selected file for preview
-      setSelectedFile(file);
-      
-      logData('FILE_SELECTED', {
-        fileName: file.name,
-        fileSize: file.size,
-        fileType: file.type
+      // Log what we're processing
+      logData('PROCESSING_DOCUMENT', {
+        fieldName,
+        fileName: currentFile.name,
+        fileSize: currentFile.size,
+        fileType: currentFile.type,
+        documentType: watchedValues.documentType
       });
       
-      // Clear file validation error if any
-      if (validationErrors && validationErrors[name]) {
-        setValidationErrors(prev => {
-          const newErrors = { ...prev };
-          delete newErrors[name];
-          return Object.keys(newErrors).length > 0 ? newErrors : null;
-        });
-      }
-    }
-  };
-  
-  // Process document data separately with a button click
-  const handleProcessDocument = async () => {
-    if (selectedFile) {
-      try {
-        // Process the document data
-        const extractedFields = await extractDataFromFile(selectedFile);
-        
-        // Apply extracted fields to the form
-        Object.entries(extractedFields).forEach(([field, value]) => {
-          if (value) {
-            setValue(field, value);
-          }
-        });
-      } catch (error) {
-        console.error("Error processing document:", error);
-      }
+      // Process the document data
+      const extractedFields = await extractDataFromFile(currentFile, fieldName);
+      
+      // Apply extracted fields to the form
+      Object.entries(extractedFields).forEach(([field, value]) => {
+        if (value) {
+          setValue(field, value);
+          logData('SETTING_FIELD', { field, value });
+        }
+      });
+      
+      console.log(`Document processing complete for ${fieldName}`);
+    } catch (error) {
+      console.error(`Error processing document for ${fieldName}:`, error);
+      setExtractionError("There was a problem processing the document. You can enter the information manually.");
     }
   };
   
@@ -533,20 +728,23 @@ const DynamicForm = ({
               <Controller
                 name={name}
                 control={control}
-                render={({ field }) => {
+                render={({ field: { onChange, value, ...field } }) => {
                   // Calculate max date if needed
                   let maxDate = null;
                   
                   if (validation && validation.maxMonths) {
                     // If using afterField, calculate from that field's value
                     if (validation.afterField && watchedValues[validation.afterField]) {
-                      const baseDate = moment(watchedValues[validation.afterField]);
+                      const baseDate = moment(watchedValues[validation.afterField], 'MM/DD/YYYY');
                       maxDate = baseDate.add(validation.maxMonths, 'months').format('YYYY-MM-DD');
                     } else {
                       // Otherwise calculate from today
                       maxDate = moment().add(validation.maxMonths, 'months').format('YYYY-MM-DD');
                     }
                   }
+                  
+                  // Convert MM/DD/YYYY to YYYY-MM-DD for HTML date input
+                  const formattedValue = formatDateForInput(value);
                   
                   return (
                     <>
@@ -557,7 +755,20 @@ const DynamicForm = ({
                         placeholder={placeholder}
                         invalid={hasError}
                         max={maxDate}
+                        value={formattedValue}
+                        onChange={(e) => {
+                          // Get raw value from input
+                          const rawValue = e.target.value;
+                          
+                          // Convert YYYY-MM-DD back to MM/DD/YYYY when saving to form state
+                          const newValue = rawValue ? formatDateFromInput(rawValue) : '';
+                          
+                          // Update form state with MM/DD/YYYY format
+                          onChange(newValue);
+                        }}
                       />
+                      {/* Add helper text for date format */}
+                      <small className="form-text text-muted mt-1">Format: MM/DD/YYYY</small>
                       {hasError && <FormFeedback>{errorMessage}</FormFeedback>}
                     </>
                   );
@@ -598,25 +809,29 @@ const DynamicForm = ({
                   invalid={validationErrors && validationErrors[name]}
                   disabled={extracting}
                   errorMessage={validationErrors && validationErrors[name]}
-                  onProcessDocument={(name === "fileUploadBack" ? null : handleProcessDocument)}
-                  showProcessButton={name === "fileUploadBack" ? false : (watchedValues.documentType === 'finger_print_clearance' ? name === "fileUpload" : true)}
+                  onProcessDocument={(file) => handleProcessDocument(file, name)}
+                  showProcessButton={true}
+                  externalSelectedFile={fileMap[name]}
                 />
                 
-                {/* Green check icon for successful extraction */}
-                {extractedData && !extracting && !extractionError && watchedValues.documentType === 'finger_print_clearance' && (
-                  <div className="file-input-success-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-                      <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
-                    </svg>
+                {/* Show extraction message */}
+                {extractionSuccess && !extracting && (
+                  <div className="text-success mt-2">
+                    <small>{extractionSuccess}</small>
                   </div>
                 )}
                 
-                {/* Document data extraction success message for non-fingerprint documents */}
-                {extractedData && !extracting && !extractionError && watchedValues.documentType !== 'finger_print_clearance' && (
-                  <div className="mt-2">
-                    <small className="text-success">
-                      Document data successfully extracted. Form fields have been updated.
-                    </small>
+                {/* Show extraction error */}
+                {extractionError && !extracting && (
+                  <div className="text-danger mt-2">
+                    <small>{extractionError}</small>
+                  </div>
+                )}
+                
+                {/* Show extraction loading */}
+                {extracting && (
+                  <div className="text-primary mt-2">
+                    <small>Processing document...</small>
                   </div>
                 )}
               </div>

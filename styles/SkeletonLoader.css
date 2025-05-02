@@ -1,0 +1,264 @@
+/* SkeletonLoader.css - Styles for the CoreVerify skeleton loader */
+
+.skeleton-loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  backdrop-filter: blur(5px);
+  transition: opacity 0.3s ease-in-out;
+  opacity: 0;
+}
+
+.skeleton-loader-container.visible {
+  opacity: 1;
+}
+
+.skeleton-loader-container.hiding {
+  opacity: 0;
+}
+
+.skeleton-loader-content {
+  width: 100%;
+  max-width: 600px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  transform: translateY(20px);
+  animation: slide-up 0.5s forwards;
+}
+
+@keyframes slide-up {
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Logo styles */
+.skeleton-logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.skeleton-logo {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.core-text {
+  color: #333;
+}
+
+.verify-text {
+  color: #FF69B4;
+  margin-left: 4px;
+}
+
+.skeleton-logo-badge {
+  position: absolute;
+  top: -10px;
+  right: -80px;
+  background-color: #333;
+  color: white;
+  font-size: 0.6rem;
+  padding: 3px 8px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transform: rotate(15deg);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Pulsing loading indicator */
+.skeleton-loader-pulse {
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #FF69B4, transparent);
+  background-size: 200% 100%;
+  animation: loading-pulse 2s infinite;
+  border-radius: 2px;
+}
+
+/* Skeleton form fields */
+.skeleton-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.skeleton-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.skeleton-label {
+  height: 12px;
+  width: 120px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+.skeleton-input {
+  height: 40px;
+  width: 100%;
+  background: #f0f0f0;
+  border-radius: 6px;
+  animation: skeleton-loading 1.5s infinite 0.2s;
+}
+
+/* File drop area skeleton */
+.skeleton-drop-area {
+  height: 120px;
+  width: 100%;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 2px dashed #e0e0e0;
+  margin-top: 0.5rem;
+  animation: skeleton-loading 1.5s infinite 0.5s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.skeleton-drop-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  position: relative;
+  animation: skeleton-loading 1.5s infinite 0.7s;
+}
+
+.skeleton-drop-icon:before {
+  content: '';
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 15px;
+  background-color: #e0e0e0;
+}
+
+.skeleton-drop-icon:after {
+  content: '';
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid #e0e0e0;
+  border-left: 2px solid #e0e0e0;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+/* Progress bar */
+.skeleton-progress {
+  height: 8px;
+  width: 100%;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.skeleton-progress-bar {
+  height: 100%;
+  width: 30%;
+  background-color: #FF69B4;
+  border-radius: 4px;
+  animation: progress-bar 2s infinite;
+}
+
+@keyframes progress-bar {
+  0% {
+    width: 0%;
+    opacity: 0.5;
+  }
+  50% {
+    width: 70%;
+    opacity: 1;
+  }
+  100% {
+    width: 100%;
+    opacity: 0.5;
+  }
+}
+
+/* Message display */
+.skeleton-message {
+  text-align: center;
+  color: #666;
+  font-size: 1rem;
+  margin-top: 1rem;
+  font-weight: 500;
+  animation: message-fade 3s infinite;
+}
+
+@keyframes message-fade {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Animation keyframes */
+@keyframes skeleton-loading {
+  0%, 100% {
+    background-color: #f0f0f0;
+    opacity: 0.5;
+  }
+  50% {
+    background-color: #e0e0e0;
+    opacity: 1;
+  }
+}
+
+@keyframes loading-pulse {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .skeleton-loader-content {
+    max-width: 90%;
+    padding: 1.5rem;
+  }
+  
+  .skeleton-logo {
+    font-size: 2rem;
+  }
+  
+  .skeleton-logo-badge {
+    font-size: 0.5rem;
+    right: -60px;
+  }
+} 
