@@ -217,6 +217,22 @@
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
+/* Styles for the processed document success button */
+.process-document-btn.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: #fff;
+  cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.5s;
+}
+
+.process-document-btn.btn-success i {
+  margin-right: 8px;
+}
+
 /* Animation for drag over effect */
 @keyframes pulse {
   0% {
@@ -342,4 +358,235 @@ input[type="date"]:focus::-webkit-datetime-edit-year-field {
 .extracted-date-field {
   border-color: #28a745 !important;
   background-color: rgba(40, 167, 69, 0.05) !important;
+}
+
+/* DragDropFileUpload.css - Updated with pink theme */
+
+.drag-drop-container {
+  position: relative;
+  padding: 2rem;
+  border: 2px dashed var(--coreverify-gray-300);
+  border-radius: var(--coreverify-border-radius-lg);
+  background-color: #ffffff;
+  text-align: center;
+  transition: all 0.25s ease-in-out;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+}
+
+.drag-drop-container.active {
+  border-color: var(--coreverify-pink);
+  background-color: rgba(255, 0, 127, 0.03);
+}
+
+.drag-drop-container:hover {
+  border-color: var(--coreverify-pink-light);
+}
+
+.drag-drop-message {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: var(--coreverify-gray-700);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.drag-drop-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 1rem;
+  color: var(--coreverify-pink);
+}
+
+.drag-drop-browse {
+  color: var(--coreverify-pink);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.drag-drop-browse:hover {
+  color: var(--coreverify-pink-dark);
+}
+
+.drag-drop-input {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.drag-drop-preview {
+  margin-top: 1.5rem;
+}
+
+.drag-drop-preview-image {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: var(--coreverify-border-radius);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.drag-drop-preview-file {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background-color: var(--coreverify-gray-100);
+  border-radius: var(--coreverify-border-radius);
+  margin-bottom: 0.5rem;
+}
+
+.drag-drop-preview-icon {
+  margin-right: 0.75rem;
+  color: var(--coreverify-pink);
+}
+
+.drag-drop-preview-name {
+  flex: 1;
+  font-size: 0.9rem;
+  color: var(--coreverify-gray-800);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.drag-drop-preview-size {
+  font-size: 0.8rem;
+  color: var(--coreverify-gray-600);
+  margin-left: 0.75rem;
+}
+
+.drag-drop-preview-remove {
+  background: none;
+  border: none;
+  color: var(--coreverify-gray-600);
+  cursor: pointer;
+  margin-left: 0.75rem;
+  transition: color 0.2s ease-in-out;
+}
+
+.drag-drop-preview-remove:hover {
+  color: var(--coreverify-danger);
+}
+
+.drag-drop-error {
+  margin-top: 0.75rem;
+  color: var(--coreverify-danger);
+  font-size: 0.85rem;
+}
+
+.drag-drop-hint {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--coreverify-gray-600);
+}
+
+/* Loading indicator */
+.drag-drop-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.drag-drop-spinner {
+  border: 3px solid var(--coreverify-gray-200);
+  border-top: 3px solid var(--coreverify-pink);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+  margin-right: 0.75rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Progress bar */
+.drag-drop-progress {
+  height: 4px;
+  background-color: var(--coreverify-gray-200);
+  margin-top: 1rem;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.drag-drop-progress-bar {
+  height: 100%;
+  background-color: var(--coreverify-pink);
+  transition: width 0.3s ease-in-out;
+}
+
+/* Success state */
+.drag-drop-success {
+  display: flex;
+  align-items: center;
+  color: var(--coreverify-success);
+  font-size: 0.9rem;
+  margin-top: 0.75rem;
+}
+
+.drag-drop-success-icon {
+  margin-right: 0.5rem;
+}
+
+/* Compact mode - for smaller forms */
+.drag-drop-compact {
+  padding: 1rem;
+}
+
+.drag-drop-compact .drag-drop-icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 0.5rem;
+}
+
+.drag-drop-compact .drag-drop-message {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Touch device optimization */
+@media (hover: none) {
+  .drag-drop-container {
+    border-color: var(--coreverify-gray-400);
+  }
+
+  .drag-drop-hint {
+    display: none;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .drag-drop-container {
+    padding: 1.5rem;
+  }
+
+  .drag-drop-icon {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .drag-drop-container {
+    padding: 1rem;
+  }
+
+  .drag-drop-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .drag-drop-message {
+    font-size: 0.9rem;
+  }
 } 

@@ -20,7 +20,9 @@ const DragDropFileUpload = ({
   onProcessDocument,
   showProcessButton = true,
   externalSelectedFile = null,
-  isFingerPrintClearance = false
+  isFingerPrintClearance = false,
+  documentProcessed = false,
+  disableProcessButton = false
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [fileName, setFileName] = useState('');
@@ -340,9 +342,37 @@ const DragDropFileUpload = ({
     } catch (error) {
       console.error(`Field ${name}: Error during document processing:`, error);
     }
+  };
+  
+  // Render the process button based on document processed state
+  const renderProcessButton = () => {
+    if (!onProcessDocument || !showProcessButton || !selectedFile) {
+      return null;
+    }
     
-    // No need to manually set state here - parent component will handle this
-    // The setTimeout approach can cause loops, so we're removing it
+    if (documentProcessed) {
+      return (
+        <Button 
+          color="success" 
+          className="process-document-btn mt-2 w-100"
+          disabled={true}
+        >
+          <i className="fas fa-check-circle mr-2"></i> Document Processed
+        </Button>
+      );
+    } else {
+      return (
+        <Button 
+          color="primary" 
+          outline 
+          className="process-document-btn mt-2 w-100"
+          onClick={handleProcessClick}
+          disabled={disabled || disableProcessButton || !selectedFile}
+        >
+          Process Document
+        </Button>
+      );
+    }
   };
   
   return (
@@ -456,18 +486,8 @@ const DragDropFileUpload = ({
             </div>
           </div>
           
-          {/* Always show process button if onProcessDocument is provided, regardless of isFingerPrintClearance */}
-          {onProcessDocument && showProcessButton && selectedFile && (
-            <Button 
-              color="primary" 
-              outline 
-              className="process-document-btn mt-2 w-100"
-              onClick={handleProcessClick}
-              disabled={disabled || !selectedFile}
-            >
-              Process Document
-            </Button>
-          )}
+          {/* Replace the process button with our new function */}
+          {renderProcessButton()}
         </div>
       )}
       

@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../globals.css';
 import '../../styles/nurseio-theme.css';
+import '../../styles/coreverify-theme.css';
 import ClientBootstrap from '../../components/ClientBootstrap';
 
 export const metadata = {

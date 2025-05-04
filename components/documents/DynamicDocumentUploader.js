@@ -4,8 +4,10 @@ import React, { useState, useEffect } from 'react';
 import FormSelector from '../FormSelector';
 import { fetchFormSchema, fetchLocationDocumentTypes } from '../../utils/formSchemaApi';
 import { uploadFile } from '../../utils/api';
-import { Alert, Spinner, Button } from 'reactstrap';
+import { Alert, Button } from 'reactstrap';
 import DocumentTypeSelector from '../../app/iframe-uploader/DocumentTypeSelector';
+import SkeletonLoader from '../SkeletonLoader';
+import '../../styles/FormStyles.css'; // Import our custom form styles
 
 // Version info for tracking integration
 const COMPONENT_VERSION = '1.0.1';
@@ -531,8 +533,7 @@ const DynamicDocumentUploader = ({
   if (loading) {
     return (
       <div className="text-center my-5">
-        <Spinner color="primary" />
-        <p className="mt-2">Loading document form...</p>
+        <SkeletonLoader isVisible={true} message="Loading document form..." />
       </div>
     );
   }

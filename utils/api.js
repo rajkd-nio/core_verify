@@ -106,6 +106,9 @@ export const extractDocumentData = async (file) => {
       }]
     };
     
+    // Track API call performance
+    const startTime = performance.now();
+    
     // Send the binary data directly using axios
     const response = await axios.post(
       'https://nioverify-8e04598db370.herokuapp.com/fileToStandardJson',
@@ -113,11 +116,16 @@ export const extractDocumentData = async (file) => {
       config
     );
     
+    // Calculate elapsed time
+    const endTime = performance.now();
+    const elapsed = endTime - startTime;
+    
     // Enhanced logging of the NIOVerify response
     logData('NIOVERIFY_RESPONSE_STATUS', {
       status: response.status,
       statusText: response.statusText,
-      headers: response.headers
+      headers: response.headers,
+      responseTime: `${elapsed.toFixed(2)}ms`
     });
     
     logData('NIOVERIFY_RESPONSE_DATA', response.data);
@@ -133,6 +141,9 @@ export const extractDocumentData = async (file) => {
         message: 'No standardized fields found in response',
         responseShape: typeof response.data
       });
+      
+      // Instead of returning demo data, throw an error
+      throw new Error('No standardized fields found in the NIOVerify response');
     }
     
     return response.data;
@@ -148,13 +159,7 @@ export const extractDocumentData = async (file) => {
       requestConfig: error.config
     });
     
-    // Return sample data as fallback
-    return {
-      standardized_fields: {
-        issue_date: "3/15/2023",
-        valid_until: "3/15/2024",
-        name: "Sample User"
-      }
-    };
+    // Throw the error instead of returning demo data
+    throw error;
   }
 }; 

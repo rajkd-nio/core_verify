@@ -55,10 +55,8 @@ export async function GET(request) {
 
       // Filter fingerprint_clearance based on location
       const filteredChildTypes = childTypes.filter(childType => {
-        // Only include fingerprint_clearance for NY (locationId = 2)
-        if (childType.id === 'fingerprint_clearance') {
-          return locationId && parseInt(locationId, 10) === 2;
-        }
+        // Remove location restriction for fingerprint_clearance
+        // Include fingerprint_clearance for all locations 
         return true;
       });
       

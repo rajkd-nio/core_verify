@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useState, useContext } from 'react';
-import SkeletonLoader from '../components/SkeletonLoader';
+import AdvancedSkeletonLoader from '../components/AdvancedSkeletonLoader';
 
 // Create a context to store the loading state
 const LoadingContext = createContext({
@@ -36,7 +36,13 @@ export const LoadingProvider = ({ children }) => {
     }}>
       {children}
       {/* Global skeleton loader that appears on top of everything */}
-      <SkeletonLoader isVisible={isLoading} message={loadingMessage} />
+      <AdvancedSkeletonLoader 
+        isVisible={isLoading} 
+        message={loadingMessage}
+        theme="light"
+        blur={true}
+        spinnerType="pulse"
+      />
     </LoadingContext.Provider>
   );
 };

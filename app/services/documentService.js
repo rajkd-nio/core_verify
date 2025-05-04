@@ -518,7 +518,6 @@ export class DocumentService {
         
         return {
           title: `Select ${globalDocType.name} Type`,
-          description: `Please select the specific type of ${globalDocType.name.toLowerCase()} document you want to upload`,
           formId: `${typeId.toLowerCase()}-select-form`,
           documentType: typeId.toLowerCase(),
           hideHeader: false,
@@ -1421,8 +1420,8 @@ export class DocumentService {
         });
       }
       
-      // Special case for Finger Print Clearance in New York (locationId = 2)
-      if (isFingerPrintClearance && options.locationId && parseInt(options.locationId, 10) === 2) {
+      // Special case for Finger Print Clearance - remove location restriction
+      if (isFingerPrintClearance) {
         // Add file upload field for front of the document
         formSchema.fields.push({
           id: "fileUpload",
@@ -1588,19 +1587,15 @@ export class DocumentService {
     });
     
     return childTypes.filter(childType => {
-      // Use the locations array directly from the child type
+      // Special case for fingerprint_clearance - always include it
+      if (childType.id === 'fingerprint_clearance') {
+        console.log('Fingerprint clearance is now available for all locations');
+        return true;
+      }
+      
+      // For other document types, use the locations array directly from the child type
       const isAvailable = !locationId || !childType.locations || 
         (Array.isArray(childType.locations) && childType.locations.includes(locationId));
-      
-      // Log for debugging
-      if (childType.id === 'fingerprint_clearance') {
-        console.log('Fingerprint clearance availability check:', {
-          locationId,
-          parentType,
-          locations: childType.locations,
-          isAvailable
-        });
-      }
       
       return isAvailable;
     });

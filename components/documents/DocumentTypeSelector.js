@@ -32,17 +32,10 @@ const DocumentTypeSelector = props => {
       // Get location ID from context or props
       const locationId = props.locationId || contextConfig?.locationId;
       
-      // Filter fingerprint clearance based on location
-      const filteredTypes = childTypes.filter(childType => {
-        // Only include fingerprint_clearance for NY (locationId = 2)
-        if (childType.id === 'fingerprint_clearance' || 
-            childType.name === 'Fingerprint Clearance') {
-          return locationId === 2;
-        }
-        return true;
-      });
+      // Include all child types without filtering fingerprint clearance by location
+      const filteredTypes = childTypes;
       
-      console.log(`Filtered child types for location ${locationId}: ${filteredTypes.length} of ${childTypes.length}`);
+      console.log(`Available child types for location ${locationId}: ${filteredTypes.length}`);
       setFilteredChildTypes(filteredTypes);
     } else {
       setFilteredChildTypes([]);

@@ -169,35 +169,21 @@ const useDocumentExtraction = () => {
           throw new Error('No standardized fields returned from API');
         }
       } catch (apiError) {
-        console.error('API Error, using demo data instead:', apiError);
+        // Log the API error but don't use demo data
+        console.error('API Error during document extraction:', apiError);
         
-        // Use demo data for testing purpose
-        const demoData = {
-          standardized_fields: {
-            issue_date: "3/15/2023",
-            valid_until: "3/15/2024",
-            name: "Sample User"
-          }
-        };
+        // Set a specific error message for the API failure
+        setExtractionError(`Document extraction failed: ${apiError.message || 'Unable to process document'}`);
         
-        // Store extracted data
-        setExtractedData(demoData.standardized_fields);
-        
-        // Return processed demo data with MM/DD/YYYY format
-        return {
-          effectiveDate: parseAndFormatDate(demoData.standardized_fields.issue_date),
-          issueDate: parseAndFormatDate(demoData.standardized_fields.issue_date),
-          expirationDate: parseAndFormatDate(demoData.standardized_fields.valid_until),
-        };
+        // Throw the error to be handled by the parent try/catch
+        throw new Error(`Document extraction API error: ${apiError.message || 'Processing failed'}`);
       }
     } catch (error) {
-      // Use generic error message
-      setExtractionError("There was an issue processing your document. You can still enter the information manually.");
+      // Set a clear error message for the user
+      setExtractionError("Document extraction unsuccessful. Please enter the information manually.");
       console.error(`Error extracting document data for ${fieldName}:`, error);
       
-      // Auto-clear the error after a delay
-      setTimeout(() => setExtractionError(null), 5000);
-      
+      // Return empty object instead of demo data
       return {};
     } finally {
       // Reset extracting state immediately instead of using setTimeout
@@ -231,7 +217,8 @@ const useDocumentExtraction = () => {
     extractedData,
     extractDataFromFile,
     resetExtraction,
-    setExtractionSuccess
+    setExtractionSuccess,
+    setExtractionError
   };
 };
 

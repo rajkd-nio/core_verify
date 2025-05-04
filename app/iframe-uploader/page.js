@@ -2,8 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import DynamicDocumentModal from '../../components/documents/DynamicDocumentModal';
+import SkeletonLoader from '../../components/SkeletonLoader';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../styles/nurseio-theme.css';
+import '../../styles/FormStyles.css';
+import '../../styles/DynamicDocumentModal.css';
 
 // Helper function to log data in a structured way
 const logData = (label, data) => {
@@ -246,18 +249,21 @@ export default function IframeUploader() {
   // If token is missing, show error message
   if (tokenError) {
     return (
-      <div className="iframe-uploader-container nurseio-theme">
-        <div className="alert alert-danger m-4">
+      <div className="iframe-uploader-container nurseio-theme" style={{ height: '100vh', maxHeight: '100vh' }}>
+        <div className="error-container m-4">
+          <SkeletonLoader isVisible={false} />
+          <div className="alert alert-danger">
           <h4>Authentication Error</h4>
           <p>{tokenError}</p>
           <p>Please contact support if this issue persists.</p>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="iframe-uploader-container nurseio-theme">
+    <div className="iframe-uploader-container nurseio-theme" style={{ height: '100vh', maxHeight: '100vh' }}>
       <DynamicDocumentModal
         isOpen={showModal}
         toggle={handleCloseModal}

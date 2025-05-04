@@ -11,6 +11,7 @@ import LoadingOverlay from './LoadingOverlay';
 import DragDropFileUpload from './DragDropFileUpload';
 import { useDocumentExtraction } from '../hooks';
 import '../styles/DragDropFileUpload.css';
+import '../styles/FormStyles.css';
 
 // Helper function to log data
 const logData = (label, data) => {
@@ -225,7 +226,8 @@ const DynamicForm = ({
     extractDataFromFile,
     resetExtraction,
     setExtractionSuccess,
-    extractionSuccess
+    extractionSuccess,
+    extractionProgress
   } = useDocumentExtraction();
   
   // Generate Zod schema based on the form schema
@@ -627,7 +629,26 @@ const DynamicForm = ({
     }
   };
   
-  // Render form field based on field type
+  // Helper function to render all form fields
+  const renderFields = () => {
+    // Sort fields by order if specified
+    const sortedFields = schema.fields
+      .filter(field => field && field.id && field.hidden !== true)
+      .sort((a, b) => {
+        // If order is specified, use it
+        if (a.order !== undefined && b.order !== undefined) {
+          return a.order - b.order;
+        }
+        // Otherwise maintain original order
+        return 0;
+      });
+    
+    return sortedFields.map(field => renderField(field));
+  };
+
+  /**
+   * Render an individual form field based on its type
+   */
   const renderField = (field) => {
     const {
       id,
@@ -852,118 +873,91 @@ const DynamicForm = ({
   }
 
   return (
-    <div className={`dynamic-form ${className}`} style={{ position: 'relative' }}>
+    <div className={`dynamic-form form-container ${className}`} style={{ position: 'relative' }}>
       {/* Loading overlay */}
-      <LoadingOverlay isVisible={extracting} />
+      {(extracting || isSubmitting) && (
+        <LoadingOverlay 
+          message={extracting ? "Processing document..." : "Submitting form..."}
+          progress={extracting ? Math.floor(extractionProgress * 100) : undefined}
+        />
+      )}
       
+      {/* Error alert */}
       {error && (
-        <Alert color="danger" className="mb-4">
-          <h4>Error</h4>
-          <p>{error}</p>
+        <Alert color="danger" className="compact-alert mt-3 mb-3">
+          <div className="error-icon mr-3">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 22C6.477 22 2 17.523 2 12C2 6.477 6.477 2 12 2C17.523 2 22 6.477 22 12C22 17.523 17.523 22 12 22ZM12 20C16.418 20 20 16.418 20 12C20 7.582 16.418 4 12 4C7.582 4 4 7.582 4 12C4 16.418 7.582 20 12 20ZM11 15H13V17H11V15ZM11 7H13V13H11V7Z" fill="#d32f2f"/>
+            </svg>
+          </div>
+          <div>
+            <h5 className="mb-1">Error</h5>
+            <p className="mb-0 small">{error}</p>
+          </div>
         </Alert>
       )}
       
+      {/* Success alert */}
       {success && (
-        <Alert color="success" className="mb-4">
-          <h4>Success</h4>
-          <p>{success}</p>
+        <Alert color="success" className="compact-alert mt-3 mb-3">
+          <div className="success-icon mr-3">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 22C6.477 22 2 17.523 2 12C2 6.477 6.477 2 12 2C17.523 2 22 6.477 22 12C22 17.523 17.523 22 12 22ZM12 20C16.418 20 20 16.418 20 12C20 7.582 16.418 4 12 4C7.582 4 4 7.582 4 12C4 16.418 7.582 20 12 20ZM11.003 16L6.76 11.757L8.174 10.343L11.003 13.172L16.242 7.93L17.656 9.344L11.003 16Z" fill="#388e3c"/>
+            </svg>
+          </div>
+          <div>
+            <h5 className="mb-1">Success</h5>
+            <p className="mb-0 small">{success}</p>
+          </div>
         </Alert>
       )}
       
-      {extractionError && (
-        <Alert color="info" className="mb-4">
-          <h4>Extraction Error</h4>
-          <p>{extractionError}</p>
-        </Alert>
-      )}
-      
-      <form onSubmit={handleSubmit(handleFormSubmit)} id="document-upload-form">
-        <fieldset disabled={extracting || isSubmitting}>
-          <Row>
-            {sortedFields.map(renderField)}
-          </Row>
-          
-          {isSubmitting && (
-            <div className="text-center my-3">
-              <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
-            </div>
-          )}
-          
-          {schema && schema.showFormButtons && (
-            <div className="d-flex justify-content-end mt-4">
-              {/* Get conditional buttons based on the selected document type */}
-              {(() => {
-                let submitText = schema.submitButtonText || 'Submit';
-                let cancelText = schema.cancelButtonText || 'Cancel';
-                let deleteText = schema.deleteButtonText || 'Delete';
-                let showDeleteButton = !!schema.deleteButtonText;
-                
-                // Check for conditional buttons
-                if (schema.conditionalButtons) {
-                  const documentType = watchedValues.documentType;
-                  if (documentType && schema.conditionalButtons[documentType]) {
-                    const buttons = schema.conditionalButtons[documentType];
-                    submitText = buttons.submitButtonText || submitText;
-                    cancelText = buttons.cancelButtonText || cancelText;
-                    deleteText = buttons.deleteButtonText || deleteText;
-                    showDeleteButton = showDeleteButton || !!buttons.deleteButtonText;
-                  } else if (schema.conditionalButtons.default) {
-                    const buttons = schema.conditionalButtons.default;
-                    submitText = buttons.submitButtonText || submitText;
-                    cancelText = buttons.cancelButtonText || cancelText;
-                    deleteText = buttons.deleteButtonText || deleteText;
-                    showDeleteButton = showDeleteButton || !!buttons.deleteButtonText;
-                  }
-                }
-                
-                return (
-                  <>
-                    {schema.cancelButtonText && onCancel && (
-                      <Button
-                        type="button"
-                        color="secondary"
-                        outline
-                        onClick={onCancel}
-                        className="me-2"
-                        style={{ borderColor: '#FF69B4', color: '#FF69B4' }}
-                      >
-                        {cancelText}
-                      </Button>
-                    )}
-                    
-                    {showDeleteButton && onCancel && (
-                      <Button
-                        type="button"
-                        color="danger"
-                        outline
-                        onClick={() => {
-                          if (onCancel) {
-                            // Pass delete action indicator to onCancel
-                            onCancel('delete');
-                          }
-                        }}
-                        className="me-2"
-                        style={{ borderColor: '#dc3545', color: '#dc3545' }}
-                      >
-                        {deleteText}
-                      </Button>
-                    )}
-                    
-                    <Button
-                      type="submit"
-                      color="primary"
-                      style={{ backgroundColor: '#FF69B4', borderColor: '#FF69B4' }}
-                    >
-                      {submitText}
-                    </Button>
-                  </>
-                );
-              })()}
-            </div>
-          )}
-        </fieldset>
+      {/* Main form */}
+      <form id="document-upload-form" onSubmit={handleSubmit(handleFormSubmit)} className="form-fields-container">
+        {/* Document type selection or display */}
+        {schema && schema.documentTypeDisplay && (
+          <div className="form-section-title">
+            {schema.documentTypeDisplay}
+          </div>
+        )}
+        
+        {/* Visible form fields */}
+        {schema && schema.fields && renderFields()}
+        
+        {/* Form submission buttons (only shown if schema specifies to show form buttons) */}
+        {schema && schema.showFormButtons !== false && (
+          <div className="form-buttons">
+            {schema.showCancelButton !== false && (
+              <Button
+                outline
+                color="secondary"
+                type="button"
+                className="btn-rounded font-weight-bold"
+                onClick={onCancel}
+                style={{ borderColor: '#FF69B4', color: '#FF69B4' }}
+              >
+                {schema.cancelButtonText || 'Cancel'}
+              </Button>
+            )}
+            
+            <Button
+              color="primary"
+              type="submit"
+              className="btn-rounded font-weight-bold"
+              disabled={isSubmitting || Object.keys(errors).length > 0}
+              style={{ backgroundColor: '#FF69B4', borderColor: '#FF69B4' }}
+            >
+              {isSubmitting ? (
+                <>
+                  <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>
+                  {schema.submittingButtonText || 'Processing...'}
+                </>
+              ) : (
+                schema.submitButtonText || 'Submit'
+              )}
+            </Button>
+          </div>
+        )}
       </form>
     </div>
   );

@@ -5,6 +5,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Alert, Row, Col, La
 import DynamicDocumentUploader from './DynamicDocumentUploader';
 import moment from 'moment';
 import { useLoading } from '../../context/LoadingContext';
+import '../../styles/DynamicDocumentModal.css';
 
 // Version info for tracking integration
 const COMPONENT_VERSION = '1.0.0';
@@ -60,11 +61,24 @@ const forceCloseParentIframe = (parentOrigin, reason = 'User cancelled', actionT
     
     // Set a timeout to repeat the action (sometimes the first attempt is missed)
     setTimeout(() => {
+      // Try different formats again with a delay
       window.parent.postMessage({
         type: 'FORCE_CLOSE_IFRAME',
         reason: `${reason} (retry)`,
         timestamp: new Date().toISOString()
       }, parentOrigin);
+      
+      window.parent.postMessage({
+        type: 'UPLOAD_CANCELLED', 
+        action: 'cancel',
+        reason: reason,
+        timestamp: new Date().toISOString()
+      }, parentOrigin);
+      
+      // Explicitly call NurseIO's global functions again after a delay
+      if (typeof window.parent.closeIframe === 'function') window.parent.closeIframe();
+      if (typeof window.parent.closeModal === 'function') window.parent.closeModal();
+      if (typeof window.parent.closeVerifyModal === 'function') window.parent.closeVerifyModal();
     }, 100);
     
     return true;
@@ -89,7 +103,7 @@ const DynamicDocumentModal = ({
   data = null,
   config = null,
   verifyConfig = null,
-  isEmbedded = false,
+  isEmbedded = true ,
   parentOrigin = "*",
   hideHeader = true,
   containerClassName = "rounded-10 border-radius-10",
@@ -111,6 +125,7 @@ const DynamicDocumentModal = ({
   const [uploadError, setUploadError] = useState('');
   const [formSchema, setFormSchema] = useState(null);
   const [formActions, setFormActions] = useState(null);
+  const [fingerprintProcessed, setFingerprintProcessed] = useState(false);
   
   // Store a reference to valid form actions
   const [actionsFunctions, setActionsFunctions] = useState({
@@ -121,6 +136,126 @@ const DynamicDocumentModal = ({
   
   // Add ref to track previous actionInfo to prevent unnecessary updates
   const previousActionInfoId = useRef(null);
+  
+  // Add ref for modal content to measure height
+  const modalContentRef = useRef(null);
+  
+  /**
+   * Helper function to send comprehensive close messages to parent
+   * @param {boolean} isSuccess - Whether the close is due to successful completion
+   * @param {string} reason - The reason for closing
+   */
+  const sendCloseMessageToParent = (isSuccess, reason) => {
+    // Only send if embedded in an iframe
+    if (!window.parent || !isEmbedded) return;
+    
+    // Always log the action for tracking
+    logData('SENDING_CLOSE_MESSAGE', {
+      isSuccess,
+      reason,
+      documentType,
+      childDocumentType: formActions?.selectedChildType,
+      timestamp: new Date().toISOString()
+    });
+    
+    // Format 1: Direct function calls (most reliable if available)
+    try {
+      if (typeof window.parent.closeIframe === 'function') {
+        console.log('Calling window.parent.closeIframe()');
+        window.parent.closeIframe(isSuccess);
+      }
+      if (typeof window.parent.closeModal === 'function') {
+        console.log('Calling window.parent.closeModal()');
+        window.parent.closeModal(isSuccess);
+      }
+      if (typeof window.parent.closeVerifyModal === 'function') {
+        console.log('Calling window.parent.closeVerifyModal()');
+        window.parent.closeVerifyModal(isSuccess);
+      }
+    } catch (e) {
+      console.log('Unable to directly call parent functions:', e);
+    }
+    
+    // Format 2: CLOSE_IFRAME type message
+    window.parent.postMessage({
+      type: 'CLOSE_IFRAME',
+      timestamp: new Date().toISOString(),
+      success: isSuccess,
+      cancelled: !isSuccess,
+      reason,
+      documentType: documentType,
+      childDocumentType: formActions?.selectedChildType
+    }, parentOrigin);
+    
+    // Format 3: MODAL_CLOSED type message
+    window.parent.postMessage({
+      type: 'MODAL_CLOSED',
+      success: isSuccess,
+      cancelled: !isSuccess,
+      reason,
+      timestamp: new Date().toISOString(),
+      documentType: documentType
+    }, parentOrigin);
+
+    // Format 4: FORCE_CLOSE_IFRAME type message
+    window.parent.postMessage({
+      type: 'FORCE_CLOSE_IFRAME',
+      reason,
+      timestamp: new Date().toISOString()
+    }, parentOrigin);
+    
+    // Format 5: Legacy action format
+    window.parent.postMessage({
+      action: isSuccess ? 'success' : 'cancel',
+      documentType: documentType,
+      event: isSuccess ? 'upload_success' : 'user_cancelled',
+      reason
+    }, parentOrigin);
+
+    // Format 6: String JSON format (original NurseIO format)
+    window.parent.postMessage(JSON.stringify({
+      action: isSuccess ? 'success' : 'cancel',
+      documentType: documentType,
+      event: isSuccess ? 'upload_success' : 'user_cancelled',
+      reason
+    }), parentOrigin);
+
+    // Format 7: Simple string message (fallback for very basic integrations)
+    window.parent.postMessage(isSuccess ? 'SUCCESS' : 'CANCEL', parentOrigin);
+    
+    // Add specifically the UPLOAD_CANCELLED format that NurseIO uses in its message handler
+    window.parent.postMessage({
+      type: 'UPLOAD_CANCELLED',
+      action: 'cancel',
+      reason: reason,
+      timestamp: new Date().toISOString()
+    }, parentOrigin);
+    
+    // Try the forceCloseParentIframe helper as a final attempt
+    forceCloseParentIframe(parentOrigin, reason, isSuccess ? 'success' : 'cancel');
+    
+    // Set a timeout to ensure multiple attempts at message passing 
+    setTimeout(() => {
+      // Call NurseIO's specific functions again with a delay
+      try {
+        if (typeof window.parent.closeIframe === 'function') window.parent.closeIframe(isSuccess);
+        if (typeof window.parent.closeModal === 'function') window.parent.closeModal(isSuccess);
+        if (typeof window.parent.closeVerifyModal === 'function') window.parent.closeVerifyModal(isSuccess);
+        
+        // Send the UPLOAD_CANCELLED message again
+        window.parent.postMessage({
+          type: 'UPLOAD_CANCELLED',
+          action: 'cancel', 
+          timestamp: new Date().toISOString()
+        }, parentOrigin);
+        
+        // Send simple string CANCEL message again (this format is explicitly checked in NurseIO)
+        window.parent.postMessage('CANCEL', parentOrigin);
+      } catch (e) {
+        console.error('Error in delayed close attempt:', e);
+      }
+    }, 200);
+  };
   
   // Setup unload handler to ensure parent iframe closes
   useEffect(() => {
@@ -158,6 +293,28 @@ const DynamicDocumentModal = ({
     };
   }, [isEmbedded, documentType, parentOrigin]);
   
+  // Add resize observer to notify parent of height changes
+  useEffect(() => {
+    // Only add if we're embedded in an iframe
+    if (!isEmbedded || !window.parent) return;
+    
+    // Just send a simple "MODAL_READY" message to parent
+    if (window.parent) {
+          window.parent.postMessage({
+        type: 'MODAL_READY',
+            documentType: documentType,
+            timestamp: new Date().toISOString()
+          }, parentOrigin);
+          
+      console.log('Sent MODAL_READY message to parent');
+    }
+    
+    // Clean up
+    return () => {
+      // No cleanup needed
+    };
+  }, [isEmbedded, parentOrigin, documentType]);
+  
   // Update document title when document type changes
   useEffect(() => {
     const docTitle = getDocumentNameByType(documentType);
@@ -192,54 +349,13 @@ const DynamicDocumentModal = ({
     setSubmitting(false);
     setLoading(false); // Ensure global loading is turned off
     
-    // Notify parent window with enhanced data
-    if (window.parent && isEmbedded) {
-      // First use our helper function to ensure compatibility
-      // But with success=true to indicate successful processing
-      try {
-        // Format 1: New format with document data
-        window.parent.postMessage({
-          type: 'DOCUMENT_UPLOAD_SUCCESS',
-          data: data,
-          documentType: documentType,
-          childDocumentType: formActions?.selectedChildType,
-          timestamp: new Date().toISOString(),
-          authData: config?.authData || null,
-          locationId: config?.locationId || formActions?.schema?.locationId || null
-        }, parentOrigin);
-        
-        // Format 2: Legacy NurseIO format
-        window.parent.postMessage(JSON.stringify({
-          action: 'success',
-          documentType: documentType,
-          data: data,
-          event: 'upload_success'
-        }), parentOrigin);
-        
-        // Format 3: Force close message
-        window.parent.postMessage({
-          type: 'CLOSE_IFRAME',
-          reason: 'Document uploaded successfully',
-          success: true,
-          timestamp: new Date().toISOString()
-        }, parentOrigin);
-        
-        // Try to call parent methods directly
-        if (window.parent.closeIframe && typeof window.parent.closeIframe === 'function') {
-          window.parent.closeIframe(true); // true indicates success
-        }
-        if (window.parent.closeModal && typeof window.parent.closeModal === 'function') {
-          window.parent.closeModal(true); // true indicates success
-        }
-        if (window.parent.closeVerifyModal && typeof window.parent.closeVerifyModal === 'function') {
-          window.parent.closeVerifyModal(true); // true indicates success
-        }
-        
-        console.log('Successfully notified parent window of document upload success');
-      } catch (error) {
-        console.error('Error notifying parent window:', error);
-      }
+    // Check if this is a fingerprint clearance document
+    if (formActions?.selectedChildType === 'fingerprint_clearance' || documentType === 'fingerprint_clearance') {
+      setFingerprintProcessed(true);
     }
+    
+    // Notify parent window of success
+    sendCloseMessageToParent(true, 'Document uploaded successfully');
     
     if (onSuccess) {
       onSuccess(data);
@@ -254,7 +370,7 @@ const DynamicDocumentModal = ({
     setSubmitting(false);
     setLoading(false); // Ensure global loading is turned off
     
-    // Notify parent window
+    // Don't close the modal on error - just notify parent of the error
     if (window.parent && isEmbedded) {
       window.parent.postMessage({
         type: 'DOCUMENT_UPLOAD_ERROR',
@@ -269,57 +385,27 @@ const DynamicDocumentModal = ({
 
   // Handle modal close
   const handleCloseModal = () => {
-    // Always send a message to parent when closing, including cancel operations
+    // Send close messages to parent
+    sendCloseMessageToParent(uploadSuccess, uploadSuccess ? 
+      'Document processed successfully' : 
+      'User closed modal');
+    
+    // Also try direct parent functions with "CANCEL" as a fallback
     if (window.parent && isEmbedded) {
-      if (!uploadSuccess) {
-        // If not successful, treat as a cancel and use our helper function
-        forceCloseParentIframe(parentOrigin, 'User closed modal', 'close');
-      }
-      
-      // First format - used by newer NurseIO integrations
-      window.parent.postMessage({
-        type: 'MODAL_CLOSED',
-        success: uploadSuccess,
-        cancelled: !uploadSuccess, // Indicate it was cancelled if not successful
-        timestamp: new Date().toISOString()
-      }, parentOrigin);
-
-      // Second format - used by legacy NurseIO integrations
-      window.parent.postMessage(JSON.stringify({
-        action: uploadSuccess ? 'success' : 'cancel',
-        documentType: documentType,
-        event: uploadSuccess ? 'upload_success' : 'user_cancelled'
-      }), parentOrigin);
-
-      // Force parent to close the iframe
-      if (!uploadSuccess) {
-        window.parent.postMessage({
-          type: 'FORCE_CLOSE_IFRAME',
-          reason: 'User closed modal',
-          timestamp: new Date().toISOString()
-        }, parentOrigin);
+      // Let's explicitly call each known function in NurseIO
+      try {
+        if (typeof window.parent.closeIframe === 'function') window.parent.closeIframe();
+        if (typeof window.parent.closeModal === 'function') window.parent.closeModal();
+        if (typeof window.parent.closeVerifyModal === 'function') window.parent.closeVerifyModal();
         
-        // Alternative close method (for older integrations)
-        try {
-          if (window.parent.closeIframe && typeof window.parent.closeIframe === 'function') {
-            window.parent.closeIframe();
-          }
-        } catch (error) {
-          // Ignore errors trying to access parent methods (expected due to cross-origin restrictions)
-          console.log('Could not access parent closeIframe method');
-        }
+        // Also try one more format that NurseIO might be checking for
+        window.parent.postMessage('CANCEL', parentOrigin);
+      } catch (e) {
+        console.error('Error calling parent functions directly:', e);
       }
     }
     
-    // Log the action for debugging
-    logData('MODAL_CLOSED', {
-      documentType,
-      childDocumentType: formActions?.selectedChildType,
-      isEmbedded,
-      wasSuccessful: uploadSuccess,
-      timestamp: new Date().toISOString()
-    });
-    
+    // Close this modal
     toggle();
   };
   
@@ -327,22 +413,61 @@ const DynamicDocumentModal = ({
   const handleReset = () => {
     setUploadSuccess(false);
     setUploadError('');
+    setSubmitting(false);
+    setFingerprintProcessed(false);
   };
 
-  // Get modal title based on modalType and documentType
+  /**
+   * Get a formatted modal title based on the document type and form state
+   * @returns {string} - Formatted modal title
+   */
   const getModalTitle = () => {
-    switch (modalType) {
-      case 'view':
-        return `View ${documentTitle}`;
-      case 'edit':
-        return `Edit ${documentTitle}`;
-      case 'add':
-        return `Add ${documentTitle}`;
-      case 'reject':
-        return `Reject ${documentTitle}`;
-      default:
-        return documentTitle;
+    // If we have a document title from the form schema, use that
+    if (formSchema && formSchema.title) {
+      return formSchema.title;
     }
+    
+    // If we have special handling for child document type
+    if (formActions && formActions.selectedChildType) {
+      // Format the child document type nicely
+      const formattedName = formActions.selectedChildType
+        .split('_')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+      
+      // Special case handling
+      switch(formActions.selectedChildType) {
+        case 'fingerprint_clearance':
+          return 'Fingerprint Clearance Card';
+        case 'rn_license':
+          return 'RN License';
+        case 'lpn_license':
+          return 'LPN License';
+        case 'bls_certification':
+          return 'BLS/CPR Certification';
+        case 'acls_certification':
+          return 'ACLS Certification';
+        case 'pals_certification':
+          return 'PALS Certification';
+        case 'covid19_vaccine':
+          return 'COVID-19 Vaccination Record';
+        default:
+          return formattedName;
+      }
+    }
+    
+    // Default titles based on document type
+    const documentTitles = {
+      'certificate': 'Professional Certificate',
+      'document': 'Document Upload',
+      'medical': 'Medical Record',
+      'mandatory': 'Professional Document',
+      'documents': 'Document Upload',
+      'vaccination_record': 'Vaccination Record',
+      'other': 'Additional Document'
+    };
+    
+    return documentTitles[documentType] || `Upload ${documentTitle}`;
   };
 
   // Callback to receive schema and actions from uploader
@@ -411,75 +536,13 @@ const DynamicDocumentModal = ({
 
   // Explicit cancel handler for the footer cancel button
   const handleFooterCancel = () => {
-    // Always mark this action as cancelled
-    const isCancelled = true;
-    
-    // Send explicit cancel message with multiple formats to ensure compatibility
-    if (window.parent && isEmbedded) {
-      // Try the helper function first
-      forceCloseParentIframe(parentOrigin, 'User clicked cancel button', 'cancel');
-      
-      // Format 1: Object format with type property (newer integration)
-      window.parent.postMessage({
-        type: 'UPLOAD_CANCELLED',
-        cancelled: isCancelled,
-        reason: 'User clicked cancel button',
-        timestamp: new Date().toISOString()
-      }, parentOrigin);
-
-      // Format 2: Object format with 'action' property (most compatible)
-      window.parent.postMessage({
-        action: 'cancel',
-        documentType: documentType,
-        event: 'user_cancelled'
-      }, parentOrigin);
-
-      // Format 3: String JSON format with action property (original NurseIO format)
-      window.parent.postMessage(JSON.stringify({
-        action: 'cancel',
-        documentType: documentType,
-        event: 'user_cancelled'
-      }), parentOrigin);
-
-      // Format 4: Force close iframe message
-      window.parent.postMessage({
-        type: 'FORCE_CLOSE_IFRAME',
-        reason: 'User cancelled',
-        timestamp: new Date().toISOString()
-      }, parentOrigin);
-
-      // Format 5: Simple string message (fallback for very basic integrations)
-      window.parent.postMessage('CANCEL', parentOrigin);
-      
-      // Try to call a closeModal function directly on parent if available
-      try {
-        if (window.parent.closeIframe && typeof window.parent.closeIframe === 'function') {
-          window.parent.closeIframe();
-        }
-        if (window.parent.closeModal && typeof window.parent.closeModal === 'function') {
-          window.parent.closeModal();
-        }
-        if (window.parent.closeVerifyModal && typeof window.parent.closeVerifyModal === 'function') {
-          window.parent.closeVerifyModal();
-        }
-      } catch (error) {
-        // Ignore errors trying to access parent methods (expected due to cross-origin restrictions)
-        console.log('Could not access parent close methods');
-      }
-    }
+    // Send cancel message to parent
+    sendCloseMessageToParent(false, 'User clicked cancel button');
 
     // Call error callback if provided
     if (onError) {
       onError(new Error('Upload cancelled by user from modal footer'));
     }
-
-    // Log the action for debugging
-    logData('USER_CANCELLED_DOCUMENT_UPLOAD', {
-      documentType,
-      childDocumentType: formActions?.selectedChildType,
-      isEmbedded,
-      timestamp: new Date().toISOString()
-    });
     
     // Close modal via the toggle prop
     toggle();
@@ -525,23 +588,18 @@ const DynamicDocumentModal = ({
       case 'cancel':
       case 'close':
       case 'go_back':
-        // All of these actions should close the form/iframe
-        // Use our helper function first for maximum compatibility
-        forceCloseParentIframe(parentOrigin, `User clicked ${buttonConfig.label || buttonConfig.action} button`, buttonConfig.action);
-        // Then use the standard handler
-        handleFooterCancel();
+        // Send cancel message to parent and close the modal
+        sendCloseMessageToParent(false, `User clicked ${buttonConfig.label || buttonConfig.action} button`);
+        toggle();
         break;
         
       case 'delete':
-        // Handle document deletion
+        // Handle document deletion and send delete message
         if (onError) {
           onError(new Error('Document deleted by user'));
         }
         
-        // First use our helper function for maximum compatibility
-        forceCloseParentIframe(parentOrigin, 'User deleted document', 'delete');
-        
-        // Send delete message to parent if embedded
+        // Send delete-specific message
         if (window.parent && isEmbedded) {
           window.parent.postMessage({
             type: 'DOCUMENT_DELETED',
@@ -549,15 +607,10 @@ const DynamicDocumentModal = ({
             reason: 'User clicked delete button',
             timestamp: new Date().toISOString()
           }, parentOrigin);
-          
-          // Also force close the iframe
-          window.parent.postMessage({
-            type: 'FORCE_CLOSE_IFRAME',
-            reason: 'User deleted document',
-            timestamp: new Date().toISOString()
-          }, parentOrigin);
         }
         
+        // Then send general close message
+        sendCloseMessageToParent(false, 'User deleted document');
         toggle();
         break;
         
@@ -567,9 +620,6 @@ const DynamicDocumentModal = ({
         
       case 'decline':
         // Special handling for decline action (e.g., for flu vaccine)
-        // First use our helper function for maximum compatibility
-        forceCloseParentIframe(parentOrigin, 'User declined document', 'decline');
-        
         if (window.parent && isEmbedded) {
           window.parent.postMessage({
             type: 'DOCUMENT_DECLINED',
@@ -577,16 +627,12 @@ const DynamicDocumentModal = ({
             childDocumentType: formActions?.selectedChildType,
             timestamp: new Date().toISOString()
           }, parentOrigin);
-          
-          // Close the iframe after declining
-          window.parent.postMessage({
-            type: 'FORCE_CLOSE_IFRAME',
-            reason: 'User declined document',
-            timestamp: new Date().toISOString()
-          }, parentOrigin);
         }
         
-        // Notify parent component
+        // Send general close message
+        sendCloseMessageToParent(false, 'User declined document');
+        
+        // Notify parent component if handler exists
         if (onCustomButtonClick && typeof onCustomButtonClick === 'function') {
           onCustomButtonClick({
             ...buttonConfig,
@@ -615,209 +661,364 @@ const DynamicDocumentModal = ({
     <Modal 
       isOpen={isOpen} 
       toggle={handleCloseModal}
-      className={`document-modal ${containerClassName}`}
+      className={`document-modal document-type-${formActions?.selectedChildType || documentType} ${containerClassName}`}
       backdrop="static"
       size="xl"
       fullscreen={isEmbedded}
+      style={isEmbedded ? { height: '100%', maxHeight: '100%', margin: 0, width: '100%' } : {}}
     >
-      
-      <ModalBody className="document-modal-body-scrollable pt-4">
-        {uploadSuccess ? (
-          <Alert color="success" className="mb-0">
-            <h4>Success!</h4>
-            <p>Your {documentTitle.toLowerCase()} has been uploaded successfully.</p>
-            <p>You can close this window now or upload another {documentTitle.toLowerCase()}.</p>
-          </Alert>
-        ) : uploadError ? (
-          <Alert color="danger" className="mb-4">
-            <h4>Upload Error</h4>
-            <p>{uploadError}</p>
-          </Alert>
-        ) : null}
-
-        {!uploadSuccess && (
-          <DynamicDocumentUploader
-            token={token}
-            documentType={documentType}
-            modalType={modalType}
-            onSuccess={handleSuccess}
-            onError={handleError}
-            data={data}
-            config={config}
-            verifyConfig={verifyConfig}
-            isEmbedded={isEmbedded}
-            parentOrigin={parentOrigin}
-            hideHeader={hideHeader}
-            onSchemaLoaded={handleSchemaLoaded}
-          />
-        )}
-      </ModalBody>
-      
-      <ModalFooter className="document-modal-footer">
-        {uploadSuccess ? (
-          <>
-            <Button 
-              color="primary" 
-              outline
-              className="mr-2 btn-rounded font-weight-bold py-2"
-              onClick={handleReset}
-              style={{ borderColor: '#FF69B4', color: '#FF69B4' }}
-            >
-              Upload Another {documentTitle}
-            </Button>
-            <Button 
-              color="primary"
-              className="btn-rounded font-weight-bold py-2"
-              onClick={handleCloseModal}
-              style={{ backgroundColor: '#FF69B4', borderColor: '#FF69B4' }}
-            >
-              Close
-            </Button>
-          </>
-        ) : (
-          <div className="d-flex ml-auto">
-            {/* Only show cancel button if explicitly defined in schema or no schema loaded yet */}
-            {(!formSchema || (formSchema && formSchema.showCancelButton !== false)) && (
-              <Button 
-                color="secondary" 
-                outline
-                onClick={handleFooterCancel}
-                className="btn-rounded font-weight-bold mr-2 py-2"
-                style={{ borderColor: '#FF69B4', color: '#FF69B4' }}
-              >
-                {formSchema && formSchema.cancelButtonText ? formSchema.cancelButtonText : 'Cancel'}
-              </Button>
-            )}
-            
-            {/* Only show delete button if explicitly defined in schema or for child type selectors */}
-            {((formActions && formActions.isChildTypeSelector) || 
-               (formSchema && formSchema.showDeleteButton === true)) && (
-              <Button 
-                color="danger" 
-                outline
-                onClick={() => {
-                  // Handle document deletion
-                  if (onError) {
-                    onError(new Error('Document deleted by user'));
-                  }
-                  // Send delete message
-                  if (window.parent && isEmbedded) {
-                    window.parent.postMessage({
-                      type: 'DOCUMENT_DELETED',
-                      deleted: true,
-                      reason: 'User clicked delete button',
-                      timestamp: new Date().toISOString()
-                    }, parentOrigin);
-                  }
-                  toggle();
-                }}
-                className="btn-rounded font-weight-bold mr-2 py-2"
-                style={{ borderColor: '#dc3545', color: '#dc3545' }}
-              >
-                {formSchema && formSchema.deleteButtonText ? formSchema.deleteButtonText : 'Delete'}
-              </Button>
-            )}
-            
-            {/* Render additional custom buttons from schema if available */}
-            {formSchema && formSchema.customButtons && formSchema.customButtons.map((button, index) => (
-              <Button
-                key={`custom-button-${index}`}
-                color={button.color || "secondary"}
-                outline={button.outline || false}
-                onClick={() => {
-                  handleCustomButtonAction(button);
-                }}
-                className={`btn-rounded font-weight-bold mr-2 py-2 ${button.className || ''}`}
-                style={button.style || {}}
-                disabled={button.disabled || false}
-              >
-                {button.label || 'Button'}
-              </Button>
-            ))}
-            
-            {/* Only show submit button if explicitly defined in schema or no schema loaded yet */}
-            {(!formSchema || (formSchema && formSchema.showSubmitButton !== false)) && (
-              <Button 
-                color="secondary"
-                type="submit"
-                form="document-upload-form"
-                className="btn-rounded font-weight-bold py-2"
-                style={{ backgroundColor: '#FF69B4', borderColor: '#FF69B4', color: 'white' }}
-                disabled={
-                  uploadError || 
-                  submitting || 
-                  // Don't disable the button just because we're extracting data
-                  // for fingerprint clearance - that would prevent submission
-                  (formActions?.selectedChildType === 'fingerprint_clearance' ? 
-                    false : 
-                    (typeof actionsFunctions.hasValidForm === 'function' ? !actionsFunctions.hasValidForm() : false))
-                }
-                onClick={() => {
-                  try {
-                    // Log the submission attempt with relevant context
-                    logData('FORM_SUBMISSION_ATTEMPT', {
-                      documentType,
-                      childDocumentType: formActions?.selectedChildType,
-                      timestamp: new Date().toISOString(),
-                      isEmbedded,
-                      hasAuthData: !!config?.authData,
-                      locationId: config?.locationId || formActions?.schema?.locationId
-                    });
-                    
-                    setSubmitting(true);
-                    // Set global loading state
-                    setLoading(true);
-                    setLoadingMessage(`Uploading ${documentTitle.toLowerCase()}...`);
-                    
-                    // For fingerprint clearance, add special logging
-                    if (formActions?.selectedChildType === 'fingerprint_clearance') {
-                      console.log('Submitting fingerprint clearance document to NurseIO');
-                      
-                      // If there's auth data in the config, log it (without sensitive data)
-                      if (config?.authData) {
-                        console.log('Auth data available for submission:', {
-                          hasToken: !!config.authData.token,
-                          hasUserId: !!config.authData.userId,
-                          provider: config.authData.provider || 'unknown'
-                        });
-                      }
-                    }
-                    
-                    // Use the safely stored function with error handling
-                    if (typeof actionsFunctions.submitFormAction === 'function') {
-                      actionsFunctions.submitFormAction();
-                    } else {
-                      console.error('submitFormAction is not a function');
-                      // Fall back to submitting the form directly
-                      const form = document.getElementById('document-upload-form');
-                      if (form) {
-                        console.log('Submitting form directly via DOM event');
-                        form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-                      }
-                    }
-                  } catch (error) {
-                    console.error('Error submitting form:', error);
-                    setUploadError('Error submitting form. Please try again.');
-                    setSubmitting(false);
-                    setLoading(false); // Ensure global loading is turned off
-                  }
-                }}
-              >
-                {submitting ? (
-                  <>
-                    <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                    Processing...
-                  </>
-                ) : (
-                  typeof actionsFunctions.getSubmitButtonText === 'function' 
-                    ? actionsFunctions.getSubmitButtonText() 
-                    : (formSchema && formSchema.submitButtonText ? formSchema.submitButtonText : 'Submit')
+      <div className="modal-inner-container" style={isEmbedded ? { height: '100vh', display: 'flex', flexDirection: 'column' } : {}}>
+        {/* Dynamic header with improved styling */}
+        <div className="dynamic-document-header">
+          <div className="d-flex justify-content-between align-items-center w-100">
+            <div className="document-title">
+              <h4>
+                {getModalTitle()}
+                {/* Type selector is now hidden via CSS */}
+                {formActions?.selectedChildType && (
+                  <span className="text-muted">
+                    {formSchema?.childDocumentType || formActions.selectedChildType}
+                  </span>
                 )}
-              </Button>
-            )}
+              </h4>
+              {formSchema?.description && <p className="text-muted mb-0 small">{formSchema.description}</p>}
+            </div>
+            <button
+              type="button"
+              className="document-modal-close"
+              aria-label="Close"
+              onClick={handleCloseModal}
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.5 3.5L3.5 12.5M3.5 3.5L12.5 12.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
           </div>
-        )}
-      </ModalFooter>
+        </div>
+        
+        <ModalBody className="document-modal-body-scrollable" ref={modalContentRef} style={isEmbedded ? { flex: '1 1 auto' } : {}}>
+          {uploadSuccess ? (
+            <Alert color="success" className="compact-alert">
+              <div className="d-flex align-items-center">
+                <div className="success-icon">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18ZM14.59 5.58L8 12.17L5.41 9.59L4 11L8 15L16 7L14.59 5.58Z" fill="#388e3c"/>
+                  </svg>
+                </div>
+                <div>
+                  <h5 className="mb-1">Document Uploaded Successfully!</h5>
+                  <p className="mb-0 small">Your document has been processed and saved.</p>
+                </div>
+              </div>
+            </Alert>
+          ) : uploadError ? (
+            <Alert color="danger" className="compact-alert">
+              <div className="d-flex align-items-center">
+                <div className="error-icon">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18ZM11 15H9V13H11V15ZM11 11H9V5H11V11Z" fill="#d32f2f"/>
+                  </svg>
+                </div>
+                <div>
+                  <h5 className="mb-1">Upload Error</h5>
+                  <p className="mb-0 small">{uploadError}</p>
+                </div>
+              </div>
+            </Alert>
+          ) : null}
+          
+          {!uploadSuccess && (
+            <DynamicDocumentUploader
+              token={token}
+              documentType={documentType}
+              modalType={modalType}
+              onSuccess={handleSuccess}
+              onError={handleError}
+              data={data}
+              config={config}
+              verifyConfig={verifyConfig}
+              isEmbedded={isEmbedded}
+              parentOrigin={parentOrigin}
+              hideHeader={true} // Always hide the form's internal header, we're showing our own
+              onSchemaLoaded={handleSchemaLoaded}
+            />
+          )}
+        </ModalBody>
+        
+        <div className="document-modal-footer">
+          {uploadSuccess ? (
+            <div className="d-flex justify-content-end w-100">
+              <Button 
+                color="primary" 
+                outline
+                className="btn-rounded mr-2"
+                onClick={handleReset}
+                style={{ borderColor: '#ff007f', color: '#ff007f' }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="mr-2" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 5V1L7 6L12 11V7C15.31 7 18 9.69 18 13C18 16.31 15.31 19 12 19C8.69 19 6 16.31 6 13H4C4 17.42 7.58 21 12 21C16.42 21 20 17.42 20 13C20 8.58 16.42 5 12 5Z" fill="currentColor"/>
+                </svg>
+                Upload Another
+              </Button>
+              <Button 
+                color="primary"
+                className="btn-rounded"
+                onClick={handleCloseModal}
+                style={{ backgroundColor: '#ff007f', borderColor: '#ff007f' }}
+              >
+                Close
+              </Button>
+            </div>
+          ) : (
+            <div className="d-flex justify-content-between w-100 align-items-center">
+              <div className="left-buttons">
+                {/* Left side buttons if needed */}
+                {formSchema && formSchema.leftButtons && formSchema.leftButtons.map((button, index) => (
+                  <Button
+                    key={`left-button-${index}`}
+                    color={button.color || "secondary"}
+                    outline={button.outline || false}
+                    onClick={() => {
+                      handleCustomButtonAction(button);
+                    }}
+                    className={`btn-rounded mr-2 ${button.className || ''}`}
+                    style={button.style || {}}
+                    disabled={button.disabled || false}
+                  >
+                    {button.label || 'Button'}
+                  </Button>
+                ))}
+              </div>
+              
+              <div className="action-buttons">
+                {/* Only show cancel button if explicitly defined in schema or no schema loaded yet */}
+                {(!formSchema || (formSchema && formSchema.showCancelButton !== false)) && (
+                  <Button 
+                    color="secondary" 
+                    outline
+                    onClick={handleFooterCancel}
+                    className="btn-rounded"
+                    style={{ borderColor: '#5f6368', color: '#5f6368' }}
+                  >
+                    {formSchema && formSchema.cancelButtonText ? formSchema.cancelButtonText : 'Cancel'}
+                  </Button>
+                )}
+                
+                {/* Only show delete button if explicitly defined in schema or for child type selectors */}
+                {((formActions && formActions.isChildTypeSelector) || 
+                  (formSchema && formSchema.showDeleteButton === true)) && (
+                  <Button 
+                    color="danger" 
+                    outline
+                    onClick={() => {
+                      // Handle document deletion
+                      if (onError) {
+                        onError(new Error('Document deleted by user'));
+                      }
+                      // Send delete message
+                      if (window.parent && isEmbedded) {
+                        window.parent.postMessage({
+                          type: 'DOCUMENT_DELETED',
+                          deleted: true,
+                          reason: 'User clicked delete button',
+                          timestamp: new Date().toISOString()
+                        }, parentOrigin);
+                      }
+                      toggle();
+                    }}
+                    className="btn-rounded"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="mr-2" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" fill="currentColor"/>
+                    </svg>
+                    {formSchema && formSchema.deleteButtonText ? formSchema.deleteButtonText : 'Delete'}
+                  </Button>
+                )}
+                
+                {/* Render additional custom buttons from schema if available */}
+                {formSchema && formSchema.customButtons && formSchema.customButtons.map((button, index) => (
+                  <Button
+                    key={`custom-button-${index}`}
+                    color={button.color || "secondary"}
+                    outline={button.outline || false}
+                    onClick={() => {
+                      handleCustomButtonAction(button);
+                    }}
+                    className={`btn-rounded ${button.className || ''}`}
+                    style={button.style || {}}
+                    disabled={button.disabled || false}
+                  >
+                    {button.label || 'Button'}
+                  </Button>
+                ))}
+                
+                {/* Only show submit button if explicitly defined in schema or no schema loaded yet */}
+                {(!formSchema || (formSchema && formSchema.showSubmitButton !== false)) && (
+                  <Button 
+                    color="primary"
+                    type="submit"
+                    form="document-upload-form"
+                    className="btn-rounded"
+                    style={{ backgroundColor: '#ff007f', borderColor: '#ff007f', color: 'white' }}
+                    disabled={
+                      uploadError || 
+                      submitting || 
+                      (formActions?.selectedChildType === 'fingerprint_clearance' ? 
+                        false : 
+                        (typeof actionsFunctions.hasValidForm === 'function' ? !actionsFunctions.hasValidForm() : false))
+                    }
+                    onClick={() => {
+                      try {
+                        // Log the submission attempt with relevant context
+                        logData('FORM_SUBMISSION_ATTEMPT', {
+                          documentType,
+                          childDocumentType: formActions?.selectedChildType,
+                          timestamp: new Date().toISOString(),
+                          isEmbedded,
+                          hasAuthData: !!config?.authData,
+                          locationId: config?.locationId || formActions?.schema?.locationId
+                        });
+                        
+                        setSubmitting(true);
+                        // Set global loading state
+                        setLoading(true);
+                        setLoadingMessage(`Uploading ${documentTitle.toLowerCase()}...`);
+                        
+                        // For fingerprint clearance, add special logging
+                        if (formActions?.selectedChildType === 'fingerprint_clearance') {
+                          console.log('Submitting fingerprint clearance document to NurseIO');
+                          
+                          // If there's auth data in the config, log it (without sensitive data)
+                          if (config?.authData) {
+                            console.log('Auth data available for submission:', {
+                              hasToken: !!config.authData.token,
+                              hasUserId: !!config.authData.userId,
+                              provider: config.authData.provider || 'unknown'
+                            });
+                          }
+                        }
+                        
+                        // Use the safely stored function with error handling
+                        if (typeof actionsFunctions.submitFormAction === 'function') {
+                          actionsFunctions.submitFormAction();
+                        } else {
+                          console.error('submitFormAction is not a function');
+                          // Fall back to submitting the form directly
+                          const form = document.getElementById('document-upload-form');
+                          if (form) {
+                            console.log('Submitting form directly via DOM event');
+                            form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                          }
+                        }
+                      } catch (error) {
+                        console.error('Error submitting form:', error);
+                        setUploadError('Error submitting form. Please try again.');
+                        setSubmitting(false);
+                        setLoading(false); // Ensure global loading is turned off
+                      }
+                    }}
+                  >
+                    {submitting ? (
+                      <>
+                        <div className="submit-loading-dots">
+                          <div className="dot dot1"></div>
+                          <div className="dot dot2"></div>
+                          <div className="dot dot3"></div>
+                        </div>
+                        Processing
+                      </>
+                    ) : fingerprintProcessed && formActions?.selectedChildType === 'fingerprint_clearance' ? (
+                      <>
+                        <svg width="14" height="14" viewBox="0 0 20 20" fill="none" className="mr-2" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18ZM14.59 5.58L8 12.17L5.41 9.59L4 11L8 15L16 7L14.59 5.58Z" fill="white"/>
+                        </svg>
+                        Document Processed
+                      </>
+                    ) : (
+                      <>
+                        {typeof actionsFunctions.getSubmitButtonText === 'function' 
+                          ? actionsFunctions.getSubmitButtonText() 
+                          : (formSchema && formSchema.submitButtonText ? formSchema.submitButtonText : 'Submit')}
+                      </>
+                    )}
+                  </Button>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      
+      <style jsx>{`
+        .modal-inner-container {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          position: relative;
+        }
+        
+        .dynamic-document-header {
+          flex-shrink: 0;
+        }
+        
+        .document-modal-body-scrollable {
+          flex: 1;
+        }
+        
+        .document-modal-footer {
+          flex-shrink: 0;
+        }
+        
+        @media (max-width: 768px) {
+          .action-buttons {
+            flex-direction: column;
+          }
+          
+          .action-buttons .btn {
+            margin-right: 0 !important;
+            margin-bottom: 0.5rem;
+            width: 100%;
+          }
+        }
+        
+        .submit-loading-dots {
+          display: inline-flex;
+          gap: 4px;
+          margin-right: 8px;
+          align-items: center;
+        }
+        
+        .submit-loading-dots .dot {
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background-color: white;
+          opacity: 0.8;
+        }
+        
+        .submit-loading-dots .dot1 {
+          animation: pulse 1.2s infinite;
+        }
+        
+        .submit-loading-dots .dot2 {
+          animation: pulse 1.2s infinite 0.4s;
+        }
+        
+        .submit-loading-dots .dot3 {
+          animation: pulse 1.2s infinite 0.8s;
+        }
+        
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 0.6;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.2);
+          }
+        }
+      `}</style>
     </Modal>
   );
 };

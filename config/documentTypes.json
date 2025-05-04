@@ -61,7 +61,7 @@
         {
           "id": "fingerprint_clearance",
           "name": "Finger Print Clearance",
-          "locations": [2],
+          "locations": [1, 2, 3, 4, 5],
           "fields": [
             {
               "id": "issueDate",
