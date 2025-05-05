@@ -1,53 +1,55 @@
 import { NextResponse } from 'next/server';
-import { DocumentService } from '../../services/documentService';
+import { PrismaClient } from '../../../app/generated/prisma';
 
-// Helper function to log data
-const logData = (label, data) => {
-  console.log(`===== ${label} =====`);
-  console.log(JSON.stringify(data, null, 2));
-  console.log('===================');
-};
+const prisma = new PrismaClient();
 
 /**
- * GET handler to fetch all document types
- * @param {Request} request - Request object
- * @returns {NextResponse} - Response with document types
+ * GET - Get all document types with form template information
  */
 export async function GET(request) {
   try {
-    logData('FETCHING_ALL_DOCUMENT_TYPES', {});
-    
-    // Fetch all document types from the database
-    const documentTypes = await DocumentService.getAllDocumentTypes();
-    
-    // Transform for API response
-    const formattedTypes = documentTypes.map(docType => ({
-      id: docType.typeId,
+    // Get all document types that have parent_type_id and child_type_id
+    const documentTypes = await prisma.documentType.findMany({
+      where: {
+        parent_type_id: { not: null },
+        child_type_id: { not: null }
+      },
+      include: {
+        form_template: true,
+        locations: true
+      },
+      orderBy: [
+        { parent_name: 'asc' },
+        { child_name: 'asc' }
+      ]
+    });
+
+    // Transform the data to a more friendly format
+    const transformedTypes = documentTypes.map(docType => ({
+      id: docType.id,
+      parentTypeId: docType.parent_type_id,
+      parentName: docType.parent_name,
+      childTypeId: docType.child_type_id,
+      childName: docType.child_name,
       name: docType.name,
       description: docType.description,
-      color: docType.color || 'primary',
-      require_license: docType.require_license,
-      createdAt: docType.createdAt,
+      formTemplate: docType.form_template ? {
+        id: docType.form_template.id,
+        form_key: docType.form_template.form_key,
+        name: docType.form_template.name,
+        description: docType.form_template.description,
+        version: docType.form_template.version,
+        is_active: docType.form_template.is_active
+      } : null,
+      locations: docType.locations
     }));
-    
-    logData('DOCUMENT_TYPES_FOUND', {
-      count: formattedTypes.length
-    });
-    
-    return NextResponse.json({
-      success: true,
-      documentTypes: formattedTypes
-    });
+
+    return NextResponse.json(transformedTypes);
   } catch (error) {
-    logData('ERROR_FETCHING_DOCUMENT_TYPES', {
-      error: error.message,
-      stack: error.stack
-    });
-    
-    return NextResponse.json({
-      success: false,
-      error: 'Failed to fetch document types',
-      message: error.message
-    }, { status: 500 });
+    console.error('Error fetching document types:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
 } 

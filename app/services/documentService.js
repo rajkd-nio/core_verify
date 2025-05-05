@@ -1304,6 +1304,48 @@ export class DocumentService {
       // Map NurseIO type to CoreVerify type if needed
       const mappedTypeId = mapDocumentType(typeId);
       
+      // Try to get the form from the database first using FormTemplateService
+      try {
+        // First check if we have a form service available
+        const formTemplateModule = await import('../services/FormTemplateService');
+        if (formTemplateModule && formTemplateModule.default) {
+          const formTemplateService = formTemplateModule.default;
+          
+          // Try to get the form from the database
+          const dbFormTemplate = await formTemplateService.getFormTemplateByDocumentType(
+            mappedTypeId, 
+            subTypeId
+          );
+          
+          // If we found a form template in the database, use it
+          if (dbFormTemplate) {
+            logData('USING_DB_FORM_TEMPLATE', {
+              formKey: dbFormTemplate.id,
+              fields: dbFormTemplate.fields.length
+            });
+            
+            // Transform to expected schema format
+            return {
+              title: dbFormTemplate.name,
+              description: dbFormTemplate.description || `Upload ${dbFormTemplate.name}`,
+              formId: `${typeId.toLowerCase()}-${subTypeId.toLowerCase()}-form`,
+              parentDocumentType: typeId.toLowerCase(),
+              childDocumentType: subTypeId.toLowerCase(),
+              hideHeader: false,
+              showFormButtons: true,
+              fields: dbFormTemplate.fields
+            };
+          }
+        }
+      } catch (dbError) {
+        // Log the error but continue with the JSON-based approach
+        logData('ERROR_FETCHING_DB_FORM_TEMPLATE', {
+          error: dbError.message,
+          stack: dbError.stack
+        });
+      }
+      
+      // If we didn't get a form from the database, fall back to JSON config
       // Load the document types configuration
       const config = this._loadDocumentTypesConfig();
 
@@ -1342,6 +1384,12 @@ export class DocumentService {
           throw new Error(`Child document type not found: ${subTypeId} in parent ${mappedTypeId}`);
         }
       }
+      
+      // Log that we're using the JSON config since DB form wasn't found
+      logData('USING_JSON_CONFIG_FORM', {
+        parentType: mappedTypeId,
+        childType: subTypeId
+      });
       
       // Check if this child type is location-specific and if the current location matches
       if (childType.locations && Array.isArray(childType.locations) && options.locationId) {

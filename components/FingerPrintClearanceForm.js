@@ -25,6 +25,9 @@ const FingerPrintClearanceForm = ({
   const [fingerprintProcessed, setFingerprintProcessed] = useState(false);
   const [localError, setLocalError] = useState('');
   const [localSuccess, setLocalSuccess] = useState('');
+  const [isExtracting, setIsExtracting] = useState(false);
+  const [frontFileData, setFrontFileData] = useState(null);
+  const [backFileData, setBackFileData] = useState(null);
   
   // Use the global loading context
   const { setLoading, setLoadingMessage } = useLoading();
@@ -46,11 +49,11 @@ const FingerPrintClearanceForm = ({
   
   // Update the global loading state when extraction state changes
   useEffect(() => {
-    setLoading(extracting);
-    if (extracting) {
-      setLoadingMessage('Processing fingerprint clearance document...');
+    setLoading(extracting || isExtracting);
+    if (extracting || isExtracting) {
+      setLoadingMessage('Processing fingerprint clearance documents...');
     }
-  }, [extracting, setLoading, setLoadingMessage]);
+  }, [extracting, isExtracting, setLoading, setLoadingMessage]);
   
   // Helper to format dates from MM/DD/YYYY to YYYY-MM-DD for input fields
   const formatDateForInput = (dateStr) => {
@@ -104,6 +107,156 @@ const FingerPrintClearanceForm = ({
     return '';
   };
   
+  // Check if both files are available and trigger extraction automatically
+  useEffect(() => {
+    const frontFile = fileMap["fileUpload"];
+    const backFile = fileMap["fileUploadBack"];
+    
+    // When both files are available and not yet processed
+    if (frontFile && backFile && !fingerprintProcessed && !isExtracting) {
+      console.log("Both front and back files are available. Starting automatic extraction.");
+      extractBothDocuments(frontFile, backFile);
+    }
+  }, [fileMap, fingerprintProcessed, isExtracting]);
+  
+  // Extract data from both documents in parallel
+  const extractBothDocuments = async (frontFile, backFile) => {
+    if (isExtracting) {
+      console.log("Already extracting data, skipping duplicate request");
+      return;
+    }
+    
+    try {
+      // Start extraction process
+      setIsExtracting(true);
+      setExtractionError(null);
+      setLoading(true);
+      setLoadingMessage('Extracting data from both fingerprint clearance documents...');
+      
+      // Clear any previous success or error messages
+      setExtractionSuccess(null);
+      setLocalSuccess('');
+      setLocalError('');
+      
+      console.log("Starting parallel extraction for front and back files");
+      
+      // Process both documents in parallel
+      const [frontDataResult, backDataResult] = await Promise.all([
+        extractDataFromFile(frontFile, "fileUpload").catch(err => {
+          console.error("Error extracting front file data:", err);
+          return {};
+        }),
+        extractDataFromFile(backFile, "fileUploadBack").catch(err => {
+          console.error("Error extracting back file data:", err);
+          return {};
+        })
+      ]);
+      
+      console.log("Parallel extraction complete", {
+        frontData: frontDataResult,
+        backData: backDataResult
+      });
+      
+      // Store the extracted data from both files
+      setFrontFileData(frontDataResult);
+      setBackFileData(backDataResult);
+      
+      // Get available form fields
+      const availableFields = schema?.fields.map(field => field.name) || [];
+      
+      let foundDateData = false;
+      const mergedFormData = { ...formData };
+      
+      // Prefer front file data if available, otherwise use back file data
+      const effectiveDate = frontDataResult.effectiveDate || frontDataResult.issueDate ||
+                          backDataResult.effectiveDate || backDataResult.issueDate;
+      
+      if (effectiveDate) {
+        const issueFieldName = availableFields.includes('issueDate') ? 'issueDate' : 
+                            availableFields.includes('effectiveDate') ? 'effectiveDate' : null;
+        
+        if (issueFieldName) {
+          console.log(`Setting ${issueFieldName} to ${effectiveDate} (should be MM/DD/YYYY format)`);
+          
+          // Verify the date format is MM/DD/YYYY
+          const isMMDDYYYY = /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(effectiveDate);
+          if (!isMMDDYYYY) {
+            console.warn(`Issue date ${effectiveDate} is not in MM/DD/YYYY format, attempting to convert`);
+            const converted = moment(effectiveDate).format('MM/DD/YYYY');
+            if (moment(converted, 'MM/DD/YYYY', true).isValid()) {
+              console.log(`Converted issue date to MM/DD/YYYY format: ${converted}`);
+              mergedFormData[issueFieldName] = converted;
+            } else {
+              console.error(`Could not convert issue date ${effectiveDate} to MM/DD/YYYY format`);
+              mergedFormData[issueFieldName] = effectiveDate;
+            }
+          } else {
+            mergedFormData[issueFieldName] = effectiveDate;
+          }
+          
+          foundDateData = true;
+          console.log(`Set issue date: ${effectiveDate}`);
+        }
+      }
+      
+      // Apply expiration date if available (prefer front file data)
+      const expirationDate = frontDataResult.expirationDate || backDataResult.expirationDate;
+      if (expirationDate) {
+        const expirationFieldName = availableFields.includes('expirationDate') ? 'expirationDate' : null;
+        
+        if (expirationFieldName) {
+          console.log(`Setting ${expirationFieldName} to ${expirationDate} (should be MM/DD/YYYY format)`);
+          
+          // Verify the date format is MM/DD/YYYY
+          const isMMDDYYYY = /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(expirationDate);
+          if (!isMMDDYYYY) {
+            console.warn(`Expiration date ${expirationDate} is not in MM/DD/YYYY format, attempting to convert`);
+            const converted = moment(expirationDate).format('MM/DD/YYYY');
+            if (moment(converted, 'MM/DD/YYYY', true).isValid()) {
+              console.log(`Converted expiration date to MM/DD/YYYY format: ${converted}`);
+              mergedFormData[expirationFieldName] = converted;
+            } else {
+              console.error(`Could not convert expiration date ${expirationDate} to MM/DD/YYYY format`);
+              mergedFormData[expirationFieldName] = expirationDate;
+            }
+          } else {
+            mergedFormData[expirationFieldName] = expirationDate;
+          }
+          
+          foundDateData = true;
+          console.log(`Set expiration date: ${expirationDate}`);
+        }
+      }
+      
+      // Update form data with merged values
+      setFormData(mergedFormData);
+      
+      // Always show date fields after processing
+      console.log('Setting fingerprintProcessed to true');
+      setFingerprintProcessed(true);
+      
+      // Set success message based on whether dates were found
+      if (foundDateData) {
+        setExtractionSuccess("Documents processed successfully! Date fields extracted and can now be edited if needed.");
+        setLocalSuccess("Documents processed successfully! Date fields extracted and can now be edited if needed.");
+      } else {
+        setExtractionSuccess("Documents processed, but no date information was found. Please enter dates in the fields above.");
+        setLocalSuccess("Documents processed, but no date information was found. Please enter dates in the fields above.");
+      }
+      
+    } catch (error) {
+      console.error("Error in parallel document processing:", error);
+      setExtractionError("Document extraction unsuccessful. Please enter the information in the date fields above.");
+      setLocalError("Document extraction unsuccessful. Please enter the information in the date fields above.");
+      
+      // Still show date fields even if processing fails
+      setFingerprintProcessed(true);
+    } finally {
+      setIsExtracting(false);
+      setLoading(false);
+    }
+  };
+  
   // Handle file selection
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -140,207 +293,15 @@ const FingerPrintClearanceForm = ({
         });
       }
       
-      // Reset the fingerprintProcessed state when the primary file changes
-      if (fieldName === "fileUpload") {
+      // Reset the fingerprintProcessed state when either file changes
         console.log("New file selected, resetting processing state");
         setFingerprintProcessed(false);
         setExtractionSuccess(null);
         setExtractionError(null);
         setLocalSuccess('');
         setLocalError('');
-      }
-    }
-  };
-  
-  // Process document
-  const handleProcessDocument = async (file, fieldName) => {
-    // Use the provided file or get it from the fileMap
-    const currentFile = file || fileMap[fieldName];
-    
-    if (!currentFile) {
-      console.warn(`No file available for processing in field ${fieldName}`);
-      setExtractionError("No file selected. Please upload a document first.");
-      return;
-    }
-    
-    // Don't process again if already extracting
-    if (extracting) {
-      console.log(`Already processing document for ${fieldName}, skipping duplicate request`);
-      return;
-    }
-    
-    console.log(`Starting document processing for ${fieldName}`);
-    
-    // Set global loading state
-    setLoading(true);
-    setLoadingMessage('Extracting data from fingerprint clearance document...');
-    
-    // Clear any previous success or error messages
-    setExtractionSuccess(null);
-    setExtractionError(null);
-    setLocalSuccess('');
-    setLocalError('');
-    
-    try {
-      // Store reference to the current file if needed
-      const shouldUpdateFileMap = !fileMap[fieldName] || 
-                             fileMap[fieldName].name !== currentFile.name || 
-                             fileMap[fieldName].size !== currentFile.size || 
-                             fileMap[fieldName].lastModified !== currentFile.lastModified;
-      
-      if (shouldUpdateFileMap) {
-        console.log(`Updating file map for ${fieldName}`);
-        setFileMap(prev => ({
-          ...prev,
-          [fieldName]: currentFile
-        }));
-      }
-      
-      // Start a timeout to detect slow API responses
-      const timeoutId = setTimeout(() => {
-        console.log('Document extraction is taking longer than expected...');
-        setLoadingMessage('Document extraction is taking longer than expected. Please wait...');
-      }, 10000); // 10 seconds timeout
-      
-      try {
-        // Process the document data
-        const extractedFields = await extractDataFromFile(currentFile, fieldName);
-        
-        // Clear the timeout since we got a response
-        clearTimeout(timeoutId);
-        
-        console.log(`Document processing completed for ${fieldName}`, extractedFields);
-        
-        // Get available form fields
-        const availableFields = schema?.fields.map(field => field.name) || [];
-        
-        let foundDateData = false;
-        
-        // Map extracted data to correct form fields
-        if (extractedFields.effectiveDate || extractedFields.issueDate) {
-          const issueFieldName = availableFields.includes('issueDate') ? 'issueDate' : 
-                              availableFields.includes('effectiveDate') ? 'effectiveDate' : null;
-          
-          if (issueFieldName) {
-            const dateValue = extractedFields.effectiveDate || extractedFields.issueDate;
-            console.log(`Setting ${issueFieldName} to ${dateValue} (should be MM/DD/YYYY format)`);
-            
-            // Verify the date format is MM/DD/YYYY
-            const isMMDDYYYY = /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateValue);
-            if (!isMMDDYYYY) {
-              console.warn(`Issue date ${dateValue} is not in MM/DD/YYYY format, attempting to convert`);
-              const converted = moment(dateValue).format('MM/DD/YYYY');
-              if (moment(converted, 'MM/DD/YYYY', true).isValid()) {
-                console.log(`Converted issue date to MM/DD/YYYY format: ${converted}`);
-                setFormData(prev => ({
-                  ...prev,
-                  [issueFieldName]: converted
-                }));
-              } else {
-                console.error(`Could not convert issue date ${dateValue} to MM/DD/YYYY format`);
-                setFormData(prev => ({
-                  ...prev,
-                  [issueFieldName]: dateValue
-                }));
-              }
-            } else {
-              setFormData(prev => ({
-                ...prev,
-                [issueFieldName]: dateValue
-              }));
-            }
-            
-            foundDateData = true;
-            console.log(`Set issue date: ${dateValue}`);
-          }
-        }
-        
-        // Apply expiration date if available
-        if (extractedFields.expirationDate) {
-          const expirationFieldName = availableFields.includes('expirationDate') ? 'expirationDate' : null;
-          
-          if (expirationFieldName) {
-            const dateValue = extractedFields.expirationDate;
-            console.log(`Setting ${expirationFieldName} to ${dateValue} (should be MM/DD/YYYY format)`);
-            
-            // Verify the date format is MM/DD/YYYY
-            const isMMDDYYYY = /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateValue);
-            if (!isMMDDYYYY) {
-              console.warn(`Expiration date ${dateValue} is not in MM/DD/YYYY format, attempting to convert`);
-              const converted = moment(dateValue).format('MM/DD/YYYY');
-              if (moment(converted, 'MM/DD/YYYY', true).isValid()) {
-                console.log(`Converted expiration date to MM/DD/YYYY format: ${converted}`);
-                setFormData(prev => ({
-                  ...prev,
-                  [expirationFieldName]: converted
-                }));
-              } else {
-                console.error(`Could not convert expiration date ${dateValue} to MM/DD/YYYY format`);
-                setFormData(prev => ({
-                  ...prev,
-                  [expirationFieldName]: dateValue
-                }));
-              }
-            } else {
-              setFormData(prev => ({
-                ...prev,
-                [expirationFieldName]: dateValue
-              }));
-            }
-            
-            foundDateData = true;
-            console.log(`Set expiration date: ${dateValue}`);
-          }
-        }
-        
-        // Always show date fields after processing
-        console.log('Setting fingerprintProcessed to true');
-        setFingerprintProcessed(true);
-        
-        // Set success message based on whether dates were found
-        if (foundDateData) {
-          setExtractionSuccess("Document processed successfully! Date fields extracted and can now be edited if needed.");
-        } else {
-          setExtractionSuccess("Document processed, but no date information was found. Please enter dates in the fields above.");
-        }
-        
-      } catch (error) {
-        // Clear the timeout if there was an error
-        clearTimeout(timeoutId);
-        
-        console.error(`Error processing document for ${fieldName}:`, error);
-        setExtractionError("Document extraction unsuccessful. Please enter the information in the date fields above.");
-        
-        // Always show date fields even if processing fails
-        console.log('Setting fingerprintProcessed to true despite error');
-        setFingerprintProcessed(true);
-        
-        // Set appropriate error message
-        setLocalError("Document extraction was unsuccessful. Please enter the date information in the fields above.");
-      }
-    } catch (error) {
-      console.error(`Fatal error in document processing for ${fieldName}:`, error);
-      setExtractionError("Document extraction failed. Please check the document and try again.");
-      setLocalError("Document extraction failed. Please check the document and try again.");
-      
-      // Still show date fields even in case of fatal error
-      setFingerprintProcessed(true);
-    } finally {
-      // Ensure global loading is cleared
-      setLoading(false);
-    }
-    
-    // Add a final check to ensure extracting is set to false
-    if (extracting) {
-      console.log('Ensuring extracting state is reset to false');
-      setTimeout(() => {
-        if (extracting) {
-          // Use the resetExtraction function to ensure state is consistent
-          resetExtraction(true); // Keep the file
-          // Also ensure global loading is reset
-          setLoading(false);
-        }
-      }, 100);
+      setFrontFileData(null);
+      setBackFileData(null);
     }
   };
   
@@ -351,14 +312,38 @@ const FingerPrintClearanceForm = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Create payload with files and all form data
+    // Format dates properly
+    const formattedFormData = { ...formData };
+    Object.keys(formattedFormData).forEach(key => {
+      // If it's a date field, ensure it's in the correct format
+      if (schema?.fields.some(field => field.name === key && field.type === 'date')) {
+        formattedFormData[key] = formatDateFromInput(formattedFormData[key]);
+      }
+    });
+    
+    // Enhanced payload with more detailed information
     const payload = {
-      ...formData,
+      ...formattedFormData,
       files: fileMap,
       fileUploadKeys: fileUrlMap,
       documentType: schema.documentType,
       fingerprintProcessed,
       extractedData: extractedData || {},
+      frontFileData: frontFileData || {},
+      backFileData: backFileData || {},
+      // Include all form fields explicitly for easier access
+      formFields: {
+        ...formattedFormData,
+      },
+      // Include field metadata
+      fieldMetadata: schema?.fields?.reduce((acc, field) => {
+        acc[field.name] = {
+          type: field.type,
+          label: field.label,
+          required: field.required
+        };
+        return acc;
+      }, {}),
       // Include timestamp for tracking
       submittedAt: new Date().toISOString()
     };
@@ -378,19 +363,32 @@ const FingerPrintClearanceForm = ({
       payload.locationId = schema.locationId;
     }
     
-    // Log the complete payload to console
-    console.log('=====FINGERPRINT CLEARANCE FORM SUBMISSION=====');
-    console.log(JSON.stringify(payload, null, 2));
+    // Comprehensive console logging for debugging
+    console.log('=====DOCUMENT FORM SUBMISSION - DETAILED LOGGING=====');
+    console.log('Form Type:', schema.documentType);
+    console.log('Form Fields Data:', formattedFormData);
+    console.log('Extracted Data:', extractedData);
+    console.log('Front File Data:', frontFileData);
+    console.log('Back File Data:', backFileData);
+    console.log('Files Attached:', Object.keys(fileMap).map(key => ({
+      fieldName: key,
+      fileName: fileMap[key]?.name,
+      fileSize: fileMap[key]?.size,
+      fileType: fileMap[key]?.type
+    })));
+    console.log('Complete Payload:', payload);
     console.log('=============================================');
     
     // Send data to parent window if in iframe
     if (window.parent && window !== window.parent) {
       try {
-        // Send message to parent window with form data
+        // Enhanced message with clear type indicator
         window.parent.postMessage({
           type: 'DOCUMENT_SUBMISSION',
           data: payload,
           documentType: schema.documentType,
+          formId: schema.id || 'fingerprint_clearance',
+          allFormFields: formattedFormData,
           success: true,
           timestamp: new Date().toISOString()
         }, '*');
@@ -400,10 +398,26 @@ const FingerPrintClearanceForm = ({
           action: 'success',
           documentType: schema.documentType,
           data: payload,
+          formData: formattedFormData,
           event: 'document_submitted'
         }), '*');
         
-        console.log('Form data successfully sent to parent window');
+        // Send a specific message format for NurseIO dashboard component
+        window.parent.postMessage({
+          type: 'NURSESIO_DASHBOARD_DATA',
+          formData: formattedFormData,
+          extractedData: extractedData || {},
+          documentType: schema.documentType,
+          files: Object.keys(fileMap).map(key => ({
+            fieldName: key,
+            fileName: fileMap[key]?.name,
+            fileSize: fileMap[key]?.size,
+            fileType: fileMap[key]?.type
+          })),
+          timestamp: new Date().toISOString()
+        }, '*');
+        
+        console.log('Form data successfully sent to NurseIO dashboard component');
         
         // Mark the form as successfully submitted
         setFormSubmitted(true);
@@ -622,41 +636,39 @@ const FingerPrintClearanceForm = ({
                   accept="application/pdf, image/jpeg, image/png"
                   error={validationErrors && validationErrors[name]}
                   onChange={handleFileChange}
-                  onProcessDocument={handleProcessDocument}
-                  // Show a process button for the primary file upload
-                  showProcessButton={name === "fileUploadBack" ? false : true}
+                  // No longer pass onProcessDocument - remove process button functionality
+                  showProcessButton={false}
                   externalSelectedFile={fileMap[name]}
-                  // Pass fingerprintProcessed state to show success state
-                  documentProcessed={name === "fileUpload" ? fingerprintProcessed : false}
-                  // Disable process button if no file or if a file hasn't changed since last processing
-                  disableProcessButton={name === "fileUpload" && (!fileMap[name] || fingerprintProcessed)}
+                  // Show success icon if processed
+                  documentProcessed={fingerprintProcessed}
                 />
                 
-                {/* Show extraction message only for the field that has a file */}
-                {extractionSuccess && !extracting && fileMap[name] && (
+                {/* Show extraction messages */}
+                {extractionSuccess && !extracting && !isExtracting && fileMap[name] && fingerprintProcessed && (
                   <div className="text-success mt-2">
-                    <small>{extractionSuccess}</small>
+                    <i className="fas fa-check-circle mr-1"></i>
+                    <small>Document processed successfully</small>
                   </div>
                 )}
                 
                 {/* Show extraction error only for the field that has a file */}
-                {extractionError && !extracting && fileMap[name] && (
+                {extractionError && !extracting && !isExtracting && fileMap[name] && (
                   <div className="text-danger mt-2">
                     <small>{extractionError}</small>
                   </div>
                 )}
                 
                 {/* Show extraction loading */}
-                {extracting && (name === "fileUpload" || name === "fileUploadBack") && (
+                {(extracting || isExtracting) && (
                   <div className="text-primary mt-2">
-                    <small>Processing document...</small>
+                    <small>Processing documents...</small>
                   </div>
                 )}
                 
-                {/* Add a prompt to process document for the first file upload */}
-                {name === "fileUpload" && !fingerprintProcessed && !extracting && !extractionError && (
+                {/* Add a prompt to upload both files */}
+                {!fingerprintProcessed && !extracting && !isExtracting && !extractionError && (
                   <div className="text-info mt-2">
-                    <small>Upload and process document to extract date information automatically. Date fields will appear after processing.</small>
+                    <small>Please upload both front and back documents to automatically extract information.</small>
                   </div>
                 )}
               </div>
@@ -696,17 +708,17 @@ const FingerPrintClearanceForm = ({
 
   // Add clear UI messages when extracting status changes
   useEffect(() => {
-    if (extracting) {
+    if (extracting || isExtracting) {
       // When extraction starts, show a message
-      setLocalSuccess('Processing your document, please wait...');
+      setLocalSuccess('Processing your documents, please wait...');
       setLocalError('');
     } else if (fingerprintProcessed) {
       // When extraction finishes, check if success message is already set
       if (!localSuccess && !localError) {
-        setLocalSuccess('Document processed. Please review the information.');
+        setLocalSuccess('Documents processed. Please review the information.');
       }
     }
-  }, [extracting, fingerprintProcessed, localSuccess, localError]);
+  }, [extracting, isExtracting, fingerprintProcessed, localSuccess, localError]);
   
   // Use this JSX template for the processing status messages
   const processingStatusJsx = (

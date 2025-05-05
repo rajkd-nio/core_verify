@@ -126,45 +126,19 @@ const useDocumentExtraction = () => {
         // Log the complete API response
         console.log('NIOVerify API Response:', response);
         
-        // If we have standardized fields, process them
+        // Check if the response has standardized_fields property
         if (response && response.standardized_fields) {
-          // Store extracted data
+          // Store extracted data directly from standardized_fields
           setExtractedData(response.standardized_fields);
           
-          // Process common fields
-          const processedData = {};
+          // Return the standardized fields directly for processing by the parent component
+          console.log('Returning standardized fields to form component:', response.standardized_fields);
           
-          // Map issue date (look for issue_date or issuance_date or similar fields)
-          const issueDate = response.standardized_fields.issue_date || 
-                         response.standardized_fields.issuance_date || 
-                         response.standardized_fields.start_date || 
-                         response.standardized_fields.issued_date;
+          // Set extraction success
+          setExtractionSuccess("Document processed successfully. Please review the information.");
           
-          if (issueDate) {
-            // Format the date as MM/DD/YYYY
-            processedData.effectiveDate = parseAndFormatDate(issueDate);
-            
-            // Also provide it under issueDate for flexibility
-            processedData.issueDate = processedData.effectiveDate;
-          }
-          
-          // Map expiration date (look for valid_until or expiration_date or similar fields)
-          const expirationDate = response.standardized_fields.valid_until || 
-                              response.standardized_fields.expiration_date || 
-                              response.standardized_fields.expires || 
-                              response.standardized_fields.expiry_date;
-          
-          if (expirationDate) {
-            processedData.expirationDate = parseAndFormatDate(expirationDate);
-          }
-          
-          console.log('Processed document data with MM/DD/YYYY format:', processedData);
-          
-          // Note: the setExtractionSuccess is now handled in the parent component
-          // for fingerprint clearance to avoid auto-clearing it
-          
-          // Return processed data for form updates
-          return processedData;
+          // Return the standardized fields as they are, let the parent component handle mapping
+          return response.standardized_fields;
         } else {
           throw new Error('No standardized fields returned from API');
         }
@@ -183,7 +157,7 @@ const useDocumentExtraction = () => {
       setExtractionError("Document extraction unsuccessful. Please enter the information manually.");
       console.error(`Error extracting document data for ${fieldName}:`, error);
       
-      // Return empty object instead of demo data
+      // Return empty object
       return {};
     } finally {
       // Reset extracting state immediately instead of using setTimeout

@@ -18,62 +18,70 @@ model DocumentType {
   formId                 String?                 @map("form_id")
   hideHeader             Boolean                 @default(false) @map("hide_header")
   showFormButtons        Boolean                 @default(true) @map("show_form_buttons")
+  documentTitles         DocumentTitle[]
   documentConfigurations DocumentConfiguration[]
   document_fields        document_fields[]
-  documentTitles         DocumentTitle[]
+  parent_type_id         String?
+  parent_name           String?
+  child_type_id          String?
+  child_name            String?
+  form_template_id       Int?
+  form_template         FormTemplate?           @relation("FormTemplateToDocumentType", fields: [form_template_id], references: [id])
+  locations             DocumentTypeLocation[]
 
   @@map("document_types")
+  @@unique([parent_type_id, child_type_id], name: "parent_type_id_child_type_id")
+  @@index([form_template_id])
 }
 
 model DocumentTitle {
-  id                     Int                     @id @default(autoincrement())
-  title                  String
-  createdAt              DateTime                @default(now()) @map("created_at")
-  updatedAt              DateTime                @updatedAt @map("updated_at")
-  shareable              Boolean                 @default(false)
-  documentTypeId         Int                     @map("document_type_id")
-  isDisplay              Boolean                 @default(true) @map("is_display")
-  requireNumber          Boolean                 @default(false) @map("require_number")
-  requireValidDate       Boolean                 @default(false) @map("require_valid_date")
-  requireExpireDate      Boolean                 @default(false) @map("require_expire_date")
-  requireDocData         Boolean                 @default(false) @map("require_doc_data")
-  docDataOptions         Json?                   @map("doc_data_options")
-  docDataName            String?                 @map("doc_data_name")
-  requireAttachmentFront Boolean                 @default(false) @map("require_attachment_front")
-  requireAttachmentBack  Boolean                 @default(false) @map("require_attachment_back")
-  description            String?
-  formDescription        String?                 @map("form_description")
-  formTitle              String?                 @map("form_title")
-  documentConfigurations DocumentConfiguration[]
-  document_fields        document_fields[]
-  documentType           DocumentType            @relation(fields: [documentTypeId], references: [id], onDelete: Cascade)
-  formFieldEntries       FormField[]
+  id                       Int                     @id @default(autoincrement())
+  title                    String
+  created_at               DateTime                @default(now())
+  updated_at               DateTime
+  shareable                Boolean                 @default(false)
+  document_type_id         Int
+  is_display               Boolean                 @default(true)
+  require_number           Boolean                 @default(false)
+  require_valid_date       Boolean                 @default(false)
+  require_expire_date      Boolean                 @default(false)
+  require_doc_data         Boolean                 @default(false)
+  doc_data_options         Json?
+  doc_data_name            String?
+  require_attachment_front Boolean                 @default(false)
+  require_attachment_back  Boolean                 @default(false)
+  description              String?
+  form_description         String?
+  form_title               String?
+  document_types           DocumentType            @relation(fields: [document_type_id], references: [id], onDelete: Cascade)
+  documentConfigurations   DocumentConfiguration[]
+  document_fields          document_fields[]
 
-  @@index([documentTypeId])
-  @@map("document_titles")
+  @@index([document_type_id])
+  @@map("documentTitles")
 }
 
 model FormField {
-  id              Int           @id @default(autoincrement())
-  documentTitleId Int           @map("document_title_id")
-  fieldName       String        @map("field_name")
-  label           String
-  type            String
-  placeholder     String?
-  required        Boolean       @default(false)
-  order           Int           @default(0)
-  fullWidth       Boolean       @default(true) @map("full_width")
-  hidden          Boolean       @default(false)
-  defaultValue    String?       @map("default_value")
-  options         Json?
-  validation      Json?
-  conditionalShow Json?         @map("conditional_show")
-  helpText        String?       @map("help_text")
-  createdAt       DateTime      @default(now()) @map("created_at")
-  updatedAt       DateTime      @updatedAt @map("updated_at")
-  documentTitle   DocumentTitle @relation(fields: [documentTitleId], references: [id], onDelete: Cascade)
+  id                  Int          @id @default(autoincrement())
+  template_id         Int
+  field_id            String
+  field_name          String
+  field_type          String
+  label               String
+  placeholder         String?
+  required            Boolean      @default(false)
+  is_hidden           Boolean      @default(false)
+  order               Int          @default(0)
+  full_width          Boolean      @default(true)
+  display_conditions  Json?
+  validation_rules    Json?
+  created_at          DateTime     @default(now())
+  updated_at          DateTime     @updatedAt
+  
+  form_template       FormTemplate @relation(fields: [template_id], references: [id], onDelete: Cascade)
+  field_options       FieldOption[]
 
-  @@index([documentTitleId])
+  @@index([template_id])
   @@map("form_fields")
 }
 
@@ -137,4 +145,47 @@ model document_fields {
 
   @@index([document_title_id])
   @@index([document_type_id])
+}
+
+model FormTemplate {
+  id              Int          @id @default(autoincrement())
+  form_key        String       @unique
+  name            String
+  description     String?
+  version         Int          @default(1)
+  is_active       Boolean      @default(true)
+  created_at      DateTime     @default(now())
+  updated_at      DateTime     @updatedAt
+  form_fields     FormField[]
+  document_types  DocumentType[] @relation("FormTemplateToDocumentType")
+
+  @@map("form_templates")
+}
+
+model FieldOption {
+  id              Int         @id @default(autoincrement())
+  field_id        Int
+  option_value    String
+  option_label    String
+  order           Int         @default(0)
+  created_at      DateTime    @default(now())
+  updated_at      DateTime    @updatedAt
+  
+  form_field      FormField   @relation(fields: [field_id], references: [id], onDelete: Cascade)
+
+  @@index([field_id])
+  @@map("field_options")
+}
+
+model DocumentTypeLocation {
+  id                Int           @id @default(autoincrement())
+  document_type_id  Int
+  location_id       Int
+  created_at        DateTime      @default(now())
+  updated_at        DateTime      @updatedAt
+  
+  document_type     DocumentType  @relation(fields: [document_type_id], references: [id], onDelete: Cascade)
+
+  @@unique([document_type_id, location_id])
+  @@map("document_type_locations")
 }

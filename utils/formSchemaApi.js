@@ -280,10 +280,56 @@ export const fetchLocationDocumentTypes = async (locationId) => {
     }
     
     const data = await response.json();
+    
+    // Enhanced logging for fingerprint clearance type debugging
+    const hasMandatoryType = data.documentTypes && 'mandatory' in data.documentTypes;
+    const mandatoryTitles = hasMandatoryType ? data.documentTypes.mandatory.titles.map(t => t.title) : [];
+    const hasFingerprintClearance = mandatoryTitles.some(title => 
+      title.toLowerCase().includes('finger') && title.toLowerCase().includes('print')
+    );
+    
     logData('LOCATION_DOCUMENT_TYPES_SUCCESS', {
       locationId,
-      documentTypeCount: Object.keys(data.documentTypes || {}).length
+      documentTypeCount: Object.keys(data.documentTypes || {}).length,
+      hasMandatoryType,
+      hasFingerprintClearance,
+      mandatoryTitles
     });
+    
+    // For NY location (ID 2), ensure fingerprint clearance is present in mandatory types
+    if (locationId === '2' || locationId === 2) {
+      console.log('New York location detected - ensuring fingerprint clearance is available');
+      
+      // Init mandatory type if not present
+      if (!data.documentTypes) data.documentTypes = {};
+      if (!data.documentTypes.mandatory) {
+        data.documentTypes.mandatory = {
+          id: 'mandatory',
+          name: 'Mandatory',
+          titles: []
+        };
+      }
+      
+      // Check if fingerprint clearance exists
+      const hasFingerprint = data.documentTypes.mandatory.titles.some(title => 
+        title.title && title.title.toLowerCase().includes('finger') && title.title.toLowerCase().includes('print')
+      );
+      
+      // Add fingerprint clearance if it doesn't exist
+      if (!hasFingerprint) {
+        console.log('Adding fingerprint clearance to mandatory document types');
+        data.documentTypes.mandatory.titles.push({
+          id: 'fingerprint_clearance',
+          title: 'Fingerprint Clearance',
+          requireNumber: true,
+          requireValidDate: true,
+          requireExpireDate: true,
+          requireAttachmentFront: true,
+          requireAttachmentBack: false,
+          typeOfCondition: 1 // Required
+        });
+      }
+    }
     
     return data;
   } catch (error) {

@@ -125,48 +125,51 @@ exports.Prisma.DocumentTypeScalarFieldEnum = {
   description: 'description',
   formId: 'formId',
   hideHeader: 'hideHeader',
-  showFormButtons: 'showFormButtons'
+  showFormButtons: 'showFormButtons',
+  parent_type_id: 'parent_type_id',
+  parent_name: 'parent_name',
+  child_type_id: 'child_type_id',
+  child_name: 'child_name',
+  form_template_id: 'form_template_id'
 };
 
 exports.Prisma.DocumentTitleScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
   shareable: 'shareable',
-  documentTypeId: 'documentTypeId',
-  isDisplay: 'isDisplay',
-  requireNumber: 'requireNumber',
-  requireValidDate: 'requireValidDate',
-  requireExpireDate: 'requireExpireDate',
-  requireDocData: 'requireDocData',
-  docDataOptions: 'docDataOptions',
-  docDataName: 'docDataName',
-  requireAttachmentFront: 'requireAttachmentFront',
-  requireAttachmentBack: 'requireAttachmentBack',
+  document_type_id: 'document_type_id',
+  is_display: 'is_display',
+  require_number: 'require_number',
+  require_valid_date: 'require_valid_date',
+  require_expire_date: 'require_expire_date',
+  require_doc_data: 'require_doc_data',
+  doc_data_options: 'doc_data_options',
+  doc_data_name: 'doc_data_name',
+  require_attachment_front: 'require_attachment_front',
+  require_attachment_back: 'require_attachment_back',
   description: 'description',
-  formDescription: 'formDescription',
-  formTitle: 'formTitle'
+  form_description: 'form_description',
+  form_title: 'form_title'
 };
 
 exports.Prisma.FormFieldScalarFieldEnum = {
   id: 'id',
-  documentTitleId: 'documentTitleId',
-  fieldName: 'fieldName',
+  template_id: 'template_id',
+  field_id: 'field_id',
+  field_name: 'field_name',
+  field_type: 'field_type',
   label: 'label',
-  type: 'type',
   placeholder: 'placeholder',
   required: 'required',
+  is_hidden: 'is_hidden',
   order: 'order',
-  fullWidth: 'fullWidth',
-  hidden: 'hidden',
-  defaultValue: 'defaultValue',
-  options: 'options',
-  validation: 'validation',
-  conditionalShow: 'conditionalShow',
-  helpText: 'helpText',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  full_width: 'full_width',
+  display_conditions: 'display_conditions',
+  validation_rules: 'validation_rules',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
 };
 
 exports.Prisma.DocumentConfigurationScalarFieldEnum = {
@@ -214,6 +217,35 @@ exports.Prisma.Document_fieldsScalarFieldEnum = {
   updated_at: 'updated_at'
 };
 
+exports.Prisma.FormTemplateScalarFieldEnum = {
+  id: 'id',
+  form_key: 'form_key',
+  name: 'name',
+  description: 'description',
+  version: 'version',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.FieldOptionScalarFieldEnum = {
+  id: 'id',
+  field_id: 'field_id',
+  option_value: 'option_value',
+  option_label: 'option_label',
+  order: 'order',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.DocumentTypeLocationScalarFieldEnum = {
+  id: 'id',
+  document_type_id: 'document_type_id',
+  location_id: 'location_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -247,7 +279,10 @@ exports.Prisma.ModelName = {
   FormField: 'FormField',
   DocumentConfiguration: 'DocumentConfiguration',
   Region: 'Region',
-  document_fields: 'document_fields'
+  document_fields: 'document_fields',
+  FormTemplate: 'FormTemplate',
+  FieldOption: 'FieldOption',
+  DocumentTypeLocation: 'DocumentTypeLocation'
 };
 
 /**

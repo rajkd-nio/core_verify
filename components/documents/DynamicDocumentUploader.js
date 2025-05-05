@@ -596,7 +596,8 @@ const DynamicDocumentUploader = ({
           schema={{
             ...schema,
             // Set documentType to fingerprint_clearance if selectedChildType is fingerprint_clearance
-            documentType: selectedChildType === 'fingerprint_clearance' ? 'fingerprint_clearance' : schema.documentType,
+            documentType: selectedChildType === 'fingerprint_clearance' || selectedChildType === 'finger_print_clearance' ? 'fingerprint_clearance' : schema.documentType,
+            childDocumentType: selectedChildType, // Ensure child document type is passed
             showFormButtons: false // Always hide form buttons as they're in the modal footer
           }}
           initialValues={initialValues}
@@ -606,6 +607,7 @@ const DynamicDocumentUploader = ({
           error={error}
           success={success}
           className="px-3"
+          onSchemaLoaded={onSchemaLoaded} // Pass the callback to FormSelector
         />
       </div>
     </div>

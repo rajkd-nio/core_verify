@@ -223,13 +223,15 @@ const DocumentTypeSelector = ({
                 <FormSelector
                   schema={{
                     ...childFormSchemas[selectedType],
-                    documentType: selectedType === 'fingerprint_clearance' ? 'fingerprint_clearance' : childFormSchemas[selectedType].documentType,
-                    showFormButtons: false // Handle buttons in parent component
+                    documentType: selectedType === 'fingerprint_clearance' || selectedType === 'finger_print_clearance' ? 'fingerprint_clearance' : childFormSchemas[selectedType].documentType,
+                    childDocumentType: selectedType,
+                    showFormButtons: false
                   }}
                   initialValues={{}}
                   onSubmit={handleFormSubmit}
                   onCancel={onCancel}
                   isSubmitting={loading}
+                  className="w-100"
                 />
               </CardBody>
             </Card>

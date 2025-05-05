@@ -593,6 +593,42 @@ input[type="date"]:focus::-webkit-datetime-edit-year-field {
     font-size: 0.9rem;
   }
 } 
+
+/* Add styles for processed documents */
+.drag-drop-file-upload.document-processed .file-preview-container.processed {
+  border-color: #28a745;
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+.document-processed-indicator {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #28a745;
+  color: white;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.document-processed-indicator .success-icon {
+  font-size: 14px;
+}
+
+/* Extracted date fields styling */
+.extracted-date-field {
+  border-color: #28a745;
+  background-color: rgba(40, 167, 69, 0.05);
+}
+
+.extracted-date-field:focus {
+  border-color: #28a745;
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+} 
 /*!*******************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[12].use[3]!./styles/FormStyles.css ***!
   \*******************************************************************************************************************************************************************************************************************************************************************/

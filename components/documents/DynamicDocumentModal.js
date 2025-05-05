@@ -496,13 +496,29 @@ const DynamicDocumentModal = ({
       }
     }
     
+    // Additional logging for Driver's License
+    if (actionInfo.isDriversLicenseForm || actionInfo.selectedChildType === 'drivers_license') {
+      console.log('Driver\'s License form schema received:', {
+        fields: actionInfo.schema?.fields?.map(f => ({ id: f.id, type: f.type })) || [],
+        showAllFields: actionInfo.showAllFields,
+        extracting: actionInfo.extracting,
+        documentType: actionInfo.schema?.documentType,
+        childType: actionInfo.selectedChildType,
+        locationId: actionInfo.schema?.locationId || config?.locationId,
+        formId: actionInfo.schema?.formId
+      });
+    }
+    
     // Create a unique identifier for this actionInfo to compare with previous
     const actionInfoId = JSON.stringify({
       schemaId: actionInfo.schema?.id,
       schemaDocType: actionInfo.schema?.documentType,
       isChildTypeSelector: actionInfo.isChildTypeSelector,
       selectedChildType: actionInfo.selectedChildType,
-      childTypeOptionsCount: actionInfo.childTypeOptions?.length
+      childTypeOptionsCount: actionInfo.childTypeOptions?.length,
+      // Add driver's license specific state for comparison
+      isDriversLicenseForm: actionInfo.isDriversLicenseForm,
+      showAllFields: actionInfo.showAllFields
     });
     
     // Only update state if the actionInfo has meaningful changes
@@ -865,7 +881,14 @@ const DynamicDocumentModal = ({
                       submitting || 
                       (formActions?.selectedChildType === 'fingerprint_clearance' ? 
                         false : 
-                        (typeof actionsFunctions.hasValidForm === 'function' ? !actionsFunctions.hasValidForm() : false))
+                        // Special handling for driver's license during extraction
+                        formActions?.isDriversLicenseForm && formActions?.extracting ? 
+                          true : 
+                          // For driver's license, only enable when all fields are showing
+                          formActions?.isDriversLicenseForm && !formActions?.showAllFields ?
+                            true :
+                            // Standard form validation for other document types
+                            (typeof actionsFunctions.hasValidForm === 'function' ? !actionsFunctions.hasValidForm() : false))
                     }
                     onClick={() => {
                       try {
@@ -873,6 +896,8 @@ const DynamicDocumentModal = ({
                         logData('FORM_SUBMISSION_ATTEMPT', {
                           documentType,
                           childDocumentType: formActions?.selectedChildType,
+                          isDriversLicenseForm: formActions?.isDriversLicenseForm,
+                          showAllFields: formActions?.showAllFields,
                           timestamp: new Date().toISOString(),
                           isEmbedded,
                           hasAuthData: !!config?.authData,
@@ -896,6 +921,11 @@ const DynamicDocumentModal = ({
                               provider: config.authData.provider || 'unknown'
                             });
                           }
+                        }
+                        
+                        // For driver's license, add special logging
+                        if (formActions?.isDriversLicenseForm) {
+                          console.log('Submitting driver\'s license document, showAllFields:', formActions.showAllFields);
                         }
                         
                         // Use the safely stored function with error handling
@@ -934,6 +964,8 @@ const DynamicDocumentModal = ({
                         </svg>
                         Document Processed
                       </>
+                    ) : formActions?.isDriversLicenseForm && !formActions?.showAllFields ? (
+                      <>Process Document</>
                     ) : (
                       <>
                         {typeof actionsFunctions.getSubmitButtonText === 'function' 

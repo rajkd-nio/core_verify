@@ -43,6 +43,21 @@ export type Region = $Result.DefaultSelection<Prisma.$RegionPayload>
  * 
  */
 export type document_fields = $Result.DefaultSelection<Prisma.$document_fieldsPayload>
+/**
+ * Model FormTemplate
+ * 
+ */
+export type FormTemplate = $Result.DefaultSelection<Prisma.$FormTemplatePayload>
+/**
+ * Model FieldOption
+ * 
+ */
+export type FieldOption = $Result.DefaultSelection<Prisma.$FieldOptionPayload>
+/**
+ * Model DocumentTypeLocation
+ * 
+ */
+export type DocumentTypeLocation = $Result.DefaultSelection<Prisma.$DocumentTypeLocationPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -228,6 +243,36 @@ export class PrismaClient<
     * ```
     */
   get document_fields(): Prisma.document_fieldsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.formTemplate`: Exposes CRUD operations for the **FormTemplate** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more FormTemplates
+    * const formTemplates = await prisma.formTemplate.findMany()
+    * ```
+    */
+  get formTemplate(): Prisma.FormTemplateDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.fieldOption`: Exposes CRUD operations for the **FieldOption** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more FieldOptions
+    * const fieldOptions = await prisma.fieldOption.findMany()
+    * ```
+    */
+  get fieldOption(): Prisma.FieldOptionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.documentTypeLocation`: Exposes CRUD operations for the **DocumentTypeLocation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DocumentTypeLocations
+    * const documentTypeLocations = await prisma.documentTypeLocation.findMany()
+    * ```
+    */
+  get documentTypeLocation(): Prisma.DocumentTypeLocationDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -673,7 +718,10 @@ export namespace Prisma {
     FormField: 'FormField',
     DocumentConfiguration: 'DocumentConfiguration',
     Region: 'Region',
-    document_fields: 'document_fields'
+    document_fields: 'document_fields',
+    FormTemplate: 'FormTemplate',
+    FieldOption: 'FieldOption',
+    DocumentTypeLocation: 'DocumentTypeLocation'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -692,7 +740,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "documentType" | "documentTitle" | "formField" | "documentConfiguration" | "region" | "document_fields"
+      modelProps: "documentType" | "documentTitle" | "formField" | "documentConfiguration" | "region" | "document_fields" | "formTemplate" | "fieldOption" | "documentTypeLocation"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1140,6 +1188,228 @@ export namespace Prisma {
           }
         }
       }
+      FormTemplate: {
+        payload: Prisma.$FormTemplatePayload<ExtArgs>
+        fields: Prisma.FormTemplateFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FormTemplateFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FormTemplatePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FormTemplateFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FormTemplatePayload>
+          }
+          findFirst: {
+            args: Prisma.FormTemplateFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FormTemplatePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FormTemplateFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FormTemplatePayload>
+          }
+          findMany: {
+            args: Prisma.FormTemplateFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FormTemplatePayload>[]
+          }
+          create: {
+            args: Prisma.FormTemplateCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FormTemplatePayload>
+          }
+          createMany: {
+            args: Prisma.FormTemplateCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FormTemplateCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FormTemplatePayload>[]
+          }
+          delete: {
+            args: Prisma.FormTemplateDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FormTemplatePayload>
+          }
+          update: {
+            args: Prisma.FormTemplateUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FormTemplatePayload>
+          }
+          deleteMany: {
+            args: Prisma.FormTemplateDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FormTemplateUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.FormTemplateUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FormTemplatePayload>[]
+          }
+          upsert: {
+            args: Prisma.FormTemplateUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FormTemplatePayload>
+          }
+          aggregate: {
+            args: Prisma.FormTemplateAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFormTemplate>
+          }
+          groupBy: {
+            args: Prisma.FormTemplateGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FormTemplateGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FormTemplateCountArgs<ExtArgs>
+            result: $Utils.Optional<FormTemplateCountAggregateOutputType> | number
+          }
+        }
+      }
+      FieldOption: {
+        payload: Prisma.$FieldOptionPayload<ExtArgs>
+        fields: Prisma.FieldOptionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FieldOptionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FieldOptionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FieldOptionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FieldOptionPayload>
+          }
+          findFirst: {
+            args: Prisma.FieldOptionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FieldOptionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FieldOptionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FieldOptionPayload>
+          }
+          findMany: {
+            args: Prisma.FieldOptionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FieldOptionPayload>[]
+          }
+          create: {
+            args: Prisma.FieldOptionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FieldOptionPayload>
+          }
+          createMany: {
+            args: Prisma.FieldOptionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FieldOptionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FieldOptionPayload>[]
+          }
+          delete: {
+            args: Prisma.FieldOptionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FieldOptionPayload>
+          }
+          update: {
+            args: Prisma.FieldOptionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FieldOptionPayload>
+          }
+          deleteMany: {
+            args: Prisma.FieldOptionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FieldOptionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.FieldOptionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FieldOptionPayload>[]
+          }
+          upsert: {
+            args: Prisma.FieldOptionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FieldOptionPayload>
+          }
+          aggregate: {
+            args: Prisma.FieldOptionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFieldOption>
+          }
+          groupBy: {
+            args: Prisma.FieldOptionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FieldOptionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FieldOptionCountArgs<ExtArgs>
+            result: $Utils.Optional<FieldOptionCountAggregateOutputType> | number
+          }
+        }
+      }
+      DocumentTypeLocation: {
+        payload: Prisma.$DocumentTypeLocationPayload<ExtArgs>
+        fields: Prisma.DocumentTypeLocationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DocumentTypeLocationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentTypeLocationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DocumentTypeLocationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentTypeLocationPayload>
+          }
+          findFirst: {
+            args: Prisma.DocumentTypeLocationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentTypeLocationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DocumentTypeLocationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentTypeLocationPayload>
+          }
+          findMany: {
+            args: Prisma.DocumentTypeLocationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentTypeLocationPayload>[]
+          }
+          create: {
+            args: Prisma.DocumentTypeLocationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentTypeLocationPayload>
+          }
+          createMany: {
+            args: Prisma.DocumentTypeLocationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DocumentTypeLocationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentTypeLocationPayload>[]
+          }
+          delete: {
+            args: Prisma.DocumentTypeLocationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentTypeLocationPayload>
+          }
+          update: {
+            args: Prisma.DocumentTypeLocationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentTypeLocationPayload>
+          }
+          deleteMany: {
+            args: Prisma.DocumentTypeLocationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DocumentTypeLocationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DocumentTypeLocationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentTypeLocationPayload>[]
+          }
+          upsert: {
+            args: Prisma.DocumentTypeLocationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentTypeLocationPayload>
+          }
+          aggregate: {
+            args: Prisma.DocumentTypeLocationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDocumentTypeLocation>
+          }
+          groupBy: {
+            args: Prisma.DocumentTypeLocationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DocumentTypeLocationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DocumentTypeLocationCountArgs<ExtArgs>
+            result: $Utils.Optional<DocumentTypeLocationCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1230,6 +1500,9 @@ export namespace Prisma {
     documentConfiguration?: DocumentConfigurationOmit
     region?: RegionOmit
     document_fields?: document_fieldsOmit
+    formTemplate?: FormTemplateOmit
+    fieldOption?: FieldOptionOmit
+    documentTypeLocation?: DocumentTypeLocationOmit
   }
 
   /* Types for Logging */
@@ -1324,15 +1597,17 @@ export namespace Prisma {
    */
 
   export type DocumentTypeCountOutputType = {
+    documentTitles: number
     documentConfigurations: number
     document_fields: number
-    documentTitles: number
+    locations: number
   }
 
   export type DocumentTypeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    documentTitles?: boolean | DocumentTypeCountOutputTypeCountDocumentTitlesArgs
     documentConfigurations?: boolean | DocumentTypeCountOutputTypeCountDocumentConfigurationsArgs
     document_fields?: boolean | DocumentTypeCountOutputTypeCountDocument_fieldsArgs
-    documentTitles?: boolean | DocumentTypeCountOutputTypeCountDocumentTitlesArgs
+    locations?: boolean | DocumentTypeCountOutputTypeCountLocationsArgs
   }
 
   // Custom InputTypes
@@ -1344,6 +1619,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the DocumentTypeCountOutputType
      */
     select?: DocumentTypeCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * DocumentTypeCountOutputType without action
+   */
+  export type DocumentTypeCountOutputTypeCountDocumentTitlesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentTitleWhereInput
   }
 
   /**
@@ -1363,8 +1645,8 @@ export namespace Prisma {
   /**
    * DocumentTypeCountOutputType without action
    */
-  export type DocumentTypeCountOutputTypeCountDocumentTitlesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: DocumentTitleWhereInput
+  export type DocumentTypeCountOutputTypeCountLocationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentTypeLocationWhereInput
   }
 
 
@@ -1375,13 +1657,11 @@ export namespace Prisma {
   export type DocumentTitleCountOutputType = {
     documentConfigurations: number
     document_fields: number
-    formFieldEntries: number
   }
 
   export type DocumentTitleCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     documentConfigurations?: boolean | DocumentTitleCountOutputTypeCountDocumentConfigurationsArgs
     document_fields?: boolean | DocumentTitleCountOutputTypeCountDocument_fieldsArgs
-    formFieldEntries?: boolean | DocumentTitleCountOutputTypeCountFormFieldEntriesArgs
   }
 
   // Custom InputTypes
@@ -1409,11 +1689,35 @@ export namespace Prisma {
     where?: document_fieldsWhereInput
   }
 
+
   /**
-   * DocumentTitleCountOutputType without action
+   * Count Type FormFieldCountOutputType
    */
-  export type DocumentTitleCountOutputTypeCountFormFieldEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FormFieldWhereInput
+
+  export type FormFieldCountOutputType = {
+    field_options: number
+  }
+
+  export type FormFieldCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    field_options?: boolean | FormFieldCountOutputTypeCountField_optionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * FormFieldCountOutputType without action
+   */
+  export type FormFieldCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FormFieldCountOutputType
+     */
+    select?: FormFieldCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * FormFieldCountOutputType without action
+   */
+  export type FormFieldCountOutputTypeCountField_optionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FieldOptionWhereInput
   }
 
 
@@ -1449,6 +1753,46 @@ export namespace Prisma {
 
 
   /**
+   * Count Type FormTemplateCountOutputType
+   */
+
+  export type FormTemplateCountOutputType = {
+    form_fields: number
+    document_types: number
+  }
+
+  export type FormTemplateCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    form_fields?: boolean | FormTemplateCountOutputTypeCountForm_fieldsArgs
+    document_types?: boolean | FormTemplateCountOutputTypeCountDocument_typesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * FormTemplateCountOutputType without action
+   */
+  export type FormTemplateCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FormTemplateCountOutputType
+     */
+    select?: FormTemplateCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * FormTemplateCountOutputType without action
+   */
+  export type FormTemplateCountOutputTypeCountForm_fieldsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FormFieldWhereInput
+  }
+
+  /**
+   * FormTemplateCountOutputType without action
+   */
+  export type FormTemplateCountOutputTypeCountDocument_typesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentTypeWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -1466,10 +1810,12 @@ export namespace Prisma {
 
   export type DocumentTypeAvgAggregateOutputType = {
     id: number | null
+    form_template_id: number | null
   }
 
   export type DocumentTypeSumAggregateOutputType = {
     id: number | null
+    form_template_id: number | null
   }
 
   export type DocumentTypeMinAggregateOutputType = {
@@ -1481,6 +1827,11 @@ export namespace Prisma {
     formId: string | null
     hideHeader: boolean | null
     showFormButtons: boolean | null
+    parent_type_id: string | null
+    parent_name: string | null
+    child_type_id: string | null
+    child_name: string | null
+    form_template_id: number | null
   }
 
   export type DocumentTypeMaxAggregateOutputType = {
@@ -1492,6 +1843,11 @@ export namespace Prisma {
     formId: string | null
     hideHeader: boolean | null
     showFormButtons: boolean | null
+    parent_type_id: string | null
+    parent_name: string | null
+    child_type_id: string | null
+    child_name: string | null
+    form_template_id: number | null
   }
 
   export type DocumentTypeCountAggregateOutputType = {
@@ -1503,16 +1859,23 @@ export namespace Prisma {
     formId: number
     hideHeader: number
     showFormButtons: number
+    parent_type_id: number
+    parent_name: number
+    child_type_id: number
+    child_name: number
+    form_template_id: number
     _all: number
   }
 
 
   export type DocumentTypeAvgAggregateInputType = {
     id?: true
+    form_template_id?: true
   }
 
   export type DocumentTypeSumAggregateInputType = {
     id?: true
+    form_template_id?: true
   }
 
   export type DocumentTypeMinAggregateInputType = {
@@ -1524,6 +1887,11 @@ export namespace Prisma {
     formId?: true
     hideHeader?: true
     showFormButtons?: true
+    parent_type_id?: true
+    parent_name?: true
+    child_type_id?: true
+    child_name?: true
+    form_template_id?: true
   }
 
   export type DocumentTypeMaxAggregateInputType = {
@@ -1535,6 +1903,11 @@ export namespace Prisma {
     formId?: true
     hideHeader?: true
     showFormButtons?: true
+    parent_type_id?: true
+    parent_name?: true
+    child_type_id?: true
+    child_name?: true
+    form_template_id?: true
   }
 
   export type DocumentTypeCountAggregateInputType = {
@@ -1546,6 +1919,11 @@ export namespace Prisma {
     formId?: true
     hideHeader?: true
     showFormButtons?: true
+    parent_type_id?: true
+    parent_name?: true
+    child_type_id?: true
+    child_name?: true
+    form_template_id?: true
     _all?: true
   }
 
@@ -1644,6 +2022,11 @@ export namespace Prisma {
     formId: string | null
     hideHeader: boolean
     showFormButtons: boolean
+    parent_type_id: string | null
+    parent_name: string | null
+    child_type_id: string | null
+    child_name: string | null
+    form_template_id: number | null
     _count: DocumentTypeCountAggregateOutputType | null
     _avg: DocumentTypeAvgAggregateOutputType | null
     _sum: DocumentTypeSumAggregateOutputType | null
@@ -1674,9 +2057,16 @@ export namespace Prisma {
     formId?: boolean
     hideHeader?: boolean
     showFormButtons?: boolean
+    parent_type_id?: boolean
+    parent_name?: boolean
+    child_type_id?: boolean
+    child_name?: boolean
+    form_template_id?: boolean
+    documentTitles?: boolean | DocumentType$documentTitlesArgs<ExtArgs>
     documentConfigurations?: boolean | DocumentType$documentConfigurationsArgs<ExtArgs>
     document_fields?: boolean | DocumentType$document_fieldsArgs<ExtArgs>
-    documentTitles?: boolean | DocumentType$documentTitlesArgs<ExtArgs>
+    form_template?: boolean | DocumentType$form_templateArgs<ExtArgs>
+    locations?: boolean | DocumentType$locationsArgs<ExtArgs>
     _count?: boolean | DocumentTypeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["documentType"]>
 
@@ -1689,6 +2079,12 @@ export namespace Prisma {
     formId?: boolean
     hideHeader?: boolean
     showFormButtons?: boolean
+    parent_type_id?: boolean
+    parent_name?: boolean
+    child_type_id?: boolean
+    child_name?: boolean
+    form_template_id?: boolean
+    form_template?: boolean | DocumentType$form_templateArgs<ExtArgs>
   }, ExtArgs["result"]["documentType"]>
 
   export type DocumentTypeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1700,6 +2096,12 @@ export namespace Prisma {
     formId?: boolean
     hideHeader?: boolean
     showFormButtons?: boolean
+    parent_type_id?: boolean
+    parent_name?: boolean
+    child_type_id?: boolean
+    child_name?: boolean
+    form_template_id?: boolean
+    form_template?: boolean | DocumentType$form_templateArgs<ExtArgs>
   }, ExtArgs["result"]["documentType"]>
 
   export type DocumentTypeSelectScalar = {
@@ -1711,24 +2113,37 @@ export namespace Prisma {
     formId?: boolean
     hideHeader?: boolean
     showFormButtons?: boolean
+    parent_type_id?: boolean
+    parent_name?: boolean
+    child_type_id?: boolean
+    child_name?: boolean
+    form_template_id?: boolean
   }
 
-  export type DocumentTypeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "createdAt" | "updatedAt" | "description" | "formId" | "hideHeader" | "showFormButtons", ExtArgs["result"]["documentType"]>
+  export type DocumentTypeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "createdAt" | "updatedAt" | "description" | "formId" | "hideHeader" | "showFormButtons" | "parent_type_id" | "parent_name" | "child_type_id" | "child_name" | "form_template_id", ExtArgs["result"]["documentType"]>
   export type DocumentTypeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    documentTitles?: boolean | DocumentType$documentTitlesArgs<ExtArgs>
     documentConfigurations?: boolean | DocumentType$documentConfigurationsArgs<ExtArgs>
     document_fields?: boolean | DocumentType$document_fieldsArgs<ExtArgs>
-    documentTitles?: boolean | DocumentType$documentTitlesArgs<ExtArgs>
+    form_template?: boolean | DocumentType$form_templateArgs<ExtArgs>
+    locations?: boolean | DocumentType$locationsArgs<ExtArgs>
     _count?: boolean | DocumentTypeCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type DocumentTypeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type DocumentTypeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type DocumentTypeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    form_template?: boolean | DocumentType$form_templateArgs<ExtArgs>
+  }
+  export type DocumentTypeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    form_template?: boolean | DocumentType$form_templateArgs<ExtArgs>
+  }
 
   export type $DocumentTypePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "DocumentType"
     objects: {
+      documentTitles: Prisma.$DocumentTitlePayload<ExtArgs>[]
       documentConfigurations: Prisma.$DocumentConfigurationPayload<ExtArgs>[]
       document_fields: Prisma.$document_fieldsPayload<ExtArgs>[]
-      documentTitles: Prisma.$DocumentTitlePayload<ExtArgs>[]
+      form_template: Prisma.$FormTemplatePayload<ExtArgs> | null
+      locations: Prisma.$DocumentTypeLocationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -1739,6 +2154,11 @@ export namespace Prisma {
       formId: string | null
       hideHeader: boolean
       showFormButtons: boolean
+      parent_type_id: string | null
+      parent_name: string | null
+      child_type_id: string | null
+      child_name: string | null
+      form_template_id: number | null
     }, ExtArgs["result"]["documentType"]>
     composites: {}
   }
@@ -2133,9 +2553,11 @@ export namespace Prisma {
    */
   export interface Prisma__DocumentTypeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    documentTitles<T extends DocumentType$documentTitlesArgs<ExtArgs> = {}>(args?: Subset<T, DocumentType$documentTitlesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentTitlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     documentConfigurations<T extends DocumentType$documentConfigurationsArgs<ExtArgs> = {}>(args?: Subset<T, DocumentType$documentConfigurationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentConfigurationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     document_fields<T extends DocumentType$document_fieldsArgs<ExtArgs> = {}>(args?: Subset<T, DocumentType$document_fieldsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$document_fieldsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    documentTitles<T extends DocumentType$documentTitlesArgs<ExtArgs> = {}>(args?: Subset<T, DocumentType$documentTitlesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentTitlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    form_template<T extends DocumentType$form_templateArgs<ExtArgs> = {}>(args?: Subset<T, DocumentType$form_templateArgs<ExtArgs>>): Prisma__FormTemplateClient<$Result.GetResult<Prisma.$FormTemplatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    locations<T extends DocumentType$locationsArgs<ExtArgs> = {}>(args?: Subset<T, DocumentType$locationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentTypeLocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2173,6 +2595,11 @@ export namespace Prisma {
     readonly formId: FieldRef<"DocumentType", 'String'>
     readonly hideHeader: FieldRef<"DocumentType", 'Boolean'>
     readonly showFormButtons: FieldRef<"DocumentType", 'Boolean'>
+    readonly parent_type_id: FieldRef<"DocumentType", 'String'>
+    readonly parent_name: FieldRef<"DocumentType", 'String'>
+    readonly child_type_id: FieldRef<"DocumentType", 'String'>
+    readonly child_name: FieldRef<"DocumentType", 'String'>
+    readonly form_template_id: FieldRef<"DocumentType", 'Int'>
   }
     
 
@@ -2422,6 +2849,10 @@ export namespace Prisma {
      */
     data: DocumentTypeCreateManyInput | DocumentTypeCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentTypeIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2492,6 +2923,10 @@ export namespace Prisma {
      * Limit how many DocumentTypes to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentTypeIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2561,6 +2996,30 @@ export namespace Prisma {
   }
 
   /**
+   * DocumentType.documentTitles
+   */
+  export type DocumentType$documentTitlesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentTitle
+     */
+    select?: DocumentTitleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentTitle
+     */
+    omit?: DocumentTitleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentTitleInclude<ExtArgs> | null
+    where?: DocumentTitleWhereInput
+    orderBy?: DocumentTitleOrderByWithRelationInput | DocumentTitleOrderByWithRelationInput[]
+    cursor?: DocumentTitleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DocumentTitleScalarFieldEnum | DocumentTitleScalarFieldEnum[]
+  }
+
+  /**
    * DocumentType.documentConfigurations
    */
   export type DocumentType$documentConfigurationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2609,27 +3068,46 @@ export namespace Prisma {
   }
 
   /**
-   * DocumentType.documentTitles
+   * DocumentType.form_template
    */
-  export type DocumentType$documentTitlesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DocumentType$form_templateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the DocumentTitle
+     * Select specific fields to fetch from the FormTemplate
      */
-    select?: DocumentTitleSelect<ExtArgs> | null
+    select?: FormTemplateSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the DocumentTitle
+     * Omit specific fields from the FormTemplate
      */
-    omit?: DocumentTitleOmit<ExtArgs> | null
+    omit?: FormTemplateOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: DocumentTitleInclude<ExtArgs> | null
-    where?: DocumentTitleWhereInput
-    orderBy?: DocumentTitleOrderByWithRelationInput | DocumentTitleOrderByWithRelationInput[]
-    cursor?: DocumentTitleWhereUniqueInput
+    include?: FormTemplateInclude<ExtArgs> | null
+    where?: FormTemplateWhereInput
+  }
+
+  /**
+   * DocumentType.locations
+   */
+  export type DocumentType$locationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentTypeLocation
+     */
+    select?: DocumentTypeLocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentTypeLocation
+     */
+    omit?: DocumentTypeLocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentTypeLocationInclude<ExtArgs> | null
+    where?: DocumentTypeLocationWhereInput
+    orderBy?: DocumentTypeLocationOrderByWithRelationInput | DocumentTypeLocationOrderByWithRelationInput[]
+    cursor?: DocumentTypeLocationWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: DocumentTitleScalarFieldEnum | DocumentTitleScalarFieldEnum[]
+    distinct?: DocumentTypeLocationScalarFieldEnum | DocumentTypeLocationScalarFieldEnum[]
   }
 
   /**
@@ -2665,146 +3143,146 @@ export namespace Prisma {
 
   export type DocumentTitleAvgAggregateOutputType = {
     id: number | null
-    documentTypeId: number | null
+    document_type_id: number | null
   }
 
   export type DocumentTitleSumAggregateOutputType = {
     id: number | null
-    documentTypeId: number | null
+    document_type_id: number | null
   }
 
   export type DocumentTitleMinAggregateOutputType = {
     id: number | null
     title: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
+    created_at: Date | null
+    updated_at: Date | null
     shareable: boolean | null
-    documentTypeId: number | null
-    isDisplay: boolean | null
-    requireNumber: boolean | null
-    requireValidDate: boolean | null
-    requireExpireDate: boolean | null
-    requireDocData: boolean | null
-    docDataName: string | null
-    requireAttachmentFront: boolean | null
-    requireAttachmentBack: boolean | null
+    document_type_id: number | null
+    is_display: boolean | null
+    require_number: boolean | null
+    require_valid_date: boolean | null
+    require_expire_date: boolean | null
+    require_doc_data: boolean | null
+    doc_data_name: string | null
+    require_attachment_front: boolean | null
+    require_attachment_back: boolean | null
     description: string | null
-    formDescription: string | null
-    formTitle: string | null
+    form_description: string | null
+    form_title: string | null
   }
 
   export type DocumentTitleMaxAggregateOutputType = {
     id: number | null
     title: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
+    created_at: Date | null
+    updated_at: Date | null
     shareable: boolean | null
-    documentTypeId: number | null
-    isDisplay: boolean | null
-    requireNumber: boolean | null
-    requireValidDate: boolean | null
-    requireExpireDate: boolean | null
-    requireDocData: boolean | null
-    docDataName: string | null
-    requireAttachmentFront: boolean | null
-    requireAttachmentBack: boolean | null
+    document_type_id: number | null
+    is_display: boolean | null
+    require_number: boolean | null
+    require_valid_date: boolean | null
+    require_expire_date: boolean | null
+    require_doc_data: boolean | null
+    doc_data_name: string | null
+    require_attachment_front: boolean | null
+    require_attachment_back: boolean | null
     description: string | null
-    formDescription: string | null
-    formTitle: string | null
+    form_description: string | null
+    form_title: string | null
   }
 
   export type DocumentTitleCountAggregateOutputType = {
     id: number
     title: number
-    createdAt: number
-    updatedAt: number
+    created_at: number
+    updated_at: number
     shareable: number
-    documentTypeId: number
-    isDisplay: number
-    requireNumber: number
-    requireValidDate: number
-    requireExpireDate: number
-    requireDocData: number
-    docDataOptions: number
-    docDataName: number
-    requireAttachmentFront: number
-    requireAttachmentBack: number
+    document_type_id: number
+    is_display: number
+    require_number: number
+    require_valid_date: number
+    require_expire_date: number
+    require_doc_data: number
+    doc_data_options: number
+    doc_data_name: number
+    require_attachment_front: number
+    require_attachment_back: number
     description: number
-    formDescription: number
-    formTitle: number
+    form_description: number
+    form_title: number
     _all: number
   }
 
 
   export type DocumentTitleAvgAggregateInputType = {
     id?: true
-    documentTypeId?: true
+    document_type_id?: true
   }
 
   export type DocumentTitleSumAggregateInputType = {
     id?: true
-    documentTypeId?: true
+    document_type_id?: true
   }
 
   export type DocumentTitleMinAggregateInputType = {
     id?: true
     title?: true
-    createdAt?: true
-    updatedAt?: true
+    created_at?: true
+    updated_at?: true
     shareable?: true
-    documentTypeId?: true
-    isDisplay?: true
-    requireNumber?: true
-    requireValidDate?: true
-    requireExpireDate?: true
-    requireDocData?: true
-    docDataName?: true
-    requireAttachmentFront?: true
-    requireAttachmentBack?: true
+    document_type_id?: true
+    is_display?: true
+    require_number?: true
+    require_valid_date?: true
+    require_expire_date?: true
+    require_doc_data?: true
+    doc_data_name?: true
+    require_attachment_front?: true
+    require_attachment_back?: true
     description?: true
-    formDescription?: true
-    formTitle?: true
+    form_description?: true
+    form_title?: true
   }
 
   export type DocumentTitleMaxAggregateInputType = {
     id?: true
     title?: true
-    createdAt?: true
-    updatedAt?: true
+    created_at?: true
+    updated_at?: true
     shareable?: true
-    documentTypeId?: true
-    isDisplay?: true
-    requireNumber?: true
-    requireValidDate?: true
-    requireExpireDate?: true
-    requireDocData?: true
-    docDataName?: true
-    requireAttachmentFront?: true
-    requireAttachmentBack?: true
+    document_type_id?: true
+    is_display?: true
+    require_number?: true
+    require_valid_date?: true
+    require_expire_date?: true
+    require_doc_data?: true
+    doc_data_name?: true
+    require_attachment_front?: true
+    require_attachment_back?: true
     description?: true
-    formDescription?: true
-    formTitle?: true
+    form_description?: true
+    form_title?: true
   }
 
   export type DocumentTitleCountAggregateInputType = {
     id?: true
     title?: true
-    createdAt?: true
-    updatedAt?: true
+    created_at?: true
+    updated_at?: true
     shareable?: true
-    documentTypeId?: true
-    isDisplay?: true
-    requireNumber?: true
-    requireValidDate?: true
-    requireExpireDate?: true
-    requireDocData?: true
-    docDataOptions?: true
-    docDataName?: true
-    requireAttachmentFront?: true
-    requireAttachmentBack?: true
+    document_type_id?: true
+    is_display?: true
+    require_number?: true
+    require_valid_date?: true
+    require_expire_date?: true
+    require_doc_data?: true
+    doc_data_options?: true
+    doc_data_name?: true
+    require_attachment_front?: true
+    require_attachment_back?: true
     description?: true
-    formDescription?: true
-    formTitle?: true
+    form_description?: true
+    form_title?: true
     _all?: true
   }
 
@@ -2897,22 +3375,22 @@ export namespace Prisma {
   export type DocumentTitleGroupByOutputType = {
     id: number
     title: string
-    createdAt: Date
-    updatedAt: Date
+    created_at: Date
+    updated_at: Date
     shareable: boolean
-    documentTypeId: number
-    isDisplay: boolean
-    requireNumber: boolean
-    requireValidDate: boolean
-    requireExpireDate: boolean
-    requireDocData: boolean
-    docDataOptions: JsonValue | null
-    docDataName: string | null
-    requireAttachmentFront: boolean
-    requireAttachmentBack: boolean
+    document_type_id: number
+    is_display: boolean
+    require_number: boolean
+    require_valid_date: boolean
+    require_expire_date: boolean
+    require_doc_data: boolean
+    doc_data_options: JsonValue | null
+    doc_data_name: string | null
+    require_attachment_front: boolean
+    require_attachment_back: boolean
     description: string | null
-    formDescription: string | null
-    formTitle: string | null
+    form_description: string | null
+    form_title: string | null
     _count: DocumentTitleCountAggregateOutputType | null
     _avg: DocumentTitleAvgAggregateOutputType | null
     _sum: DocumentTitleSumAggregateOutputType | null
@@ -2937,136 +3415,133 @@ export namespace Prisma {
   export type DocumentTitleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    created_at?: boolean
+    updated_at?: boolean
     shareable?: boolean
-    documentTypeId?: boolean
-    isDisplay?: boolean
-    requireNumber?: boolean
-    requireValidDate?: boolean
-    requireExpireDate?: boolean
-    requireDocData?: boolean
-    docDataOptions?: boolean
-    docDataName?: boolean
-    requireAttachmentFront?: boolean
-    requireAttachmentBack?: boolean
+    document_type_id?: boolean
+    is_display?: boolean
+    require_number?: boolean
+    require_valid_date?: boolean
+    require_expire_date?: boolean
+    require_doc_data?: boolean
+    doc_data_options?: boolean
+    doc_data_name?: boolean
+    require_attachment_front?: boolean
+    require_attachment_back?: boolean
     description?: boolean
-    formDescription?: boolean
-    formTitle?: boolean
+    form_description?: boolean
+    form_title?: boolean
+    document_types?: boolean | DocumentTypeDefaultArgs<ExtArgs>
     documentConfigurations?: boolean | DocumentTitle$documentConfigurationsArgs<ExtArgs>
     document_fields?: boolean | DocumentTitle$document_fieldsArgs<ExtArgs>
-    documentType?: boolean | DocumentTypeDefaultArgs<ExtArgs>
-    formFieldEntries?: boolean | DocumentTitle$formFieldEntriesArgs<ExtArgs>
     _count?: boolean | DocumentTitleCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["documentTitle"]>
 
   export type DocumentTitleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    created_at?: boolean
+    updated_at?: boolean
     shareable?: boolean
-    documentTypeId?: boolean
-    isDisplay?: boolean
-    requireNumber?: boolean
-    requireValidDate?: boolean
-    requireExpireDate?: boolean
-    requireDocData?: boolean
-    docDataOptions?: boolean
-    docDataName?: boolean
-    requireAttachmentFront?: boolean
-    requireAttachmentBack?: boolean
+    document_type_id?: boolean
+    is_display?: boolean
+    require_number?: boolean
+    require_valid_date?: boolean
+    require_expire_date?: boolean
+    require_doc_data?: boolean
+    doc_data_options?: boolean
+    doc_data_name?: boolean
+    require_attachment_front?: boolean
+    require_attachment_back?: boolean
     description?: boolean
-    formDescription?: boolean
-    formTitle?: boolean
-    documentType?: boolean | DocumentTypeDefaultArgs<ExtArgs>
+    form_description?: boolean
+    form_title?: boolean
+    document_types?: boolean | DocumentTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["documentTitle"]>
 
   export type DocumentTitleSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    created_at?: boolean
+    updated_at?: boolean
     shareable?: boolean
-    documentTypeId?: boolean
-    isDisplay?: boolean
-    requireNumber?: boolean
-    requireValidDate?: boolean
-    requireExpireDate?: boolean
-    requireDocData?: boolean
-    docDataOptions?: boolean
-    docDataName?: boolean
-    requireAttachmentFront?: boolean
-    requireAttachmentBack?: boolean
+    document_type_id?: boolean
+    is_display?: boolean
+    require_number?: boolean
+    require_valid_date?: boolean
+    require_expire_date?: boolean
+    require_doc_data?: boolean
+    doc_data_options?: boolean
+    doc_data_name?: boolean
+    require_attachment_front?: boolean
+    require_attachment_back?: boolean
     description?: boolean
-    formDescription?: boolean
-    formTitle?: boolean
-    documentType?: boolean | DocumentTypeDefaultArgs<ExtArgs>
+    form_description?: boolean
+    form_title?: boolean
+    document_types?: boolean | DocumentTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["documentTitle"]>
 
   export type DocumentTitleSelectScalar = {
     id?: boolean
     title?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    created_at?: boolean
+    updated_at?: boolean
     shareable?: boolean
-    documentTypeId?: boolean
-    isDisplay?: boolean
-    requireNumber?: boolean
-    requireValidDate?: boolean
-    requireExpireDate?: boolean
-    requireDocData?: boolean
-    docDataOptions?: boolean
-    docDataName?: boolean
-    requireAttachmentFront?: boolean
-    requireAttachmentBack?: boolean
+    document_type_id?: boolean
+    is_display?: boolean
+    require_number?: boolean
+    require_valid_date?: boolean
+    require_expire_date?: boolean
+    require_doc_data?: boolean
+    doc_data_options?: boolean
+    doc_data_name?: boolean
+    require_attachment_front?: boolean
+    require_attachment_back?: boolean
     description?: boolean
-    formDescription?: boolean
-    formTitle?: boolean
+    form_description?: boolean
+    form_title?: boolean
   }
 
-  export type DocumentTitleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "createdAt" | "updatedAt" | "shareable" | "documentTypeId" | "isDisplay" | "requireNumber" | "requireValidDate" | "requireExpireDate" | "requireDocData" | "docDataOptions" | "docDataName" | "requireAttachmentFront" | "requireAttachmentBack" | "description" | "formDescription" | "formTitle", ExtArgs["result"]["documentTitle"]>
+  export type DocumentTitleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "created_at" | "updated_at" | "shareable" | "document_type_id" | "is_display" | "require_number" | "require_valid_date" | "require_expire_date" | "require_doc_data" | "doc_data_options" | "doc_data_name" | "require_attachment_front" | "require_attachment_back" | "description" | "form_description" | "form_title", ExtArgs["result"]["documentTitle"]>
   export type DocumentTitleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    document_types?: boolean | DocumentTypeDefaultArgs<ExtArgs>
     documentConfigurations?: boolean | DocumentTitle$documentConfigurationsArgs<ExtArgs>
     document_fields?: boolean | DocumentTitle$document_fieldsArgs<ExtArgs>
-    documentType?: boolean | DocumentTypeDefaultArgs<ExtArgs>
-    formFieldEntries?: boolean | DocumentTitle$formFieldEntriesArgs<ExtArgs>
     _count?: boolean | DocumentTitleCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type DocumentTitleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    documentType?: boolean | DocumentTypeDefaultArgs<ExtArgs>
+    document_types?: boolean | DocumentTypeDefaultArgs<ExtArgs>
   }
   export type DocumentTitleIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    documentType?: boolean | DocumentTypeDefaultArgs<ExtArgs>
+    document_types?: boolean | DocumentTypeDefaultArgs<ExtArgs>
   }
 
   export type $DocumentTitlePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "DocumentTitle"
     objects: {
+      document_types: Prisma.$DocumentTypePayload<ExtArgs>
       documentConfigurations: Prisma.$DocumentConfigurationPayload<ExtArgs>[]
       document_fields: Prisma.$document_fieldsPayload<ExtArgs>[]
-      documentType: Prisma.$DocumentTypePayload<ExtArgs>
-      formFieldEntries: Prisma.$FormFieldPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       title: string
-      createdAt: Date
-      updatedAt: Date
+      created_at: Date
+      updated_at: Date
       shareable: boolean
-      documentTypeId: number
-      isDisplay: boolean
-      requireNumber: boolean
-      requireValidDate: boolean
-      requireExpireDate: boolean
-      requireDocData: boolean
-      docDataOptions: Prisma.JsonValue | null
-      docDataName: string | null
-      requireAttachmentFront: boolean
-      requireAttachmentBack: boolean
+      document_type_id: number
+      is_display: boolean
+      require_number: boolean
+      require_valid_date: boolean
+      require_expire_date: boolean
+      require_doc_data: boolean
+      doc_data_options: Prisma.JsonValue | null
+      doc_data_name: string | null
+      require_attachment_front: boolean
+      require_attachment_back: boolean
       description: string | null
-      formDescription: string | null
-      formTitle: string | null
+      form_description: string | null
+      form_title: string | null
     }, ExtArgs["result"]["documentTitle"]>
     composites: {}
   }
@@ -3461,10 +3936,9 @@ export namespace Prisma {
    */
   export interface Prisma__DocumentTitleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    document_types<T extends DocumentTypeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DocumentTypeDefaultArgs<ExtArgs>>): Prisma__DocumentTypeClient<$Result.GetResult<Prisma.$DocumentTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     documentConfigurations<T extends DocumentTitle$documentConfigurationsArgs<ExtArgs> = {}>(args?: Subset<T, DocumentTitle$documentConfigurationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentConfigurationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     document_fields<T extends DocumentTitle$document_fieldsArgs<ExtArgs> = {}>(args?: Subset<T, DocumentTitle$document_fieldsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$document_fieldsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    documentType<T extends DocumentTypeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DocumentTypeDefaultArgs<ExtArgs>>): Prisma__DocumentTypeClient<$Result.GetResult<Prisma.$DocumentTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    formFieldEntries<T extends DocumentTitle$formFieldEntriesArgs<ExtArgs> = {}>(args?: Subset<T, DocumentTitle$formFieldEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FormFieldPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3496,22 +3970,22 @@ export namespace Prisma {
   interface DocumentTitleFieldRefs {
     readonly id: FieldRef<"DocumentTitle", 'Int'>
     readonly title: FieldRef<"DocumentTitle", 'String'>
-    readonly createdAt: FieldRef<"DocumentTitle", 'DateTime'>
-    readonly updatedAt: FieldRef<"DocumentTitle", 'DateTime'>
+    readonly created_at: FieldRef<"DocumentTitle", 'DateTime'>
+    readonly updated_at: FieldRef<"DocumentTitle", 'DateTime'>
     readonly shareable: FieldRef<"DocumentTitle", 'Boolean'>
-    readonly documentTypeId: FieldRef<"DocumentTitle", 'Int'>
-    readonly isDisplay: FieldRef<"DocumentTitle", 'Boolean'>
-    readonly requireNumber: FieldRef<"DocumentTitle", 'Boolean'>
-    readonly requireValidDate: FieldRef<"DocumentTitle", 'Boolean'>
-    readonly requireExpireDate: FieldRef<"DocumentTitle", 'Boolean'>
-    readonly requireDocData: FieldRef<"DocumentTitle", 'Boolean'>
-    readonly docDataOptions: FieldRef<"DocumentTitle", 'Json'>
-    readonly docDataName: FieldRef<"DocumentTitle", 'String'>
-    readonly requireAttachmentFront: FieldRef<"DocumentTitle", 'Boolean'>
-    readonly requireAttachmentBack: FieldRef<"DocumentTitle", 'Boolean'>
+    readonly document_type_id: FieldRef<"DocumentTitle", 'Int'>
+    readonly is_display: FieldRef<"DocumentTitle", 'Boolean'>
+    readonly require_number: FieldRef<"DocumentTitle", 'Boolean'>
+    readonly require_valid_date: FieldRef<"DocumentTitle", 'Boolean'>
+    readonly require_expire_date: FieldRef<"DocumentTitle", 'Boolean'>
+    readonly require_doc_data: FieldRef<"DocumentTitle", 'Boolean'>
+    readonly doc_data_options: FieldRef<"DocumentTitle", 'Json'>
+    readonly doc_data_name: FieldRef<"DocumentTitle", 'String'>
+    readonly require_attachment_front: FieldRef<"DocumentTitle", 'Boolean'>
+    readonly require_attachment_back: FieldRef<"DocumentTitle", 'Boolean'>
     readonly description: FieldRef<"DocumentTitle", 'String'>
-    readonly formDescription: FieldRef<"DocumentTitle", 'String'>
-    readonly formTitle: FieldRef<"DocumentTitle", 'String'>
+    readonly form_description: FieldRef<"DocumentTitle", 'String'>
+    readonly form_title: FieldRef<"DocumentTitle", 'String'>
   }
     
 
@@ -3956,30 +4430,6 @@ export namespace Prisma {
   }
 
   /**
-   * DocumentTitle.formFieldEntries
-   */
-  export type DocumentTitle$formFieldEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FormField
-     */
-    select?: FormFieldSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FormField
-     */
-    omit?: FormFieldOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FormFieldInclude<ExtArgs> | null
-    where?: FormFieldWhereInput
-    orderBy?: FormFieldOrderByWithRelationInput | FormFieldOrderByWithRelationInput[]
-    cursor?: FormFieldWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: FormFieldScalarFieldEnum | FormFieldScalarFieldEnum[]
-  }
-
-  /**
    * DocumentTitle without action
    */
   export type DocumentTitleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4012,136 +4462,128 @@ export namespace Prisma {
 
   export type FormFieldAvgAggregateOutputType = {
     id: number | null
-    documentTitleId: number | null
+    template_id: number | null
     order: number | null
   }
 
   export type FormFieldSumAggregateOutputType = {
     id: number | null
-    documentTitleId: number | null
+    template_id: number | null
     order: number | null
   }
 
   export type FormFieldMinAggregateOutputType = {
     id: number | null
-    documentTitleId: number | null
-    fieldName: string | null
+    template_id: number | null
+    field_id: string | null
+    field_name: string | null
+    field_type: string | null
     label: string | null
-    type: string | null
     placeholder: string | null
     required: boolean | null
+    is_hidden: boolean | null
     order: number | null
-    fullWidth: boolean | null
-    hidden: boolean | null
-    defaultValue: string | null
-    helpText: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
+    full_width: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
   }
 
   export type FormFieldMaxAggregateOutputType = {
     id: number | null
-    documentTitleId: number | null
-    fieldName: string | null
+    template_id: number | null
+    field_id: string | null
+    field_name: string | null
+    field_type: string | null
     label: string | null
-    type: string | null
     placeholder: string | null
     required: boolean | null
+    is_hidden: boolean | null
     order: number | null
-    fullWidth: boolean | null
-    hidden: boolean | null
-    defaultValue: string | null
-    helpText: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
+    full_width: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
   }
 
   export type FormFieldCountAggregateOutputType = {
     id: number
-    documentTitleId: number
-    fieldName: number
+    template_id: number
+    field_id: number
+    field_name: number
+    field_type: number
     label: number
-    type: number
     placeholder: number
     required: number
+    is_hidden: number
     order: number
-    fullWidth: number
-    hidden: number
-    defaultValue: number
-    options: number
-    validation: number
-    conditionalShow: number
-    helpText: number
-    createdAt: number
-    updatedAt: number
+    full_width: number
+    display_conditions: number
+    validation_rules: number
+    created_at: number
+    updated_at: number
     _all: number
   }
 
 
   export type FormFieldAvgAggregateInputType = {
     id?: true
-    documentTitleId?: true
+    template_id?: true
     order?: true
   }
 
   export type FormFieldSumAggregateInputType = {
     id?: true
-    documentTitleId?: true
+    template_id?: true
     order?: true
   }
 
   export type FormFieldMinAggregateInputType = {
     id?: true
-    documentTitleId?: true
-    fieldName?: true
+    template_id?: true
+    field_id?: true
+    field_name?: true
+    field_type?: true
     label?: true
-    type?: true
     placeholder?: true
     required?: true
+    is_hidden?: true
     order?: true
-    fullWidth?: true
-    hidden?: true
-    defaultValue?: true
-    helpText?: true
-    createdAt?: true
-    updatedAt?: true
+    full_width?: true
+    created_at?: true
+    updated_at?: true
   }
 
   export type FormFieldMaxAggregateInputType = {
     id?: true
-    documentTitleId?: true
-    fieldName?: true
+    template_id?: true
+    field_id?: true
+    field_name?: true
+    field_type?: true
     label?: true
-    type?: true
     placeholder?: true
     required?: true
+    is_hidden?: true
     order?: true
-    fullWidth?: true
-    hidden?: true
-    defaultValue?: true
-    helpText?: true
-    createdAt?: true
-    updatedAt?: true
+    full_width?: true
+    created_at?: true
+    updated_at?: true
   }
 
   export type FormFieldCountAggregateInputType = {
     id?: true
-    documentTitleId?: true
-    fieldName?: true
+    template_id?: true
+    field_id?: true
+    field_name?: true
+    field_type?: true
     label?: true
-    type?: true
     placeholder?: true
     required?: true
+    is_hidden?: true
     order?: true
-    fullWidth?: true
-    hidden?: true
-    defaultValue?: true
-    options?: true
-    validation?: true
-    conditionalShow?: true
-    helpText?: true
-    createdAt?: true
-    updatedAt?: true
+    full_width?: true
+    display_conditions?: true
+    validation_rules?: true
+    created_at?: true
+    updated_at?: true
     _all?: true
   }
 
@@ -4233,22 +4675,20 @@ export namespace Prisma {
 
   export type FormFieldGroupByOutputType = {
     id: number
-    documentTitleId: number
-    fieldName: string
+    template_id: number
+    field_id: string
+    field_name: string
+    field_type: string
     label: string
-    type: string
     placeholder: string | null
     required: boolean
+    is_hidden: boolean
     order: number
-    fullWidth: boolean
-    hidden: boolean
-    defaultValue: string | null
-    options: JsonValue | null
-    validation: JsonValue | null
-    conditionalShow: JsonValue | null
-    helpText: string | null
-    createdAt: Date
-    updatedAt: Date
+    full_width: boolean
+    display_conditions: JsonValue | null
+    validation_rules: JsonValue | null
+    created_at: Date
+    updated_at: Date
     _count: FormFieldCountAggregateOutputType | null
     _avg: FormFieldAvgAggregateOutputType | null
     _sum: FormFieldSumAggregateOutputType | null
@@ -4272,121 +4712,116 @@ export namespace Prisma {
 
   export type FormFieldSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    documentTitleId?: boolean
-    fieldName?: boolean
+    template_id?: boolean
+    field_id?: boolean
+    field_name?: boolean
+    field_type?: boolean
     label?: boolean
-    type?: boolean
     placeholder?: boolean
     required?: boolean
+    is_hidden?: boolean
     order?: boolean
-    fullWidth?: boolean
-    hidden?: boolean
-    defaultValue?: boolean
-    options?: boolean
-    validation?: boolean
-    conditionalShow?: boolean
-    helpText?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    documentTitle?: boolean | DocumentTitleDefaultArgs<ExtArgs>
+    full_width?: boolean
+    display_conditions?: boolean
+    validation_rules?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    form_template?: boolean | FormTemplateDefaultArgs<ExtArgs>
+    field_options?: boolean | FormField$field_optionsArgs<ExtArgs>
+    _count?: boolean | FormFieldCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["formField"]>
 
   export type FormFieldSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    documentTitleId?: boolean
-    fieldName?: boolean
+    template_id?: boolean
+    field_id?: boolean
+    field_name?: boolean
+    field_type?: boolean
     label?: boolean
-    type?: boolean
     placeholder?: boolean
     required?: boolean
+    is_hidden?: boolean
     order?: boolean
-    fullWidth?: boolean
-    hidden?: boolean
-    defaultValue?: boolean
-    options?: boolean
-    validation?: boolean
-    conditionalShow?: boolean
-    helpText?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    documentTitle?: boolean | DocumentTitleDefaultArgs<ExtArgs>
+    full_width?: boolean
+    display_conditions?: boolean
+    validation_rules?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    form_template?: boolean | FormTemplateDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["formField"]>
 
   export type FormFieldSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    documentTitleId?: boolean
-    fieldName?: boolean
+    template_id?: boolean
+    field_id?: boolean
+    field_name?: boolean
+    field_type?: boolean
     label?: boolean
-    type?: boolean
     placeholder?: boolean
     required?: boolean
+    is_hidden?: boolean
     order?: boolean
-    fullWidth?: boolean
-    hidden?: boolean
-    defaultValue?: boolean
-    options?: boolean
-    validation?: boolean
-    conditionalShow?: boolean
-    helpText?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    documentTitle?: boolean | DocumentTitleDefaultArgs<ExtArgs>
+    full_width?: boolean
+    display_conditions?: boolean
+    validation_rules?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    form_template?: boolean | FormTemplateDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["formField"]>
 
   export type FormFieldSelectScalar = {
     id?: boolean
-    documentTitleId?: boolean
-    fieldName?: boolean
+    template_id?: boolean
+    field_id?: boolean
+    field_name?: boolean
+    field_type?: boolean
     label?: boolean
-    type?: boolean
     placeholder?: boolean
     required?: boolean
+    is_hidden?: boolean
     order?: boolean
-    fullWidth?: boolean
-    hidden?: boolean
-    defaultValue?: boolean
-    options?: boolean
-    validation?: boolean
-    conditionalShow?: boolean
-    helpText?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    full_width?: boolean
+    display_conditions?: boolean
+    validation_rules?: boolean
+    created_at?: boolean
+    updated_at?: boolean
   }
 
-  export type FormFieldOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "documentTitleId" | "fieldName" | "label" | "type" | "placeholder" | "required" | "order" | "fullWidth" | "hidden" | "defaultValue" | "options" | "validation" | "conditionalShow" | "helpText" | "createdAt" | "updatedAt", ExtArgs["result"]["formField"]>
+  export type FormFieldOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "template_id" | "field_id" | "field_name" | "field_type" | "label" | "placeholder" | "required" | "is_hidden" | "order" | "full_width" | "display_conditions" | "validation_rules" | "created_at" | "updated_at", ExtArgs["result"]["formField"]>
   export type FormFieldInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    documentTitle?: boolean | DocumentTitleDefaultArgs<ExtArgs>
+    form_template?: boolean | FormTemplateDefaultArgs<ExtArgs>
+    field_options?: boolean | FormField$field_optionsArgs<ExtArgs>
+    _count?: boolean | FormFieldCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type FormFieldIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    documentTitle?: boolean | DocumentTitleDefaultArgs<ExtArgs>
+    form_template?: boolean | FormTemplateDefaultArgs<ExtArgs>
   }
   export type FormFieldIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    documentTitle?: boolean | DocumentTitleDefaultArgs<ExtArgs>
+    form_template?: boolean | FormTemplateDefaultArgs<ExtArgs>
   }
 
   export type $FormFieldPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "FormField"
     objects: {
-      documentTitle: Prisma.$DocumentTitlePayload<ExtArgs>
+      form_template: Prisma.$FormTemplatePayload<ExtArgs>
+      field_options: Prisma.$FieldOptionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      documentTitleId: number
-      fieldName: string
+      template_id: number
+      field_id: string
+      field_name: string
+      field_type: string
       label: string
-      type: string
       placeholder: string | null
       required: boolean
+      is_hidden: boolean
       order: number
-      fullWidth: boolean
-      hidden: boolean
-      defaultValue: string | null
-      options: Prisma.JsonValue | null
-      validation: Prisma.JsonValue | null
-      conditionalShow: Prisma.JsonValue | null
-      helpText: string | null
-      createdAt: Date
-      updatedAt: Date
+      full_width: boolean
+      display_conditions: Prisma.JsonValue | null
+      validation_rules: Prisma.JsonValue | null
+      created_at: Date
+      updated_at: Date
     }, ExtArgs["result"]["formField"]>
     composites: {}
   }
@@ -4781,7 +5216,8 @@ export namespace Prisma {
    */
   export interface Prisma__FormFieldClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    documentTitle<T extends DocumentTitleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DocumentTitleDefaultArgs<ExtArgs>>): Prisma__DocumentTitleClient<$Result.GetResult<Prisma.$DocumentTitlePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    form_template<T extends FormTemplateDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FormTemplateDefaultArgs<ExtArgs>>): Prisma__FormTemplateClient<$Result.GetResult<Prisma.$FormTemplatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    field_options<T extends FormField$field_optionsArgs<ExtArgs> = {}>(args?: Subset<T, FormField$field_optionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FieldOptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4812,22 +5248,20 @@ export namespace Prisma {
    */
   interface FormFieldFieldRefs {
     readonly id: FieldRef<"FormField", 'Int'>
-    readonly documentTitleId: FieldRef<"FormField", 'Int'>
-    readonly fieldName: FieldRef<"FormField", 'String'>
+    readonly template_id: FieldRef<"FormField", 'Int'>
+    readonly field_id: FieldRef<"FormField", 'String'>
+    readonly field_name: FieldRef<"FormField", 'String'>
+    readonly field_type: FieldRef<"FormField", 'String'>
     readonly label: FieldRef<"FormField", 'String'>
-    readonly type: FieldRef<"FormField", 'String'>
     readonly placeholder: FieldRef<"FormField", 'String'>
     readonly required: FieldRef<"FormField", 'Boolean'>
+    readonly is_hidden: FieldRef<"FormField", 'Boolean'>
     readonly order: FieldRef<"FormField", 'Int'>
-    readonly fullWidth: FieldRef<"FormField", 'Boolean'>
-    readonly hidden: FieldRef<"FormField", 'Boolean'>
-    readonly defaultValue: FieldRef<"FormField", 'String'>
-    readonly options: FieldRef<"FormField", 'Json'>
-    readonly validation: FieldRef<"FormField", 'Json'>
-    readonly conditionalShow: FieldRef<"FormField", 'Json'>
-    readonly helpText: FieldRef<"FormField", 'String'>
-    readonly createdAt: FieldRef<"FormField", 'DateTime'>
-    readonly updatedAt: FieldRef<"FormField", 'DateTime'>
+    readonly full_width: FieldRef<"FormField", 'Boolean'>
+    readonly display_conditions: FieldRef<"FormField", 'Json'>
+    readonly validation_rules: FieldRef<"FormField", 'Json'>
+    readonly created_at: FieldRef<"FormField", 'DateTime'>
+    readonly updated_at: FieldRef<"FormField", 'DateTime'>
   }
     
 
@@ -5221,6 +5655,30 @@ export namespace Prisma {
      * Limit how many FormFields to delete.
      */
     limit?: number
+  }
+
+  /**
+   * FormField.field_options
+   */
+  export type FormField$field_optionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FieldOption
+     */
+    select?: FieldOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FieldOption
+     */
+    omit?: FieldOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FieldOptionInclude<ExtArgs> | null
+    where?: FieldOptionWhereInput
+    orderBy?: FieldOptionOrderByWithRelationInput | FieldOptionOrderByWithRelationInput[]
+    cursor?: FieldOptionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FieldOptionScalarFieldEnum | FieldOptionScalarFieldEnum[]
   }
 
   /**
@@ -8863,6 +9321,3407 @@ export namespace Prisma {
 
 
   /**
+   * Model FormTemplate
+   */
+
+  export type AggregateFormTemplate = {
+    _count: FormTemplateCountAggregateOutputType | null
+    _avg: FormTemplateAvgAggregateOutputType | null
+    _sum: FormTemplateSumAggregateOutputType | null
+    _min: FormTemplateMinAggregateOutputType | null
+    _max: FormTemplateMaxAggregateOutputType | null
+  }
+
+  export type FormTemplateAvgAggregateOutputType = {
+    id: number | null
+    version: number | null
+  }
+
+  export type FormTemplateSumAggregateOutputType = {
+    id: number | null
+    version: number | null
+  }
+
+  export type FormTemplateMinAggregateOutputType = {
+    id: number | null
+    form_key: string | null
+    name: string | null
+    description: string | null
+    version: number | null
+    is_active: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type FormTemplateMaxAggregateOutputType = {
+    id: number | null
+    form_key: string | null
+    name: string | null
+    description: string | null
+    version: number | null
+    is_active: boolean | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type FormTemplateCountAggregateOutputType = {
+    id: number
+    form_key: number
+    name: number
+    description: number
+    version: number
+    is_active: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type FormTemplateAvgAggregateInputType = {
+    id?: true
+    version?: true
+  }
+
+  export type FormTemplateSumAggregateInputType = {
+    id?: true
+    version?: true
+  }
+
+  export type FormTemplateMinAggregateInputType = {
+    id?: true
+    form_key?: true
+    name?: true
+    description?: true
+    version?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type FormTemplateMaxAggregateInputType = {
+    id?: true
+    form_key?: true
+    name?: true
+    description?: true
+    version?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type FormTemplateCountAggregateInputType = {
+    id?: true
+    form_key?: true
+    name?: true
+    description?: true
+    version?: true
+    is_active?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type FormTemplateAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FormTemplate to aggregate.
+     */
+    where?: FormTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FormTemplates to fetch.
+     */
+    orderBy?: FormTemplateOrderByWithRelationInput | FormTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FormTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FormTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FormTemplates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned FormTemplates
+    **/
+    _count?: true | FormTemplateCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: FormTemplateAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: FormTemplateSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FormTemplateMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FormTemplateMaxAggregateInputType
+  }
+
+  export type GetFormTemplateAggregateType<T extends FormTemplateAggregateArgs> = {
+        [P in keyof T & keyof AggregateFormTemplate]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFormTemplate[P]>
+      : GetScalarType<T[P], AggregateFormTemplate[P]>
+  }
+
+
+
+
+  export type FormTemplateGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FormTemplateWhereInput
+    orderBy?: FormTemplateOrderByWithAggregationInput | FormTemplateOrderByWithAggregationInput[]
+    by: FormTemplateScalarFieldEnum[] | FormTemplateScalarFieldEnum
+    having?: FormTemplateScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FormTemplateCountAggregateInputType | true
+    _avg?: FormTemplateAvgAggregateInputType
+    _sum?: FormTemplateSumAggregateInputType
+    _min?: FormTemplateMinAggregateInputType
+    _max?: FormTemplateMaxAggregateInputType
+  }
+
+  export type FormTemplateGroupByOutputType = {
+    id: number
+    form_key: string
+    name: string
+    description: string | null
+    version: number
+    is_active: boolean
+    created_at: Date
+    updated_at: Date
+    _count: FormTemplateCountAggregateOutputType | null
+    _avg: FormTemplateAvgAggregateOutputType | null
+    _sum: FormTemplateSumAggregateOutputType | null
+    _min: FormTemplateMinAggregateOutputType | null
+    _max: FormTemplateMaxAggregateOutputType | null
+  }
+
+  type GetFormTemplateGroupByPayload<T extends FormTemplateGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FormTemplateGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FormTemplateGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FormTemplateGroupByOutputType[P]>
+            : GetScalarType<T[P], FormTemplateGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FormTemplateSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    form_key?: boolean
+    name?: boolean
+    description?: boolean
+    version?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    form_fields?: boolean | FormTemplate$form_fieldsArgs<ExtArgs>
+    document_types?: boolean | FormTemplate$document_typesArgs<ExtArgs>
+    _count?: boolean | FormTemplateCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["formTemplate"]>
+
+  export type FormTemplateSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    form_key?: boolean
+    name?: boolean
+    description?: boolean
+    version?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["formTemplate"]>
+
+  export type FormTemplateSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    form_key?: boolean
+    name?: boolean
+    description?: boolean
+    version?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["formTemplate"]>
+
+  export type FormTemplateSelectScalar = {
+    id?: boolean
+    form_key?: boolean
+    name?: boolean
+    description?: boolean
+    version?: boolean
+    is_active?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type FormTemplateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "form_key" | "name" | "description" | "version" | "is_active" | "created_at" | "updated_at", ExtArgs["result"]["formTemplate"]>
+  export type FormTemplateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    form_fields?: boolean | FormTemplate$form_fieldsArgs<ExtArgs>
+    document_types?: boolean | FormTemplate$document_typesArgs<ExtArgs>
+    _count?: boolean | FormTemplateCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type FormTemplateIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type FormTemplateIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $FormTemplatePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "FormTemplate"
+    objects: {
+      form_fields: Prisma.$FormFieldPayload<ExtArgs>[]
+      document_types: Prisma.$DocumentTypePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      form_key: string
+      name: string
+      description: string | null
+      version: number
+      is_active: boolean
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["formTemplate"]>
+    composites: {}
+  }
+
+  type FormTemplateGetPayload<S extends boolean | null | undefined | FormTemplateDefaultArgs> = $Result.GetResult<Prisma.$FormTemplatePayload, S>
+
+  type FormTemplateCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FormTemplateFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FormTemplateCountAggregateInputType | true
+    }
+
+  export interface FormTemplateDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FormTemplate'], meta: { name: 'FormTemplate' } }
+    /**
+     * Find zero or one FormTemplate that matches the filter.
+     * @param {FormTemplateFindUniqueArgs} args - Arguments to find a FormTemplate
+     * @example
+     * // Get one FormTemplate
+     * const formTemplate = await prisma.formTemplate.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FormTemplateFindUniqueArgs>(args: SelectSubset<T, FormTemplateFindUniqueArgs<ExtArgs>>): Prisma__FormTemplateClient<$Result.GetResult<Prisma.$FormTemplatePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one FormTemplate that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FormTemplateFindUniqueOrThrowArgs} args - Arguments to find a FormTemplate
+     * @example
+     * // Get one FormTemplate
+     * const formTemplate = await prisma.formTemplate.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FormTemplateFindUniqueOrThrowArgs>(args: SelectSubset<T, FormTemplateFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FormTemplateClient<$Result.GetResult<Prisma.$FormTemplatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FormTemplate that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FormTemplateFindFirstArgs} args - Arguments to find a FormTemplate
+     * @example
+     * // Get one FormTemplate
+     * const formTemplate = await prisma.formTemplate.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FormTemplateFindFirstArgs>(args?: SelectSubset<T, FormTemplateFindFirstArgs<ExtArgs>>): Prisma__FormTemplateClient<$Result.GetResult<Prisma.$FormTemplatePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FormTemplate that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FormTemplateFindFirstOrThrowArgs} args - Arguments to find a FormTemplate
+     * @example
+     * // Get one FormTemplate
+     * const formTemplate = await prisma.formTemplate.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FormTemplateFindFirstOrThrowArgs>(args?: SelectSubset<T, FormTemplateFindFirstOrThrowArgs<ExtArgs>>): Prisma__FormTemplateClient<$Result.GetResult<Prisma.$FormTemplatePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more FormTemplates that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FormTemplateFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all FormTemplates
+     * const formTemplates = await prisma.formTemplate.findMany()
+     * 
+     * // Get first 10 FormTemplates
+     * const formTemplates = await prisma.formTemplate.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const formTemplateWithIdOnly = await prisma.formTemplate.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FormTemplateFindManyArgs>(args?: SelectSubset<T, FormTemplateFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FormTemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a FormTemplate.
+     * @param {FormTemplateCreateArgs} args - Arguments to create a FormTemplate.
+     * @example
+     * // Create one FormTemplate
+     * const FormTemplate = await prisma.formTemplate.create({
+     *   data: {
+     *     // ... data to create a FormTemplate
+     *   }
+     * })
+     * 
+     */
+    create<T extends FormTemplateCreateArgs>(args: SelectSubset<T, FormTemplateCreateArgs<ExtArgs>>): Prisma__FormTemplateClient<$Result.GetResult<Prisma.$FormTemplatePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many FormTemplates.
+     * @param {FormTemplateCreateManyArgs} args - Arguments to create many FormTemplates.
+     * @example
+     * // Create many FormTemplates
+     * const formTemplate = await prisma.formTemplate.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FormTemplateCreateManyArgs>(args?: SelectSubset<T, FormTemplateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many FormTemplates and returns the data saved in the database.
+     * @param {FormTemplateCreateManyAndReturnArgs} args - Arguments to create many FormTemplates.
+     * @example
+     * // Create many FormTemplates
+     * const formTemplate = await prisma.formTemplate.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many FormTemplates and only return the `id`
+     * const formTemplateWithIdOnly = await prisma.formTemplate.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FormTemplateCreateManyAndReturnArgs>(args?: SelectSubset<T, FormTemplateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FormTemplatePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a FormTemplate.
+     * @param {FormTemplateDeleteArgs} args - Arguments to delete one FormTemplate.
+     * @example
+     * // Delete one FormTemplate
+     * const FormTemplate = await prisma.formTemplate.delete({
+     *   where: {
+     *     // ... filter to delete one FormTemplate
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FormTemplateDeleteArgs>(args: SelectSubset<T, FormTemplateDeleteArgs<ExtArgs>>): Prisma__FormTemplateClient<$Result.GetResult<Prisma.$FormTemplatePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one FormTemplate.
+     * @param {FormTemplateUpdateArgs} args - Arguments to update one FormTemplate.
+     * @example
+     * // Update one FormTemplate
+     * const formTemplate = await prisma.formTemplate.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FormTemplateUpdateArgs>(args: SelectSubset<T, FormTemplateUpdateArgs<ExtArgs>>): Prisma__FormTemplateClient<$Result.GetResult<Prisma.$FormTemplatePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more FormTemplates.
+     * @param {FormTemplateDeleteManyArgs} args - Arguments to filter FormTemplates to delete.
+     * @example
+     * // Delete a few FormTemplates
+     * const { count } = await prisma.formTemplate.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FormTemplateDeleteManyArgs>(args?: SelectSubset<T, FormTemplateDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FormTemplates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FormTemplateUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many FormTemplates
+     * const formTemplate = await prisma.formTemplate.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FormTemplateUpdateManyArgs>(args: SelectSubset<T, FormTemplateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FormTemplates and returns the data updated in the database.
+     * @param {FormTemplateUpdateManyAndReturnArgs} args - Arguments to update many FormTemplates.
+     * @example
+     * // Update many FormTemplates
+     * const formTemplate = await prisma.formTemplate.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more FormTemplates and only return the `id`
+     * const formTemplateWithIdOnly = await prisma.formTemplate.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends FormTemplateUpdateManyAndReturnArgs>(args: SelectSubset<T, FormTemplateUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FormTemplatePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one FormTemplate.
+     * @param {FormTemplateUpsertArgs} args - Arguments to update or create a FormTemplate.
+     * @example
+     * // Update or create a FormTemplate
+     * const formTemplate = await prisma.formTemplate.upsert({
+     *   create: {
+     *     // ... data to create a FormTemplate
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the FormTemplate we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FormTemplateUpsertArgs>(args: SelectSubset<T, FormTemplateUpsertArgs<ExtArgs>>): Prisma__FormTemplateClient<$Result.GetResult<Prisma.$FormTemplatePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of FormTemplates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FormTemplateCountArgs} args - Arguments to filter FormTemplates to count.
+     * @example
+     * // Count the number of FormTemplates
+     * const count = await prisma.formTemplate.count({
+     *   where: {
+     *     // ... the filter for the FormTemplates we want to count
+     *   }
+     * })
+    **/
+    count<T extends FormTemplateCountArgs>(
+      args?: Subset<T, FormTemplateCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FormTemplateCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a FormTemplate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FormTemplateAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FormTemplateAggregateArgs>(args: Subset<T, FormTemplateAggregateArgs>): Prisma.PrismaPromise<GetFormTemplateAggregateType<T>>
+
+    /**
+     * Group by FormTemplate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FormTemplateGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FormTemplateGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FormTemplateGroupByArgs['orderBy'] }
+        : { orderBy?: FormTemplateGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FormTemplateGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFormTemplateGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the FormTemplate model
+   */
+  readonly fields: FormTemplateFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for FormTemplate.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FormTemplateClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    form_fields<T extends FormTemplate$form_fieldsArgs<ExtArgs> = {}>(args?: Subset<T, FormTemplate$form_fieldsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FormFieldPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    document_types<T extends FormTemplate$document_typesArgs<ExtArgs> = {}>(args?: Subset<T, FormTemplate$document_typesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentTypePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the FormTemplate model
+   */
+  interface FormTemplateFieldRefs {
+    readonly id: FieldRef<"FormTemplate", 'Int'>
+    readonly form_key: FieldRef<"FormTemplate", 'String'>
+    readonly name: FieldRef<"FormTemplate", 'String'>
+    readonly description: FieldRef<"FormTemplate", 'String'>
+    readonly version: FieldRef<"FormTemplate", 'Int'>
+    readonly is_active: FieldRef<"FormTemplate", 'Boolean'>
+    readonly created_at: FieldRef<"FormTemplate", 'DateTime'>
+    readonly updated_at: FieldRef<"FormTemplate", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * FormTemplate findUnique
+   */
+  export type FormTemplateFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FormTemplate
+     */
+    select?: FormTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FormTemplate
+     */
+    omit?: FormTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FormTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which FormTemplate to fetch.
+     */
+    where: FormTemplateWhereUniqueInput
+  }
+
+  /**
+   * FormTemplate findUniqueOrThrow
+   */
+  export type FormTemplateFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FormTemplate
+     */
+    select?: FormTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FormTemplate
+     */
+    omit?: FormTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FormTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which FormTemplate to fetch.
+     */
+    where: FormTemplateWhereUniqueInput
+  }
+
+  /**
+   * FormTemplate findFirst
+   */
+  export type FormTemplateFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FormTemplate
+     */
+    select?: FormTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FormTemplate
+     */
+    omit?: FormTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FormTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which FormTemplate to fetch.
+     */
+    where?: FormTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FormTemplates to fetch.
+     */
+    orderBy?: FormTemplateOrderByWithRelationInput | FormTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FormTemplates.
+     */
+    cursor?: FormTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FormTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FormTemplates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FormTemplates.
+     */
+    distinct?: FormTemplateScalarFieldEnum | FormTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * FormTemplate findFirstOrThrow
+   */
+  export type FormTemplateFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FormTemplate
+     */
+    select?: FormTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FormTemplate
+     */
+    omit?: FormTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FormTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which FormTemplate to fetch.
+     */
+    where?: FormTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FormTemplates to fetch.
+     */
+    orderBy?: FormTemplateOrderByWithRelationInput | FormTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FormTemplates.
+     */
+    cursor?: FormTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FormTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FormTemplates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FormTemplates.
+     */
+    distinct?: FormTemplateScalarFieldEnum | FormTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * FormTemplate findMany
+   */
+  export type FormTemplateFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FormTemplate
+     */
+    select?: FormTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FormTemplate
+     */
+    omit?: FormTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FormTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which FormTemplates to fetch.
+     */
+    where?: FormTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FormTemplates to fetch.
+     */
+    orderBy?: FormTemplateOrderByWithRelationInput | FormTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing FormTemplates.
+     */
+    cursor?: FormTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FormTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FormTemplates.
+     */
+    skip?: number
+    distinct?: FormTemplateScalarFieldEnum | FormTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * FormTemplate create
+   */
+  export type FormTemplateCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FormTemplate
+     */
+    select?: FormTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FormTemplate
+     */
+    omit?: FormTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FormTemplateInclude<ExtArgs> | null
+    /**
+     * The data needed to create a FormTemplate.
+     */
+    data: XOR<FormTemplateCreateInput, FormTemplateUncheckedCreateInput>
+  }
+
+  /**
+   * FormTemplate createMany
+   */
+  export type FormTemplateCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many FormTemplates.
+     */
+    data: FormTemplateCreateManyInput | FormTemplateCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * FormTemplate createManyAndReturn
+   */
+  export type FormTemplateCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FormTemplate
+     */
+    select?: FormTemplateSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the FormTemplate
+     */
+    omit?: FormTemplateOmit<ExtArgs> | null
+    /**
+     * The data used to create many FormTemplates.
+     */
+    data: FormTemplateCreateManyInput | FormTemplateCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * FormTemplate update
+   */
+  export type FormTemplateUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FormTemplate
+     */
+    select?: FormTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FormTemplate
+     */
+    omit?: FormTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FormTemplateInclude<ExtArgs> | null
+    /**
+     * The data needed to update a FormTemplate.
+     */
+    data: XOR<FormTemplateUpdateInput, FormTemplateUncheckedUpdateInput>
+    /**
+     * Choose, which FormTemplate to update.
+     */
+    where: FormTemplateWhereUniqueInput
+  }
+
+  /**
+   * FormTemplate updateMany
+   */
+  export type FormTemplateUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update FormTemplates.
+     */
+    data: XOR<FormTemplateUpdateManyMutationInput, FormTemplateUncheckedUpdateManyInput>
+    /**
+     * Filter which FormTemplates to update
+     */
+    where?: FormTemplateWhereInput
+    /**
+     * Limit how many FormTemplates to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * FormTemplate updateManyAndReturn
+   */
+  export type FormTemplateUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FormTemplate
+     */
+    select?: FormTemplateSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the FormTemplate
+     */
+    omit?: FormTemplateOmit<ExtArgs> | null
+    /**
+     * The data used to update FormTemplates.
+     */
+    data: XOR<FormTemplateUpdateManyMutationInput, FormTemplateUncheckedUpdateManyInput>
+    /**
+     * Filter which FormTemplates to update
+     */
+    where?: FormTemplateWhereInput
+    /**
+     * Limit how many FormTemplates to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * FormTemplate upsert
+   */
+  export type FormTemplateUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FormTemplate
+     */
+    select?: FormTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FormTemplate
+     */
+    omit?: FormTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FormTemplateInclude<ExtArgs> | null
+    /**
+     * The filter to search for the FormTemplate to update in case it exists.
+     */
+    where: FormTemplateWhereUniqueInput
+    /**
+     * In case the FormTemplate found by the `where` argument doesn't exist, create a new FormTemplate with this data.
+     */
+    create: XOR<FormTemplateCreateInput, FormTemplateUncheckedCreateInput>
+    /**
+     * In case the FormTemplate was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FormTemplateUpdateInput, FormTemplateUncheckedUpdateInput>
+  }
+
+  /**
+   * FormTemplate delete
+   */
+  export type FormTemplateDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FormTemplate
+     */
+    select?: FormTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FormTemplate
+     */
+    omit?: FormTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FormTemplateInclude<ExtArgs> | null
+    /**
+     * Filter which FormTemplate to delete.
+     */
+    where: FormTemplateWhereUniqueInput
+  }
+
+  /**
+   * FormTemplate deleteMany
+   */
+  export type FormTemplateDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FormTemplates to delete
+     */
+    where?: FormTemplateWhereInput
+    /**
+     * Limit how many FormTemplates to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * FormTemplate.form_fields
+   */
+  export type FormTemplate$form_fieldsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FormField
+     */
+    select?: FormFieldSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FormField
+     */
+    omit?: FormFieldOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FormFieldInclude<ExtArgs> | null
+    where?: FormFieldWhereInput
+    orderBy?: FormFieldOrderByWithRelationInput | FormFieldOrderByWithRelationInput[]
+    cursor?: FormFieldWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FormFieldScalarFieldEnum | FormFieldScalarFieldEnum[]
+  }
+
+  /**
+   * FormTemplate.document_types
+   */
+  export type FormTemplate$document_typesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentType
+     */
+    select?: DocumentTypeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentType
+     */
+    omit?: DocumentTypeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentTypeInclude<ExtArgs> | null
+    where?: DocumentTypeWhereInput
+    orderBy?: DocumentTypeOrderByWithRelationInput | DocumentTypeOrderByWithRelationInput[]
+    cursor?: DocumentTypeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DocumentTypeScalarFieldEnum | DocumentTypeScalarFieldEnum[]
+  }
+
+  /**
+   * FormTemplate without action
+   */
+  export type FormTemplateDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FormTemplate
+     */
+    select?: FormTemplateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FormTemplate
+     */
+    omit?: FormTemplateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FormTemplateInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model FieldOption
+   */
+
+  export type AggregateFieldOption = {
+    _count: FieldOptionCountAggregateOutputType | null
+    _avg: FieldOptionAvgAggregateOutputType | null
+    _sum: FieldOptionSumAggregateOutputType | null
+    _min: FieldOptionMinAggregateOutputType | null
+    _max: FieldOptionMaxAggregateOutputType | null
+  }
+
+  export type FieldOptionAvgAggregateOutputType = {
+    id: number | null
+    field_id: number | null
+    order: number | null
+  }
+
+  export type FieldOptionSumAggregateOutputType = {
+    id: number | null
+    field_id: number | null
+    order: number | null
+  }
+
+  export type FieldOptionMinAggregateOutputType = {
+    id: number | null
+    field_id: number | null
+    option_value: string | null
+    option_label: string | null
+    order: number | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type FieldOptionMaxAggregateOutputType = {
+    id: number | null
+    field_id: number | null
+    option_value: string | null
+    option_label: string | null
+    order: number | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type FieldOptionCountAggregateOutputType = {
+    id: number
+    field_id: number
+    option_value: number
+    option_label: number
+    order: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type FieldOptionAvgAggregateInputType = {
+    id?: true
+    field_id?: true
+    order?: true
+  }
+
+  export type FieldOptionSumAggregateInputType = {
+    id?: true
+    field_id?: true
+    order?: true
+  }
+
+  export type FieldOptionMinAggregateInputType = {
+    id?: true
+    field_id?: true
+    option_value?: true
+    option_label?: true
+    order?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type FieldOptionMaxAggregateInputType = {
+    id?: true
+    field_id?: true
+    option_value?: true
+    option_label?: true
+    order?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type FieldOptionCountAggregateInputType = {
+    id?: true
+    field_id?: true
+    option_value?: true
+    option_label?: true
+    order?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type FieldOptionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FieldOption to aggregate.
+     */
+    where?: FieldOptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FieldOptions to fetch.
+     */
+    orderBy?: FieldOptionOrderByWithRelationInput | FieldOptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FieldOptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FieldOptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FieldOptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned FieldOptions
+    **/
+    _count?: true | FieldOptionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: FieldOptionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: FieldOptionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FieldOptionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FieldOptionMaxAggregateInputType
+  }
+
+  export type GetFieldOptionAggregateType<T extends FieldOptionAggregateArgs> = {
+        [P in keyof T & keyof AggregateFieldOption]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFieldOption[P]>
+      : GetScalarType<T[P], AggregateFieldOption[P]>
+  }
+
+
+
+
+  export type FieldOptionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FieldOptionWhereInput
+    orderBy?: FieldOptionOrderByWithAggregationInput | FieldOptionOrderByWithAggregationInput[]
+    by: FieldOptionScalarFieldEnum[] | FieldOptionScalarFieldEnum
+    having?: FieldOptionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FieldOptionCountAggregateInputType | true
+    _avg?: FieldOptionAvgAggregateInputType
+    _sum?: FieldOptionSumAggregateInputType
+    _min?: FieldOptionMinAggregateInputType
+    _max?: FieldOptionMaxAggregateInputType
+  }
+
+  export type FieldOptionGroupByOutputType = {
+    id: number
+    field_id: number
+    option_value: string
+    option_label: string
+    order: number
+    created_at: Date
+    updated_at: Date
+    _count: FieldOptionCountAggregateOutputType | null
+    _avg: FieldOptionAvgAggregateOutputType | null
+    _sum: FieldOptionSumAggregateOutputType | null
+    _min: FieldOptionMinAggregateOutputType | null
+    _max: FieldOptionMaxAggregateOutputType | null
+  }
+
+  type GetFieldOptionGroupByPayload<T extends FieldOptionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FieldOptionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FieldOptionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FieldOptionGroupByOutputType[P]>
+            : GetScalarType<T[P], FieldOptionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FieldOptionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    field_id?: boolean
+    option_value?: boolean
+    option_label?: boolean
+    order?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    form_field?: boolean | FormFieldDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["fieldOption"]>
+
+  export type FieldOptionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    field_id?: boolean
+    option_value?: boolean
+    option_label?: boolean
+    order?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    form_field?: boolean | FormFieldDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["fieldOption"]>
+
+  export type FieldOptionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    field_id?: boolean
+    option_value?: boolean
+    option_label?: boolean
+    order?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    form_field?: boolean | FormFieldDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["fieldOption"]>
+
+  export type FieldOptionSelectScalar = {
+    id?: boolean
+    field_id?: boolean
+    option_value?: boolean
+    option_label?: boolean
+    order?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type FieldOptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "field_id" | "option_value" | "option_label" | "order" | "created_at" | "updated_at", ExtArgs["result"]["fieldOption"]>
+  export type FieldOptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    form_field?: boolean | FormFieldDefaultArgs<ExtArgs>
+  }
+  export type FieldOptionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    form_field?: boolean | FormFieldDefaultArgs<ExtArgs>
+  }
+  export type FieldOptionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    form_field?: boolean | FormFieldDefaultArgs<ExtArgs>
+  }
+
+  export type $FieldOptionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "FieldOption"
+    objects: {
+      form_field: Prisma.$FormFieldPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      field_id: number
+      option_value: string
+      option_label: string
+      order: number
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["fieldOption"]>
+    composites: {}
+  }
+
+  type FieldOptionGetPayload<S extends boolean | null | undefined | FieldOptionDefaultArgs> = $Result.GetResult<Prisma.$FieldOptionPayload, S>
+
+  type FieldOptionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FieldOptionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FieldOptionCountAggregateInputType | true
+    }
+
+  export interface FieldOptionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FieldOption'], meta: { name: 'FieldOption' } }
+    /**
+     * Find zero or one FieldOption that matches the filter.
+     * @param {FieldOptionFindUniqueArgs} args - Arguments to find a FieldOption
+     * @example
+     * // Get one FieldOption
+     * const fieldOption = await prisma.fieldOption.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FieldOptionFindUniqueArgs>(args: SelectSubset<T, FieldOptionFindUniqueArgs<ExtArgs>>): Prisma__FieldOptionClient<$Result.GetResult<Prisma.$FieldOptionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one FieldOption that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FieldOptionFindUniqueOrThrowArgs} args - Arguments to find a FieldOption
+     * @example
+     * // Get one FieldOption
+     * const fieldOption = await prisma.fieldOption.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FieldOptionFindUniqueOrThrowArgs>(args: SelectSubset<T, FieldOptionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FieldOptionClient<$Result.GetResult<Prisma.$FieldOptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FieldOption that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FieldOptionFindFirstArgs} args - Arguments to find a FieldOption
+     * @example
+     * // Get one FieldOption
+     * const fieldOption = await prisma.fieldOption.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FieldOptionFindFirstArgs>(args?: SelectSubset<T, FieldOptionFindFirstArgs<ExtArgs>>): Prisma__FieldOptionClient<$Result.GetResult<Prisma.$FieldOptionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FieldOption that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FieldOptionFindFirstOrThrowArgs} args - Arguments to find a FieldOption
+     * @example
+     * // Get one FieldOption
+     * const fieldOption = await prisma.fieldOption.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FieldOptionFindFirstOrThrowArgs>(args?: SelectSubset<T, FieldOptionFindFirstOrThrowArgs<ExtArgs>>): Prisma__FieldOptionClient<$Result.GetResult<Prisma.$FieldOptionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more FieldOptions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FieldOptionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all FieldOptions
+     * const fieldOptions = await prisma.fieldOption.findMany()
+     * 
+     * // Get first 10 FieldOptions
+     * const fieldOptions = await prisma.fieldOption.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const fieldOptionWithIdOnly = await prisma.fieldOption.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FieldOptionFindManyArgs>(args?: SelectSubset<T, FieldOptionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FieldOptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a FieldOption.
+     * @param {FieldOptionCreateArgs} args - Arguments to create a FieldOption.
+     * @example
+     * // Create one FieldOption
+     * const FieldOption = await prisma.fieldOption.create({
+     *   data: {
+     *     // ... data to create a FieldOption
+     *   }
+     * })
+     * 
+     */
+    create<T extends FieldOptionCreateArgs>(args: SelectSubset<T, FieldOptionCreateArgs<ExtArgs>>): Prisma__FieldOptionClient<$Result.GetResult<Prisma.$FieldOptionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many FieldOptions.
+     * @param {FieldOptionCreateManyArgs} args - Arguments to create many FieldOptions.
+     * @example
+     * // Create many FieldOptions
+     * const fieldOption = await prisma.fieldOption.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FieldOptionCreateManyArgs>(args?: SelectSubset<T, FieldOptionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many FieldOptions and returns the data saved in the database.
+     * @param {FieldOptionCreateManyAndReturnArgs} args - Arguments to create many FieldOptions.
+     * @example
+     * // Create many FieldOptions
+     * const fieldOption = await prisma.fieldOption.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many FieldOptions and only return the `id`
+     * const fieldOptionWithIdOnly = await prisma.fieldOption.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FieldOptionCreateManyAndReturnArgs>(args?: SelectSubset<T, FieldOptionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FieldOptionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a FieldOption.
+     * @param {FieldOptionDeleteArgs} args - Arguments to delete one FieldOption.
+     * @example
+     * // Delete one FieldOption
+     * const FieldOption = await prisma.fieldOption.delete({
+     *   where: {
+     *     // ... filter to delete one FieldOption
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FieldOptionDeleteArgs>(args: SelectSubset<T, FieldOptionDeleteArgs<ExtArgs>>): Prisma__FieldOptionClient<$Result.GetResult<Prisma.$FieldOptionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one FieldOption.
+     * @param {FieldOptionUpdateArgs} args - Arguments to update one FieldOption.
+     * @example
+     * // Update one FieldOption
+     * const fieldOption = await prisma.fieldOption.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FieldOptionUpdateArgs>(args: SelectSubset<T, FieldOptionUpdateArgs<ExtArgs>>): Prisma__FieldOptionClient<$Result.GetResult<Prisma.$FieldOptionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more FieldOptions.
+     * @param {FieldOptionDeleteManyArgs} args - Arguments to filter FieldOptions to delete.
+     * @example
+     * // Delete a few FieldOptions
+     * const { count } = await prisma.fieldOption.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FieldOptionDeleteManyArgs>(args?: SelectSubset<T, FieldOptionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FieldOptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FieldOptionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many FieldOptions
+     * const fieldOption = await prisma.fieldOption.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FieldOptionUpdateManyArgs>(args: SelectSubset<T, FieldOptionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FieldOptions and returns the data updated in the database.
+     * @param {FieldOptionUpdateManyAndReturnArgs} args - Arguments to update many FieldOptions.
+     * @example
+     * // Update many FieldOptions
+     * const fieldOption = await prisma.fieldOption.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more FieldOptions and only return the `id`
+     * const fieldOptionWithIdOnly = await prisma.fieldOption.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends FieldOptionUpdateManyAndReturnArgs>(args: SelectSubset<T, FieldOptionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FieldOptionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one FieldOption.
+     * @param {FieldOptionUpsertArgs} args - Arguments to update or create a FieldOption.
+     * @example
+     * // Update or create a FieldOption
+     * const fieldOption = await prisma.fieldOption.upsert({
+     *   create: {
+     *     // ... data to create a FieldOption
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the FieldOption we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FieldOptionUpsertArgs>(args: SelectSubset<T, FieldOptionUpsertArgs<ExtArgs>>): Prisma__FieldOptionClient<$Result.GetResult<Prisma.$FieldOptionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of FieldOptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FieldOptionCountArgs} args - Arguments to filter FieldOptions to count.
+     * @example
+     * // Count the number of FieldOptions
+     * const count = await prisma.fieldOption.count({
+     *   where: {
+     *     // ... the filter for the FieldOptions we want to count
+     *   }
+     * })
+    **/
+    count<T extends FieldOptionCountArgs>(
+      args?: Subset<T, FieldOptionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FieldOptionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a FieldOption.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FieldOptionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FieldOptionAggregateArgs>(args: Subset<T, FieldOptionAggregateArgs>): Prisma.PrismaPromise<GetFieldOptionAggregateType<T>>
+
+    /**
+     * Group by FieldOption.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FieldOptionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FieldOptionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FieldOptionGroupByArgs['orderBy'] }
+        : { orderBy?: FieldOptionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FieldOptionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFieldOptionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the FieldOption model
+   */
+  readonly fields: FieldOptionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for FieldOption.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FieldOptionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    form_field<T extends FormFieldDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FormFieldDefaultArgs<ExtArgs>>): Prisma__FormFieldClient<$Result.GetResult<Prisma.$FormFieldPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the FieldOption model
+   */
+  interface FieldOptionFieldRefs {
+    readonly id: FieldRef<"FieldOption", 'Int'>
+    readonly field_id: FieldRef<"FieldOption", 'Int'>
+    readonly option_value: FieldRef<"FieldOption", 'String'>
+    readonly option_label: FieldRef<"FieldOption", 'String'>
+    readonly order: FieldRef<"FieldOption", 'Int'>
+    readonly created_at: FieldRef<"FieldOption", 'DateTime'>
+    readonly updated_at: FieldRef<"FieldOption", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * FieldOption findUnique
+   */
+  export type FieldOptionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FieldOption
+     */
+    select?: FieldOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FieldOption
+     */
+    omit?: FieldOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FieldOptionInclude<ExtArgs> | null
+    /**
+     * Filter, which FieldOption to fetch.
+     */
+    where: FieldOptionWhereUniqueInput
+  }
+
+  /**
+   * FieldOption findUniqueOrThrow
+   */
+  export type FieldOptionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FieldOption
+     */
+    select?: FieldOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FieldOption
+     */
+    omit?: FieldOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FieldOptionInclude<ExtArgs> | null
+    /**
+     * Filter, which FieldOption to fetch.
+     */
+    where: FieldOptionWhereUniqueInput
+  }
+
+  /**
+   * FieldOption findFirst
+   */
+  export type FieldOptionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FieldOption
+     */
+    select?: FieldOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FieldOption
+     */
+    omit?: FieldOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FieldOptionInclude<ExtArgs> | null
+    /**
+     * Filter, which FieldOption to fetch.
+     */
+    where?: FieldOptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FieldOptions to fetch.
+     */
+    orderBy?: FieldOptionOrderByWithRelationInput | FieldOptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FieldOptions.
+     */
+    cursor?: FieldOptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FieldOptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FieldOptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FieldOptions.
+     */
+    distinct?: FieldOptionScalarFieldEnum | FieldOptionScalarFieldEnum[]
+  }
+
+  /**
+   * FieldOption findFirstOrThrow
+   */
+  export type FieldOptionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FieldOption
+     */
+    select?: FieldOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FieldOption
+     */
+    omit?: FieldOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FieldOptionInclude<ExtArgs> | null
+    /**
+     * Filter, which FieldOption to fetch.
+     */
+    where?: FieldOptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FieldOptions to fetch.
+     */
+    orderBy?: FieldOptionOrderByWithRelationInput | FieldOptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FieldOptions.
+     */
+    cursor?: FieldOptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FieldOptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FieldOptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FieldOptions.
+     */
+    distinct?: FieldOptionScalarFieldEnum | FieldOptionScalarFieldEnum[]
+  }
+
+  /**
+   * FieldOption findMany
+   */
+  export type FieldOptionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FieldOption
+     */
+    select?: FieldOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FieldOption
+     */
+    omit?: FieldOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FieldOptionInclude<ExtArgs> | null
+    /**
+     * Filter, which FieldOptions to fetch.
+     */
+    where?: FieldOptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FieldOptions to fetch.
+     */
+    orderBy?: FieldOptionOrderByWithRelationInput | FieldOptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing FieldOptions.
+     */
+    cursor?: FieldOptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FieldOptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FieldOptions.
+     */
+    skip?: number
+    distinct?: FieldOptionScalarFieldEnum | FieldOptionScalarFieldEnum[]
+  }
+
+  /**
+   * FieldOption create
+   */
+  export type FieldOptionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FieldOption
+     */
+    select?: FieldOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FieldOption
+     */
+    omit?: FieldOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FieldOptionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a FieldOption.
+     */
+    data: XOR<FieldOptionCreateInput, FieldOptionUncheckedCreateInput>
+  }
+
+  /**
+   * FieldOption createMany
+   */
+  export type FieldOptionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many FieldOptions.
+     */
+    data: FieldOptionCreateManyInput | FieldOptionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * FieldOption createManyAndReturn
+   */
+  export type FieldOptionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FieldOption
+     */
+    select?: FieldOptionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the FieldOption
+     */
+    omit?: FieldOptionOmit<ExtArgs> | null
+    /**
+     * The data used to create many FieldOptions.
+     */
+    data: FieldOptionCreateManyInput | FieldOptionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FieldOptionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * FieldOption update
+   */
+  export type FieldOptionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FieldOption
+     */
+    select?: FieldOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FieldOption
+     */
+    omit?: FieldOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FieldOptionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a FieldOption.
+     */
+    data: XOR<FieldOptionUpdateInput, FieldOptionUncheckedUpdateInput>
+    /**
+     * Choose, which FieldOption to update.
+     */
+    where: FieldOptionWhereUniqueInput
+  }
+
+  /**
+   * FieldOption updateMany
+   */
+  export type FieldOptionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update FieldOptions.
+     */
+    data: XOR<FieldOptionUpdateManyMutationInput, FieldOptionUncheckedUpdateManyInput>
+    /**
+     * Filter which FieldOptions to update
+     */
+    where?: FieldOptionWhereInput
+    /**
+     * Limit how many FieldOptions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * FieldOption updateManyAndReturn
+   */
+  export type FieldOptionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FieldOption
+     */
+    select?: FieldOptionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the FieldOption
+     */
+    omit?: FieldOptionOmit<ExtArgs> | null
+    /**
+     * The data used to update FieldOptions.
+     */
+    data: XOR<FieldOptionUpdateManyMutationInput, FieldOptionUncheckedUpdateManyInput>
+    /**
+     * Filter which FieldOptions to update
+     */
+    where?: FieldOptionWhereInput
+    /**
+     * Limit how many FieldOptions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FieldOptionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * FieldOption upsert
+   */
+  export type FieldOptionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FieldOption
+     */
+    select?: FieldOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FieldOption
+     */
+    omit?: FieldOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FieldOptionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the FieldOption to update in case it exists.
+     */
+    where: FieldOptionWhereUniqueInput
+    /**
+     * In case the FieldOption found by the `where` argument doesn't exist, create a new FieldOption with this data.
+     */
+    create: XOR<FieldOptionCreateInput, FieldOptionUncheckedCreateInput>
+    /**
+     * In case the FieldOption was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FieldOptionUpdateInput, FieldOptionUncheckedUpdateInput>
+  }
+
+  /**
+   * FieldOption delete
+   */
+  export type FieldOptionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FieldOption
+     */
+    select?: FieldOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FieldOption
+     */
+    omit?: FieldOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FieldOptionInclude<ExtArgs> | null
+    /**
+     * Filter which FieldOption to delete.
+     */
+    where: FieldOptionWhereUniqueInput
+  }
+
+  /**
+   * FieldOption deleteMany
+   */
+  export type FieldOptionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FieldOptions to delete
+     */
+    where?: FieldOptionWhereInput
+    /**
+     * Limit how many FieldOptions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * FieldOption without action
+   */
+  export type FieldOptionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FieldOption
+     */
+    select?: FieldOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FieldOption
+     */
+    omit?: FieldOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FieldOptionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DocumentTypeLocation
+   */
+
+  export type AggregateDocumentTypeLocation = {
+    _count: DocumentTypeLocationCountAggregateOutputType | null
+    _avg: DocumentTypeLocationAvgAggregateOutputType | null
+    _sum: DocumentTypeLocationSumAggregateOutputType | null
+    _min: DocumentTypeLocationMinAggregateOutputType | null
+    _max: DocumentTypeLocationMaxAggregateOutputType | null
+  }
+
+  export type DocumentTypeLocationAvgAggregateOutputType = {
+    id: number | null
+    document_type_id: number | null
+    location_id: number | null
+  }
+
+  export type DocumentTypeLocationSumAggregateOutputType = {
+    id: number | null
+    document_type_id: number | null
+    location_id: number | null
+  }
+
+  export type DocumentTypeLocationMinAggregateOutputType = {
+    id: number | null
+    document_type_id: number | null
+    location_id: number | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type DocumentTypeLocationMaxAggregateOutputType = {
+    id: number | null
+    document_type_id: number | null
+    location_id: number | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type DocumentTypeLocationCountAggregateOutputType = {
+    id: number
+    document_type_id: number
+    location_id: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type DocumentTypeLocationAvgAggregateInputType = {
+    id?: true
+    document_type_id?: true
+    location_id?: true
+  }
+
+  export type DocumentTypeLocationSumAggregateInputType = {
+    id?: true
+    document_type_id?: true
+    location_id?: true
+  }
+
+  export type DocumentTypeLocationMinAggregateInputType = {
+    id?: true
+    document_type_id?: true
+    location_id?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type DocumentTypeLocationMaxAggregateInputType = {
+    id?: true
+    document_type_id?: true
+    location_id?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type DocumentTypeLocationCountAggregateInputType = {
+    id?: true
+    document_type_id?: true
+    location_id?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type DocumentTypeLocationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DocumentTypeLocation to aggregate.
+     */
+    where?: DocumentTypeLocationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentTypeLocations to fetch.
+     */
+    orderBy?: DocumentTypeLocationOrderByWithRelationInput | DocumentTypeLocationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DocumentTypeLocationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentTypeLocations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentTypeLocations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DocumentTypeLocations
+    **/
+    _count?: true | DocumentTypeLocationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DocumentTypeLocationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DocumentTypeLocationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DocumentTypeLocationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DocumentTypeLocationMaxAggregateInputType
+  }
+
+  export type GetDocumentTypeLocationAggregateType<T extends DocumentTypeLocationAggregateArgs> = {
+        [P in keyof T & keyof AggregateDocumentTypeLocation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDocumentTypeLocation[P]>
+      : GetScalarType<T[P], AggregateDocumentTypeLocation[P]>
+  }
+
+
+
+
+  export type DocumentTypeLocationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentTypeLocationWhereInput
+    orderBy?: DocumentTypeLocationOrderByWithAggregationInput | DocumentTypeLocationOrderByWithAggregationInput[]
+    by: DocumentTypeLocationScalarFieldEnum[] | DocumentTypeLocationScalarFieldEnum
+    having?: DocumentTypeLocationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DocumentTypeLocationCountAggregateInputType | true
+    _avg?: DocumentTypeLocationAvgAggregateInputType
+    _sum?: DocumentTypeLocationSumAggregateInputType
+    _min?: DocumentTypeLocationMinAggregateInputType
+    _max?: DocumentTypeLocationMaxAggregateInputType
+  }
+
+  export type DocumentTypeLocationGroupByOutputType = {
+    id: number
+    document_type_id: number
+    location_id: number
+    created_at: Date
+    updated_at: Date
+    _count: DocumentTypeLocationCountAggregateOutputType | null
+    _avg: DocumentTypeLocationAvgAggregateOutputType | null
+    _sum: DocumentTypeLocationSumAggregateOutputType | null
+    _min: DocumentTypeLocationMinAggregateOutputType | null
+    _max: DocumentTypeLocationMaxAggregateOutputType | null
+  }
+
+  type GetDocumentTypeLocationGroupByPayload<T extends DocumentTypeLocationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DocumentTypeLocationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DocumentTypeLocationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DocumentTypeLocationGroupByOutputType[P]>
+            : GetScalarType<T[P], DocumentTypeLocationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DocumentTypeLocationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    document_type_id?: boolean
+    location_id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    document_type?: boolean | DocumentTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["documentTypeLocation"]>
+
+  export type DocumentTypeLocationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    document_type_id?: boolean
+    location_id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    document_type?: boolean | DocumentTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["documentTypeLocation"]>
+
+  export type DocumentTypeLocationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    document_type_id?: boolean
+    location_id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    document_type?: boolean | DocumentTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["documentTypeLocation"]>
+
+  export type DocumentTypeLocationSelectScalar = {
+    id?: boolean
+    document_type_id?: boolean
+    location_id?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type DocumentTypeLocationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "document_type_id" | "location_id" | "created_at" | "updated_at", ExtArgs["result"]["documentTypeLocation"]>
+  export type DocumentTypeLocationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    document_type?: boolean | DocumentTypeDefaultArgs<ExtArgs>
+  }
+  export type DocumentTypeLocationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    document_type?: boolean | DocumentTypeDefaultArgs<ExtArgs>
+  }
+  export type DocumentTypeLocationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    document_type?: boolean | DocumentTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $DocumentTypeLocationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DocumentTypeLocation"
+    objects: {
+      document_type: Prisma.$DocumentTypePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      document_type_id: number
+      location_id: number
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["documentTypeLocation"]>
+    composites: {}
+  }
+
+  type DocumentTypeLocationGetPayload<S extends boolean | null | undefined | DocumentTypeLocationDefaultArgs> = $Result.GetResult<Prisma.$DocumentTypeLocationPayload, S>
+
+  type DocumentTypeLocationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DocumentTypeLocationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DocumentTypeLocationCountAggregateInputType | true
+    }
+
+  export interface DocumentTypeLocationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DocumentTypeLocation'], meta: { name: 'DocumentTypeLocation' } }
+    /**
+     * Find zero or one DocumentTypeLocation that matches the filter.
+     * @param {DocumentTypeLocationFindUniqueArgs} args - Arguments to find a DocumentTypeLocation
+     * @example
+     * // Get one DocumentTypeLocation
+     * const documentTypeLocation = await prisma.documentTypeLocation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DocumentTypeLocationFindUniqueArgs>(args: SelectSubset<T, DocumentTypeLocationFindUniqueArgs<ExtArgs>>): Prisma__DocumentTypeLocationClient<$Result.GetResult<Prisma.$DocumentTypeLocationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DocumentTypeLocation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DocumentTypeLocationFindUniqueOrThrowArgs} args - Arguments to find a DocumentTypeLocation
+     * @example
+     * // Get one DocumentTypeLocation
+     * const documentTypeLocation = await prisma.documentTypeLocation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DocumentTypeLocationFindUniqueOrThrowArgs>(args: SelectSubset<T, DocumentTypeLocationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DocumentTypeLocationClient<$Result.GetResult<Prisma.$DocumentTypeLocationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DocumentTypeLocation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentTypeLocationFindFirstArgs} args - Arguments to find a DocumentTypeLocation
+     * @example
+     * // Get one DocumentTypeLocation
+     * const documentTypeLocation = await prisma.documentTypeLocation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DocumentTypeLocationFindFirstArgs>(args?: SelectSubset<T, DocumentTypeLocationFindFirstArgs<ExtArgs>>): Prisma__DocumentTypeLocationClient<$Result.GetResult<Prisma.$DocumentTypeLocationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DocumentTypeLocation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentTypeLocationFindFirstOrThrowArgs} args - Arguments to find a DocumentTypeLocation
+     * @example
+     * // Get one DocumentTypeLocation
+     * const documentTypeLocation = await prisma.documentTypeLocation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DocumentTypeLocationFindFirstOrThrowArgs>(args?: SelectSubset<T, DocumentTypeLocationFindFirstOrThrowArgs<ExtArgs>>): Prisma__DocumentTypeLocationClient<$Result.GetResult<Prisma.$DocumentTypeLocationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DocumentTypeLocations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentTypeLocationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DocumentTypeLocations
+     * const documentTypeLocations = await prisma.documentTypeLocation.findMany()
+     * 
+     * // Get first 10 DocumentTypeLocations
+     * const documentTypeLocations = await prisma.documentTypeLocation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const documentTypeLocationWithIdOnly = await prisma.documentTypeLocation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DocumentTypeLocationFindManyArgs>(args?: SelectSubset<T, DocumentTypeLocationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentTypeLocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DocumentTypeLocation.
+     * @param {DocumentTypeLocationCreateArgs} args - Arguments to create a DocumentTypeLocation.
+     * @example
+     * // Create one DocumentTypeLocation
+     * const DocumentTypeLocation = await prisma.documentTypeLocation.create({
+     *   data: {
+     *     // ... data to create a DocumentTypeLocation
+     *   }
+     * })
+     * 
+     */
+    create<T extends DocumentTypeLocationCreateArgs>(args: SelectSubset<T, DocumentTypeLocationCreateArgs<ExtArgs>>): Prisma__DocumentTypeLocationClient<$Result.GetResult<Prisma.$DocumentTypeLocationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DocumentTypeLocations.
+     * @param {DocumentTypeLocationCreateManyArgs} args - Arguments to create many DocumentTypeLocations.
+     * @example
+     * // Create many DocumentTypeLocations
+     * const documentTypeLocation = await prisma.documentTypeLocation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DocumentTypeLocationCreateManyArgs>(args?: SelectSubset<T, DocumentTypeLocationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DocumentTypeLocations and returns the data saved in the database.
+     * @param {DocumentTypeLocationCreateManyAndReturnArgs} args - Arguments to create many DocumentTypeLocations.
+     * @example
+     * // Create many DocumentTypeLocations
+     * const documentTypeLocation = await prisma.documentTypeLocation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DocumentTypeLocations and only return the `id`
+     * const documentTypeLocationWithIdOnly = await prisma.documentTypeLocation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DocumentTypeLocationCreateManyAndReturnArgs>(args?: SelectSubset<T, DocumentTypeLocationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentTypeLocationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DocumentTypeLocation.
+     * @param {DocumentTypeLocationDeleteArgs} args - Arguments to delete one DocumentTypeLocation.
+     * @example
+     * // Delete one DocumentTypeLocation
+     * const DocumentTypeLocation = await prisma.documentTypeLocation.delete({
+     *   where: {
+     *     // ... filter to delete one DocumentTypeLocation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DocumentTypeLocationDeleteArgs>(args: SelectSubset<T, DocumentTypeLocationDeleteArgs<ExtArgs>>): Prisma__DocumentTypeLocationClient<$Result.GetResult<Prisma.$DocumentTypeLocationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DocumentTypeLocation.
+     * @param {DocumentTypeLocationUpdateArgs} args - Arguments to update one DocumentTypeLocation.
+     * @example
+     * // Update one DocumentTypeLocation
+     * const documentTypeLocation = await prisma.documentTypeLocation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DocumentTypeLocationUpdateArgs>(args: SelectSubset<T, DocumentTypeLocationUpdateArgs<ExtArgs>>): Prisma__DocumentTypeLocationClient<$Result.GetResult<Prisma.$DocumentTypeLocationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DocumentTypeLocations.
+     * @param {DocumentTypeLocationDeleteManyArgs} args - Arguments to filter DocumentTypeLocations to delete.
+     * @example
+     * // Delete a few DocumentTypeLocations
+     * const { count } = await prisma.documentTypeLocation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DocumentTypeLocationDeleteManyArgs>(args?: SelectSubset<T, DocumentTypeLocationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DocumentTypeLocations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentTypeLocationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DocumentTypeLocations
+     * const documentTypeLocation = await prisma.documentTypeLocation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DocumentTypeLocationUpdateManyArgs>(args: SelectSubset<T, DocumentTypeLocationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DocumentTypeLocations and returns the data updated in the database.
+     * @param {DocumentTypeLocationUpdateManyAndReturnArgs} args - Arguments to update many DocumentTypeLocations.
+     * @example
+     * // Update many DocumentTypeLocations
+     * const documentTypeLocation = await prisma.documentTypeLocation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DocumentTypeLocations and only return the `id`
+     * const documentTypeLocationWithIdOnly = await prisma.documentTypeLocation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DocumentTypeLocationUpdateManyAndReturnArgs>(args: SelectSubset<T, DocumentTypeLocationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentTypeLocationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DocumentTypeLocation.
+     * @param {DocumentTypeLocationUpsertArgs} args - Arguments to update or create a DocumentTypeLocation.
+     * @example
+     * // Update or create a DocumentTypeLocation
+     * const documentTypeLocation = await prisma.documentTypeLocation.upsert({
+     *   create: {
+     *     // ... data to create a DocumentTypeLocation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DocumentTypeLocation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DocumentTypeLocationUpsertArgs>(args: SelectSubset<T, DocumentTypeLocationUpsertArgs<ExtArgs>>): Prisma__DocumentTypeLocationClient<$Result.GetResult<Prisma.$DocumentTypeLocationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DocumentTypeLocations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentTypeLocationCountArgs} args - Arguments to filter DocumentTypeLocations to count.
+     * @example
+     * // Count the number of DocumentTypeLocations
+     * const count = await prisma.documentTypeLocation.count({
+     *   where: {
+     *     // ... the filter for the DocumentTypeLocations we want to count
+     *   }
+     * })
+    **/
+    count<T extends DocumentTypeLocationCountArgs>(
+      args?: Subset<T, DocumentTypeLocationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DocumentTypeLocationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DocumentTypeLocation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentTypeLocationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DocumentTypeLocationAggregateArgs>(args: Subset<T, DocumentTypeLocationAggregateArgs>): Prisma.PrismaPromise<GetDocumentTypeLocationAggregateType<T>>
+
+    /**
+     * Group by DocumentTypeLocation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentTypeLocationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DocumentTypeLocationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DocumentTypeLocationGroupByArgs['orderBy'] }
+        : { orderBy?: DocumentTypeLocationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DocumentTypeLocationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDocumentTypeLocationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DocumentTypeLocation model
+   */
+  readonly fields: DocumentTypeLocationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DocumentTypeLocation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DocumentTypeLocationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    document_type<T extends DocumentTypeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DocumentTypeDefaultArgs<ExtArgs>>): Prisma__DocumentTypeClient<$Result.GetResult<Prisma.$DocumentTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DocumentTypeLocation model
+   */
+  interface DocumentTypeLocationFieldRefs {
+    readonly id: FieldRef<"DocumentTypeLocation", 'Int'>
+    readonly document_type_id: FieldRef<"DocumentTypeLocation", 'Int'>
+    readonly location_id: FieldRef<"DocumentTypeLocation", 'Int'>
+    readonly created_at: FieldRef<"DocumentTypeLocation", 'DateTime'>
+    readonly updated_at: FieldRef<"DocumentTypeLocation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DocumentTypeLocation findUnique
+   */
+  export type DocumentTypeLocationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentTypeLocation
+     */
+    select?: DocumentTypeLocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentTypeLocation
+     */
+    omit?: DocumentTypeLocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentTypeLocationInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentTypeLocation to fetch.
+     */
+    where: DocumentTypeLocationWhereUniqueInput
+  }
+
+  /**
+   * DocumentTypeLocation findUniqueOrThrow
+   */
+  export type DocumentTypeLocationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentTypeLocation
+     */
+    select?: DocumentTypeLocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentTypeLocation
+     */
+    omit?: DocumentTypeLocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentTypeLocationInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentTypeLocation to fetch.
+     */
+    where: DocumentTypeLocationWhereUniqueInput
+  }
+
+  /**
+   * DocumentTypeLocation findFirst
+   */
+  export type DocumentTypeLocationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentTypeLocation
+     */
+    select?: DocumentTypeLocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentTypeLocation
+     */
+    omit?: DocumentTypeLocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentTypeLocationInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentTypeLocation to fetch.
+     */
+    where?: DocumentTypeLocationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentTypeLocations to fetch.
+     */
+    orderBy?: DocumentTypeLocationOrderByWithRelationInput | DocumentTypeLocationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DocumentTypeLocations.
+     */
+    cursor?: DocumentTypeLocationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentTypeLocations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentTypeLocations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DocumentTypeLocations.
+     */
+    distinct?: DocumentTypeLocationScalarFieldEnum | DocumentTypeLocationScalarFieldEnum[]
+  }
+
+  /**
+   * DocumentTypeLocation findFirstOrThrow
+   */
+  export type DocumentTypeLocationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentTypeLocation
+     */
+    select?: DocumentTypeLocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentTypeLocation
+     */
+    omit?: DocumentTypeLocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentTypeLocationInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentTypeLocation to fetch.
+     */
+    where?: DocumentTypeLocationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentTypeLocations to fetch.
+     */
+    orderBy?: DocumentTypeLocationOrderByWithRelationInput | DocumentTypeLocationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DocumentTypeLocations.
+     */
+    cursor?: DocumentTypeLocationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentTypeLocations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentTypeLocations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DocumentTypeLocations.
+     */
+    distinct?: DocumentTypeLocationScalarFieldEnum | DocumentTypeLocationScalarFieldEnum[]
+  }
+
+  /**
+   * DocumentTypeLocation findMany
+   */
+  export type DocumentTypeLocationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentTypeLocation
+     */
+    select?: DocumentTypeLocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentTypeLocation
+     */
+    omit?: DocumentTypeLocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentTypeLocationInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentTypeLocations to fetch.
+     */
+    where?: DocumentTypeLocationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentTypeLocations to fetch.
+     */
+    orderBy?: DocumentTypeLocationOrderByWithRelationInput | DocumentTypeLocationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DocumentTypeLocations.
+     */
+    cursor?: DocumentTypeLocationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentTypeLocations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentTypeLocations.
+     */
+    skip?: number
+    distinct?: DocumentTypeLocationScalarFieldEnum | DocumentTypeLocationScalarFieldEnum[]
+  }
+
+  /**
+   * DocumentTypeLocation create
+   */
+  export type DocumentTypeLocationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentTypeLocation
+     */
+    select?: DocumentTypeLocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentTypeLocation
+     */
+    omit?: DocumentTypeLocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentTypeLocationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DocumentTypeLocation.
+     */
+    data: XOR<DocumentTypeLocationCreateInput, DocumentTypeLocationUncheckedCreateInput>
+  }
+
+  /**
+   * DocumentTypeLocation createMany
+   */
+  export type DocumentTypeLocationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DocumentTypeLocations.
+     */
+    data: DocumentTypeLocationCreateManyInput | DocumentTypeLocationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DocumentTypeLocation createManyAndReturn
+   */
+  export type DocumentTypeLocationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentTypeLocation
+     */
+    select?: DocumentTypeLocationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentTypeLocation
+     */
+    omit?: DocumentTypeLocationOmit<ExtArgs> | null
+    /**
+     * The data used to create many DocumentTypeLocations.
+     */
+    data: DocumentTypeLocationCreateManyInput | DocumentTypeLocationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentTypeLocationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DocumentTypeLocation update
+   */
+  export type DocumentTypeLocationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentTypeLocation
+     */
+    select?: DocumentTypeLocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentTypeLocation
+     */
+    omit?: DocumentTypeLocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentTypeLocationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DocumentTypeLocation.
+     */
+    data: XOR<DocumentTypeLocationUpdateInput, DocumentTypeLocationUncheckedUpdateInput>
+    /**
+     * Choose, which DocumentTypeLocation to update.
+     */
+    where: DocumentTypeLocationWhereUniqueInput
+  }
+
+  /**
+   * DocumentTypeLocation updateMany
+   */
+  export type DocumentTypeLocationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DocumentTypeLocations.
+     */
+    data: XOR<DocumentTypeLocationUpdateManyMutationInput, DocumentTypeLocationUncheckedUpdateManyInput>
+    /**
+     * Filter which DocumentTypeLocations to update
+     */
+    where?: DocumentTypeLocationWhereInput
+    /**
+     * Limit how many DocumentTypeLocations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DocumentTypeLocation updateManyAndReturn
+   */
+  export type DocumentTypeLocationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentTypeLocation
+     */
+    select?: DocumentTypeLocationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentTypeLocation
+     */
+    omit?: DocumentTypeLocationOmit<ExtArgs> | null
+    /**
+     * The data used to update DocumentTypeLocations.
+     */
+    data: XOR<DocumentTypeLocationUpdateManyMutationInput, DocumentTypeLocationUncheckedUpdateManyInput>
+    /**
+     * Filter which DocumentTypeLocations to update
+     */
+    where?: DocumentTypeLocationWhereInput
+    /**
+     * Limit how many DocumentTypeLocations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentTypeLocationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DocumentTypeLocation upsert
+   */
+  export type DocumentTypeLocationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentTypeLocation
+     */
+    select?: DocumentTypeLocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentTypeLocation
+     */
+    omit?: DocumentTypeLocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentTypeLocationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DocumentTypeLocation to update in case it exists.
+     */
+    where: DocumentTypeLocationWhereUniqueInput
+    /**
+     * In case the DocumentTypeLocation found by the `where` argument doesn't exist, create a new DocumentTypeLocation with this data.
+     */
+    create: XOR<DocumentTypeLocationCreateInput, DocumentTypeLocationUncheckedCreateInput>
+    /**
+     * In case the DocumentTypeLocation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DocumentTypeLocationUpdateInput, DocumentTypeLocationUncheckedUpdateInput>
+  }
+
+  /**
+   * DocumentTypeLocation delete
+   */
+  export type DocumentTypeLocationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentTypeLocation
+     */
+    select?: DocumentTypeLocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentTypeLocation
+     */
+    omit?: DocumentTypeLocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentTypeLocationInclude<ExtArgs> | null
+    /**
+     * Filter which DocumentTypeLocation to delete.
+     */
+    where: DocumentTypeLocationWhereUniqueInput
+  }
+
+  /**
+   * DocumentTypeLocation deleteMany
+   */
+  export type DocumentTypeLocationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DocumentTypeLocations to delete
+     */
+    where?: DocumentTypeLocationWhereInput
+    /**
+     * Limit how many DocumentTypeLocations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DocumentTypeLocation without action
+   */
+  export type DocumentTypeLocationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentTypeLocation
+     */
+    select?: DocumentTypeLocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentTypeLocation
+     */
+    omit?: DocumentTypeLocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentTypeLocationInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -8884,7 +12743,12 @@ export namespace Prisma {
     description: 'description',
     formId: 'formId',
     hideHeader: 'hideHeader',
-    showFormButtons: 'showFormButtons'
+    showFormButtons: 'showFormButtons',
+    parent_type_id: 'parent_type_id',
+    parent_name: 'parent_name',
+    child_type_id: 'child_type_id',
+    child_name: 'child_name',
+    form_template_id: 'form_template_id'
   };
 
   export type DocumentTypeScalarFieldEnum = (typeof DocumentTypeScalarFieldEnum)[keyof typeof DocumentTypeScalarFieldEnum]
@@ -8893,22 +12757,22 @@ export namespace Prisma {
   export const DocumentTitleScalarFieldEnum: {
     id: 'id',
     title: 'title',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
     shareable: 'shareable',
-    documentTypeId: 'documentTypeId',
-    isDisplay: 'isDisplay',
-    requireNumber: 'requireNumber',
-    requireValidDate: 'requireValidDate',
-    requireExpireDate: 'requireExpireDate',
-    requireDocData: 'requireDocData',
-    docDataOptions: 'docDataOptions',
-    docDataName: 'docDataName',
-    requireAttachmentFront: 'requireAttachmentFront',
-    requireAttachmentBack: 'requireAttachmentBack',
+    document_type_id: 'document_type_id',
+    is_display: 'is_display',
+    require_number: 'require_number',
+    require_valid_date: 'require_valid_date',
+    require_expire_date: 'require_expire_date',
+    require_doc_data: 'require_doc_data',
+    doc_data_options: 'doc_data_options',
+    doc_data_name: 'doc_data_name',
+    require_attachment_front: 'require_attachment_front',
+    require_attachment_back: 'require_attachment_back',
     description: 'description',
-    formDescription: 'formDescription',
-    formTitle: 'formTitle'
+    form_description: 'form_description',
+    form_title: 'form_title'
   };
 
   export type DocumentTitleScalarFieldEnum = (typeof DocumentTitleScalarFieldEnum)[keyof typeof DocumentTitleScalarFieldEnum]
@@ -8916,22 +12780,20 @@ export namespace Prisma {
 
   export const FormFieldScalarFieldEnum: {
     id: 'id',
-    documentTitleId: 'documentTitleId',
-    fieldName: 'fieldName',
+    template_id: 'template_id',
+    field_id: 'field_id',
+    field_name: 'field_name',
+    field_type: 'field_type',
     label: 'label',
-    type: 'type',
     placeholder: 'placeholder',
     required: 'required',
+    is_hidden: 'is_hidden',
     order: 'order',
-    fullWidth: 'fullWidth',
-    hidden: 'hidden',
-    defaultValue: 'defaultValue',
-    options: 'options',
-    validation: 'validation',
-    conditionalShow: 'conditionalShow',
-    helpText: 'helpText',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    full_width: 'full_width',
+    display_conditions: 'display_conditions',
+    validation_rules: 'validation_rules',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
   };
 
   export type FormFieldScalarFieldEnum = (typeof FormFieldScalarFieldEnum)[keyof typeof FormFieldScalarFieldEnum]
@@ -8989,6 +12851,44 @@ export namespace Prisma {
   };
 
   export type Document_fieldsScalarFieldEnum = (typeof Document_fieldsScalarFieldEnum)[keyof typeof Document_fieldsScalarFieldEnum]
+
+
+  export const FormTemplateScalarFieldEnum: {
+    id: 'id',
+    form_key: 'form_key',
+    name: 'name',
+    description: 'description',
+    version: 'version',
+    is_active: 'is_active',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type FormTemplateScalarFieldEnum = (typeof FormTemplateScalarFieldEnum)[keyof typeof FormTemplateScalarFieldEnum]
+
+
+  export const FieldOptionScalarFieldEnum: {
+    id: 'id',
+    field_id: 'field_id',
+    option_value: 'option_value',
+    option_label: 'option_label',
+    order: 'order',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type FieldOptionScalarFieldEnum = (typeof FieldOptionScalarFieldEnum)[keyof typeof FieldOptionScalarFieldEnum]
+
+
+  export const DocumentTypeLocationScalarFieldEnum: {
+    id: 'id',
+    document_type_id: 'document_type_id',
+    location_id: 'location_id',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type DocumentTypeLocationScalarFieldEnum = (typeof DocumentTypeLocationScalarFieldEnum)[keyof typeof DocumentTypeLocationScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -9129,9 +13029,16 @@ export namespace Prisma {
     formId?: StringNullableFilter<"DocumentType"> | string | null
     hideHeader?: BoolFilter<"DocumentType"> | boolean
     showFormButtons?: BoolFilter<"DocumentType"> | boolean
+    parent_type_id?: StringNullableFilter<"DocumentType"> | string | null
+    parent_name?: StringNullableFilter<"DocumentType"> | string | null
+    child_type_id?: StringNullableFilter<"DocumentType"> | string | null
+    child_name?: StringNullableFilter<"DocumentType"> | string | null
+    form_template_id?: IntNullableFilter<"DocumentType"> | number | null
+    documentTitles?: DocumentTitleListRelationFilter
     documentConfigurations?: DocumentConfigurationListRelationFilter
     document_fields?: Document_fieldsListRelationFilter
-    documentTitles?: DocumentTitleListRelationFilter
+    form_template?: XOR<FormTemplateNullableScalarRelationFilter, FormTemplateWhereInput> | null
+    locations?: DocumentTypeLocationListRelationFilter
   }
 
   export type DocumentTypeOrderByWithRelationInput = {
@@ -9143,14 +13050,22 @@ export namespace Prisma {
     formId?: SortOrderInput | SortOrder
     hideHeader?: SortOrder
     showFormButtons?: SortOrder
+    parent_type_id?: SortOrderInput | SortOrder
+    parent_name?: SortOrderInput | SortOrder
+    child_type_id?: SortOrderInput | SortOrder
+    child_name?: SortOrderInput | SortOrder
+    form_template_id?: SortOrderInput | SortOrder
+    documentTitles?: DocumentTitleOrderByRelationAggregateInput
     documentConfigurations?: DocumentConfigurationOrderByRelationAggregateInput
     document_fields?: document_fieldsOrderByRelationAggregateInput
-    documentTitles?: DocumentTitleOrderByRelationAggregateInput
+    form_template?: FormTemplateOrderByWithRelationInput
+    locations?: DocumentTypeLocationOrderByRelationAggregateInput
   }
 
   export type DocumentTypeWhereUniqueInput = Prisma.AtLeast<{
     id?: number
     name?: string
+    parent_type_id_child_type_id?: DocumentTypeParent_type_id_child_type_idCompoundUniqueInput
     AND?: DocumentTypeWhereInput | DocumentTypeWhereInput[]
     OR?: DocumentTypeWhereInput[]
     NOT?: DocumentTypeWhereInput | DocumentTypeWhereInput[]
@@ -9160,10 +13075,17 @@ export namespace Prisma {
     formId?: StringNullableFilter<"DocumentType"> | string | null
     hideHeader?: BoolFilter<"DocumentType"> | boolean
     showFormButtons?: BoolFilter<"DocumentType"> | boolean
+    parent_type_id?: StringNullableFilter<"DocumentType"> | string | null
+    parent_name?: StringNullableFilter<"DocumentType"> | string | null
+    child_type_id?: StringNullableFilter<"DocumentType"> | string | null
+    child_name?: StringNullableFilter<"DocumentType"> | string | null
+    form_template_id?: IntNullableFilter<"DocumentType"> | number | null
+    documentTitles?: DocumentTitleListRelationFilter
     documentConfigurations?: DocumentConfigurationListRelationFilter
     document_fields?: Document_fieldsListRelationFilter
-    documentTitles?: DocumentTitleListRelationFilter
-  }, "id" | "name">
+    form_template?: XOR<FormTemplateNullableScalarRelationFilter, FormTemplateWhereInput> | null
+    locations?: DocumentTypeLocationListRelationFilter
+  }, "id" | "name" | "parent_type_id_child_type_id">
 
   export type DocumentTypeOrderByWithAggregationInput = {
     id?: SortOrder
@@ -9174,6 +13096,11 @@ export namespace Prisma {
     formId?: SortOrderInput | SortOrder
     hideHeader?: SortOrder
     showFormButtons?: SortOrder
+    parent_type_id?: SortOrderInput | SortOrder
+    parent_name?: SortOrderInput | SortOrder
+    child_type_id?: SortOrderInput | SortOrder
+    child_name?: SortOrderInput | SortOrder
+    form_template_id?: SortOrderInput | SortOrder
     _count?: DocumentTypeCountOrderByAggregateInput
     _avg?: DocumentTypeAvgOrderByAggregateInput
     _max?: DocumentTypeMaxOrderByAggregateInput
@@ -9193,6 +13120,11 @@ export namespace Prisma {
     formId?: StringNullableWithAggregatesFilter<"DocumentType"> | string | null
     hideHeader?: BoolWithAggregatesFilter<"DocumentType"> | boolean
     showFormButtons?: BoolWithAggregatesFilter<"DocumentType"> | boolean
+    parent_type_id?: StringNullableWithAggregatesFilter<"DocumentType"> | string | null
+    parent_name?: StringNullableWithAggregatesFilter<"DocumentType"> | string | null
+    child_type_id?: StringNullableWithAggregatesFilter<"DocumentType"> | string | null
+    child_name?: StringNullableWithAggregatesFilter<"DocumentType"> | string | null
+    form_template_id?: IntNullableWithAggregatesFilter<"DocumentType"> | number | null
   }
 
   export type DocumentTitleWhereInput = {
@@ -9201,51 +13133,49 @@ export namespace Prisma {
     NOT?: DocumentTitleWhereInput | DocumentTitleWhereInput[]
     id?: IntFilter<"DocumentTitle"> | number
     title?: StringFilter<"DocumentTitle"> | string
-    createdAt?: DateTimeFilter<"DocumentTitle"> | Date | string
-    updatedAt?: DateTimeFilter<"DocumentTitle"> | Date | string
+    created_at?: DateTimeFilter<"DocumentTitle"> | Date | string
+    updated_at?: DateTimeFilter<"DocumentTitle"> | Date | string
     shareable?: BoolFilter<"DocumentTitle"> | boolean
-    documentTypeId?: IntFilter<"DocumentTitle"> | number
-    isDisplay?: BoolFilter<"DocumentTitle"> | boolean
-    requireNumber?: BoolFilter<"DocumentTitle"> | boolean
-    requireValidDate?: BoolFilter<"DocumentTitle"> | boolean
-    requireExpireDate?: BoolFilter<"DocumentTitle"> | boolean
-    requireDocData?: BoolFilter<"DocumentTitle"> | boolean
-    docDataOptions?: JsonNullableFilter<"DocumentTitle">
-    docDataName?: StringNullableFilter<"DocumentTitle"> | string | null
-    requireAttachmentFront?: BoolFilter<"DocumentTitle"> | boolean
-    requireAttachmentBack?: BoolFilter<"DocumentTitle"> | boolean
+    document_type_id?: IntFilter<"DocumentTitle"> | number
+    is_display?: BoolFilter<"DocumentTitle"> | boolean
+    require_number?: BoolFilter<"DocumentTitle"> | boolean
+    require_valid_date?: BoolFilter<"DocumentTitle"> | boolean
+    require_expire_date?: BoolFilter<"DocumentTitle"> | boolean
+    require_doc_data?: BoolFilter<"DocumentTitle"> | boolean
+    doc_data_options?: JsonNullableFilter<"DocumentTitle">
+    doc_data_name?: StringNullableFilter<"DocumentTitle"> | string | null
+    require_attachment_front?: BoolFilter<"DocumentTitle"> | boolean
+    require_attachment_back?: BoolFilter<"DocumentTitle"> | boolean
     description?: StringNullableFilter<"DocumentTitle"> | string | null
-    formDescription?: StringNullableFilter<"DocumentTitle"> | string | null
-    formTitle?: StringNullableFilter<"DocumentTitle"> | string | null
+    form_description?: StringNullableFilter<"DocumentTitle"> | string | null
+    form_title?: StringNullableFilter<"DocumentTitle"> | string | null
+    document_types?: XOR<DocumentTypeScalarRelationFilter, DocumentTypeWhereInput>
     documentConfigurations?: DocumentConfigurationListRelationFilter
     document_fields?: Document_fieldsListRelationFilter
-    documentType?: XOR<DocumentTypeScalarRelationFilter, DocumentTypeWhereInput>
-    formFieldEntries?: FormFieldListRelationFilter
   }
 
   export type DocumentTitleOrderByWithRelationInput = {
     id?: SortOrder
     title?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
     shareable?: SortOrder
-    documentTypeId?: SortOrder
-    isDisplay?: SortOrder
-    requireNumber?: SortOrder
-    requireValidDate?: SortOrder
-    requireExpireDate?: SortOrder
-    requireDocData?: SortOrder
-    docDataOptions?: SortOrderInput | SortOrder
-    docDataName?: SortOrderInput | SortOrder
-    requireAttachmentFront?: SortOrder
-    requireAttachmentBack?: SortOrder
+    document_type_id?: SortOrder
+    is_display?: SortOrder
+    require_number?: SortOrder
+    require_valid_date?: SortOrder
+    require_expire_date?: SortOrder
+    require_doc_data?: SortOrder
+    doc_data_options?: SortOrderInput | SortOrder
+    doc_data_name?: SortOrderInput | SortOrder
+    require_attachment_front?: SortOrder
+    require_attachment_back?: SortOrder
     description?: SortOrderInput | SortOrder
-    formDescription?: SortOrderInput | SortOrder
-    formTitle?: SortOrderInput | SortOrder
+    form_description?: SortOrderInput | SortOrder
+    form_title?: SortOrderInput | SortOrder
+    document_types?: DocumentTypeOrderByWithRelationInput
     documentConfigurations?: DocumentConfigurationOrderByRelationAggregateInput
     document_fields?: document_fieldsOrderByRelationAggregateInput
-    documentType?: DocumentTypeOrderByWithRelationInput
-    formFieldEntries?: FormFieldOrderByRelationAggregateInput
   }
 
   export type DocumentTitleWhereUniqueInput = Prisma.AtLeast<{
@@ -9254,47 +13184,46 @@ export namespace Prisma {
     OR?: DocumentTitleWhereInput[]
     NOT?: DocumentTitleWhereInput | DocumentTitleWhereInput[]
     title?: StringFilter<"DocumentTitle"> | string
-    createdAt?: DateTimeFilter<"DocumentTitle"> | Date | string
-    updatedAt?: DateTimeFilter<"DocumentTitle"> | Date | string
+    created_at?: DateTimeFilter<"DocumentTitle"> | Date | string
+    updated_at?: DateTimeFilter<"DocumentTitle"> | Date | string
     shareable?: BoolFilter<"DocumentTitle"> | boolean
-    documentTypeId?: IntFilter<"DocumentTitle"> | number
-    isDisplay?: BoolFilter<"DocumentTitle"> | boolean
-    requireNumber?: BoolFilter<"DocumentTitle"> | boolean
-    requireValidDate?: BoolFilter<"DocumentTitle"> | boolean
-    requireExpireDate?: BoolFilter<"DocumentTitle"> | boolean
-    requireDocData?: BoolFilter<"DocumentTitle"> | boolean
-    docDataOptions?: JsonNullableFilter<"DocumentTitle">
-    docDataName?: StringNullableFilter<"DocumentTitle"> | string | null
-    requireAttachmentFront?: BoolFilter<"DocumentTitle"> | boolean
-    requireAttachmentBack?: BoolFilter<"DocumentTitle"> | boolean
+    document_type_id?: IntFilter<"DocumentTitle"> | number
+    is_display?: BoolFilter<"DocumentTitle"> | boolean
+    require_number?: BoolFilter<"DocumentTitle"> | boolean
+    require_valid_date?: BoolFilter<"DocumentTitle"> | boolean
+    require_expire_date?: BoolFilter<"DocumentTitle"> | boolean
+    require_doc_data?: BoolFilter<"DocumentTitle"> | boolean
+    doc_data_options?: JsonNullableFilter<"DocumentTitle">
+    doc_data_name?: StringNullableFilter<"DocumentTitle"> | string | null
+    require_attachment_front?: BoolFilter<"DocumentTitle"> | boolean
+    require_attachment_back?: BoolFilter<"DocumentTitle"> | boolean
     description?: StringNullableFilter<"DocumentTitle"> | string | null
-    formDescription?: StringNullableFilter<"DocumentTitle"> | string | null
-    formTitle?: StringNullableFilter<"DocumentTitle"> | string | null
+    form_description?: StringNullableFilter<"DocumentTitle"> | string | null
+    form_title?: StringNullableFilter<"DocumentTitle"> | string | null
+    document_types?: XOR<DocumentTypeScalarRelationFilter, DocumentTypeWhereInput>
     documentConfigurations?: DocumentConfigurationListRelationFilter
     document_fields?: Document_fieldsListRelationFilter
-    documentType?: XOR<DocumentTypeScalarRelationFilter, DocumentTypeWhereInput>
-    formFieldEntries?: FormFieldListRelationFilter
   }, "id">
 
   export type DocumentTitleOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
     shareable?: SortOrder
-    documentTypeId?: SortOrder
-    isDisplay?: SortOrder
-    requireNumber?: SortOrder
-    requireValidDate?: SortOrder
-    requireExpireDate?: SortOrder
-    requireDocData?: SortOrder
-    docDataOptions?: SortOrderInput | SortOrder
-    docDataName?: SortOrderInput | SortOrder
-    requireAttachmentFront?: SortOrder
-    requireAttachmentBack?: SortOrder
+    document_type_id?: SortOrder
+    is_display?: SortOrder
+    require_number?: SortOrder
+    require_valid_date?: SortOrder
+    require_expire_date?: SortOrder
+    require_doc_data?: SortOrder
+    doc_data_options?: SortOrderInput | SortOrder
+    doc_data_name?: SortOrderInput | SortOrder
+    require_attachment_front?: SortOrder
+    require_attachment_back?: SortOrder
     description?: SortOrderInput | SortOrder
-    formDescription?: SortOrderInput | SortOrder
-    formTitle?: SortOrderInput | SortOrder
+    form_description?: SortOrderInput | SortOrder
+    form_title?: SortOrderInput | SortOrder
     _count?: DocumentTitleCountOrderByAggregateInput
     _avg?: DocumentTitleAvgOrderByAggregateInput
     _max?: DocumentTitleMaxOrderByAggregateInput
@@ -9308,22 +13237,22 @@ export namespace Prisma {
     NOT?: DocumentTitleScalarWhereWithAggregatesInput | DocumentTitleScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"DocumentTitle"> | number
     title?: StringWithAggregatesFilter<"DocumentTitle"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"DocumentTitle"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"DocumentTitle"> | Date | string
+    created_at?: DateTimeWithAggregatesFilter<"DocumentTitle"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"DocumentTitle"> | Date | string
     shareable?: BoolWithAggregatesFilter<"DocumentTitle"> | boolean
-    documentTypeId?: IntWithAggregatesFilter<"DocumentTitle"> | number
-    isDisplay?: BoolWithAggregatesFilter<"DocumentTitle"> | boolean
-    requireNumber?: BoolWithAggregatesFilter<"DocumentTitle"> | boolean
-    requireValidDate?: BoolWithAggregatesFilter<"DocumentTitle"> | boolean
-    requireExpireDate?: BoolWithAggregatesFilter<"DocumentTitle"> | boolean
-    requireDocData?: BoolWithAggregatesFilter<"DocumentTitle"> | boolean
-    docDataOptions?: JsonNullableWithAggregatesFilter<"DocumentTitle">
-    docDataName?: StringNullableWithAggregatesFilter<"DocumentTitle"> | string | null
-    requireAttachmentFront?: BoolWithAggregatesFilter<"DocumentTitle"> | boolean
-    requireAttachmentBack?: BoolWithAggregatesFilter<"DocumentTitle"> | boolean
+    document_type_id?: IntWithAggregatesFilter<"DocumentTitle"> | number
+    is_display?: BoolWithAggregatesFilter<"DocumentTitle"> | boolean
+    require_number?: BoolWithAggregatesFilter<"DocumentTitle"> | boolean
+    require_valid_date?: BoolWithAggregatesFilter<"DocumentTitle"> | boolean
+    require_expire_date?: BoolWithAggregatesFilter<"DocumentTitle"> | boolean
+    require_doc_data?: BoolWithAggregatesFilter<"DocumentTitle"> | boolean
+    doc_data_options?: JsonNullableWithAggregatesFilter<"DocumentTitle">
+    doc_data_name?: StringNullableWithAggregatesFilter<"DocumentTitle"> | string | null
+    require_attachment_front?: BoolWithAggregatesFilter<"DocumentTitle"> | boolean
+    require_attachment_back?: BoolWithAggregatesFilter<"DocumentTitle"> | boolean
     description?: StringNullableWithAggregatesFilter<"DocumentTitle"> | string | null
-    formDescription?: StringNullableWithAggregatesFilter<"DocumentTitle"> | string | null
-    formTitle?: StringNullableWithAggregatesFilter<"DocumentTitle"> | string | null
+    form_description?: StringNullableWithAggregatesFilter<"DocumentTitle"> | string | null
+    form_title?: StringNullableWithAggregatesFilter<"DocumentTitle"> | string | null
   }
 
   export type FormFieldWhereInput = {
@@ -9331,44 +13260,42 @@ export namespace Prisma {
     OR?: FormFieldWhereInput[]
     NOT?: FormFieldWhereInput | FormFieldWhereInput[]
     id?: IntFilter<"FormField"> | number
-    documentTitleId?: IntFilter<"FormField"> | number
-    fieldName?: StringFilter<"FormField"> | string
+    template_id?: IntFilter<"FormField"> | number
+    field_id?: StringFilter<"FormField"> | string
+    field_name?: StringFilter<"FormField"> | string
+    field_type?: StringFilter<"FormField"> | string
     label?: StringFilter<"FormField"> | string
-    type?: StringFilter<"FormField"> | string
     placeholder?: StringNullableFilter<"FormField"> | string | null
     required?: BoolFilter<"FormField"> | boolean
+    is_hidden?: BoolFilter<"FormField"> | boolean
     order?: IntFilter<"FormField"> | number
-    fullWidth?: BoolFilter<"FormField"> | boolean
-    hidden?: BoolFilter<"FormField"> | boolean
-    defaultValue?: StringNullableFilter<"FormField"> | string | null
-    options?: JsonNullableFilter<"FormField">
-    validation?: JsonNullableFilter<"FormField">
-    conditionalShow?: JsonNullableFilter<"FormField">
-    helpText?: StringNullableFilter<"FormField"> | string | null
-    createdAt?: DateTimeFilter<"FormField"> | Date | string
-    updatedAt?: DateTimeFilter<"FormField"> | Date | string
-    documentTitle?: XOR<DocumentTitleScalarRelationFilter, DocumentTitleWhereInput>
+    full_width?: BoolFilter<"FormField"> | boolean
+    display_conditions?: JsonNullableFilter<"FormField">
+    validation_rules?: JsonNullableFilter<"FormField">
+    created_at?: DateTimeFilter<"FormField"> | Date | string
+    updated_at?: DateTimeFilter<"FormField"> | Date | string
+    form_template?: XOR<FormTemplateScalarRelationFilter, FormTemplateWhereInput>
+    field_options?: FieldOptionListRelationFilter
   }
 
   export type FormFieldOrderByWithRelationInput = {
     id?: SortOrder
-    documentTitleId?: SortOrder
-    fieldName?: SortOrder
+    template_id?: SortOrder
+    field_id?: SortOrder
+    field_name?: SortOrder
+    field_type?: SortOrder
     label?: SortOrder
-    type?: SortOrder
     placeholder?: SortOrderInput | SortOrder
     required?: SortOrder
+    is_hidden?: SortOrder
     order?: SortOrder
-    fullWidth?: SortOrder
-    hidden?: SortOrder
-    defaultValue?: SortOrderInput | SortOrder
-    options?: SortOrderInput | SortOrder
-    validation?: SortOrderInput | SortOrder
-    conditionalShow?: SortOrderInput | SortOrder
-    helpText?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    documentTitle?: DocumentTitleOrderByWithRelationInput
+    full_width?: SortOrder
+    display_conditions?: SortOrderInput | SortOrder
+    validation_rules?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    form_template?: FormTemplateOrderByWithRelationInput
+    field_options?: FieldOptionOrderByRelationAggregateInput
   }
 
   export type FormFieldWhereUniqueInput = Prisma.AtLeast<{
@@ -9376,43 +13303,40 @@ export namespace Prisma {
     AND?: FormFieldWhereInput | FormFieldWhereInput[]
     OR?: FormFieldWhereInput[]
     NOT?: FormFieldWhereInput | FormFieldWhereInput[]
-    documentTitleId?: IntFilter<"FormField"> | number
-    fieldName?: StringFilter<"FormField"> | string
+    template_id?: IntFilter<"FormField"> | number
+    field_id?: StringFilter<"FormField"> | string
+    field_name?: StringFilter<"FormField"> | string
+    field_type?: StringFilter<"FormField"> | string
     label?: StringFilter<"FormField"> | string
-    type?: StringFilter<"FormField"> | string
     placeholder?: StringNullableFilter<"FormField"> | string | null
     required?: BoolFilter<"FormField"> | boolean
+    is_hidden?: BoolFilter<"FormField"> | boolean
     order?: IntFilter<"FormField"> | number
-    fullWidth?: BoolFilter<"FormField"> | boolean
-    hidden?: BoolFilter<"FormField"> | boolean
-    defaultValue?: StringNullableFilter<"FormField"> | string | null
-    options?: JsonNullableFilter<"FormField">
-    validation?: JsonNullableFilter<"FormField">
-    conditionalShow?: JsonNullableFilter<"FormField">
-    helpText?: StringNullableFilter<"FormField"> | string | null
-    createdAt?: DateTimeFilter<"FormField"> | Date | string
-    updatedAt?: DateTimeFilter<"FormField"> | Date | string
-    documentTitle?: XOR<DocumentTitleScalarRelationFilter, DocumentTitleWhereInput>
+    full_width?: BoolFilter<"FormField"> | boolean
+    display_conditions?: JsonNullableFilter<"FormField">
+    validation_rules?: JsonNullableFilter<"FormField">
+    created_at?: DateTimeFilter<"FormField"> | Date | string
+    updated_at?: DateTimeFilter<"FormField"> | Date | string
+    form_template?: XOR<FormTemplateScalarRelationFilter, FormTemplateWhereInput>
+    field_options?: FieldOptionListRelationFilter
   }, "id">
 
   export type FormFieldOrderByWithAggregationInput = {
     id?: SortOrder
-    documentTitleId?: SortOrder
-    fieldName?: SortOrder
+    template_id?: SortOrder
+    field_id?: SortOrder
+    field_name?: SortOrder
+    field_type?: SortOrder
     label?: SortOrder
-    type?: SortOrder
     placeholder?: SortOrderInput | SortOrder
     required?: SortOrder
+    is_hidden?: SortOrder
     order?: SortOrder
-    fullWidth?: SortOrder
-    hidden?: SortOrder
-    defaultValue?: SortOrderInput | SortOrder
-    options?: SortOrderInput | SortOrder
-    validation?: SortOrderInput | SortOrder
-    conditionalShow?: SortOrderInput | SortOrder
-    helpText?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    full_width?: SortOrder
+    display_conditions?: SortOrderInput | SortOrder
+    validation_rules?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
     _count?: FormFieldCountOrderByAggregateInput
     _avg?: FormFieldAvgOrderByAggregateInput
     _max?: FormFieldMaxOrderByAggregateInput
@@ -9425,22 +13349,20 @@ export namespace Prisma {
     OR?: FormFieldScalarWhereWithAggregatesInput[]
     NOT?: FormFieldScalarWhereWithAggregatesInput | FormFieldScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"FormField"> | number
-    documentTitleId?: IntWithAggregatesFilter<"FormField"> | number
-    fieldName?: StringWithAggregatesFilter<"FormField"> | string
+    template_id?: IntWithAggregatesFilter<"FormField"> | number
+    field_id?: StringWithAggregatesFilter<"FormField"> | string
+    field_name?: StringWithAggregatesFilter<"FormField"> | string
+    field_type?: StringWithAggregatesFilter<"FormField"> | string
     label?: StringWithAggregatesFilter<"FormField"> | string
-    type?: StringWithAggregatesFilter<"FormField"> | string
     placeholder?: StringNullableWithAggregatesFilter<"FormField"> | string | null
     required?: BoolWithAggregatesFilter<"FormField"> | boolean
+    is_hidden?: BoolWithAggregatesFilter<"FormField"> | boolean
     order?: IntWithAggregatesFilter<"FormField"> | number
-    fullWidth?: BoolWithAggregatesFilter<"FormField"> | boolean
-    hidden?: BoolWithAggregatesFilter<"FormField"> | boolean
-    defaultValue?: StringNullableWithAggregatesFilter<"FormField"> | string | null
-    options?: JsonNullableWithAggregatesFilter<"FormField">
-    validation?: JsonNullableWithAggregatesFilter<"FormField">
-    conditionalShow?: JsonNullableWithAggregatesFilter<"FormField">
-    helpText?: StringNullableWithAggregatesFilter<"FormField"> | string | null
-    createdAt?: DateTimeWithAggregatesFilter<"FormField"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"FormField"> | Date | string
+    full_width?: BoolWithAggregatesFilter<"FormField"> | boolean
+    display_conditions?: JsonNullableWithAggregatesFilter<"FormField">
+    validation_rules?: JsonNullableWithAggregatesFilter<"FormField">
+    created_at?: DateTimeWithAggregatesFilter<"FormField"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"FormField"> | Date | string
   }
 
   export type DocumentConfigurationWhereInput = {
@@ -9729,6 +13651,206 @@ export namespace Prisma {
     updated_at?: DateTimeWithAggregatesFilter<"document_fields"> | Date | string
   }
 
+  export type FormTemplateWhereInput = {
+    AND?: FormTemplateWhereInput | FormTemplateWhereInput[]
+    OR?: FormTemplateWhereInput[]
+    NOT?: FormTemplateWhereInput | FormTemplateWhereInput[]
+    id?: IntFilter<"FormTemplate"> | number
+    form_key?: StringFilter<"FormTemplate"> | string
+    name?: StringFilter<"FormTemplate"> | string
+    description?: StringNullableFilter<"FormTemplate"> | string | null
+    version?: IntFilter<"FormTemplate"> | number
+    is_active?: BoolFilter<"FormTemplate"> | boolean
+    created_at?: DateTimeFilter<"FormTemplate"> | Date | string
+    updated_at?: DateTimeFilter<"FormTemplate"> | Date | string
+    form_fields?: FormFieldListRelationFilter
+    document_types?: DocumentTypeListRelationFilter
+  }
+
+  export type FormTemplateOrderByWithRelationInput = {
+    id?: SortOrder
+    form_key?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    version?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    form_fields?: FormFieldOrderByRelationAggregateInput
+    document_types?: DocumentTypeOrderByRelationAggregateInput
+  }
+
+  export type FormTemplateWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    form_key?: string
+    AND?: FormTemplateWhereInput | FormTemplateWhereInput[]
+    OR?: FormTemplateWhereInput[]
+    NOT?: FormTemplateWhereInput | FormTemplateWhereInput[]
+    name?: StringFilter<"FormTemplate"> | string
+    description?: StringNullableFilter<"FormTemplate"> | string | null
+    version?: IntFilter<"FormTemplate"> | number
+    is_active?: BoolFilter<"FormTemplate"> | boolean
+    created_at?: DateTimeFilter<"FormTemplate"> | Date | string
+    updated_at?: DateTimeFilter<"FormTemplate"> | Date | string
+    form_fields?: FormFieldListRelationFilter
+    document_types?: DocumentTypeListRelationFilter
+  }, "id" | "form_key">
+
+  export type FormTemplateOrderByWithAggregationInput = {
+    id?: SortOrder
+    form_key?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    version?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: FormTemplateCountOrderByAggregateInput
+    _avg?: FormTemplateAvgOrderByAggregateInput
+    _max?: FormTemplateMaxOrderByAggregateInput
+    _min?: FormTemplateMinOrderByAggregateInput
+    _sum?: FormTemplateSumOrderByAggregateInput
+  }
+
+  export type FormTemplateScalarWhereWithAggregatesInput = {
+    AND?: FormTemplateScalarWhereWithAggregatesInput | FormTemplateScalarWhereWithAggregatesInput[]
+    OR?: FormTemplateScalarWhereWithAggregatesInput[]
+    NOT?: FormTemplateScalarWhereWithAggregatesInput | FormTemplateScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"FormTemplate"> | number
+    form_key?: StringWithAggregatesFilter<"FormTemplate"> | string
+    name?: StringWithAggregatesFilter<"FormTemplate"> | string
+    description?: StringNullableWithAggregatesFilter<"FormTemplate"> | string | null
+    version?: IntWithAggregatesFilter<"FormTemplate"> | number
+    is_active?: BoolWithAggregatesFilter<"FormTemplate"> | boolean
+    created_at?: DateTimeWithAggregatesFilter<"FormTemplate"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"FormTemplate"> | Date | string
+  }
+
+  export type FieldOptionWhereInput = {
+    AND?: FieldOptionWhereInput | FieldOptionWhereInput[]
+    OR?: FieldOptionWhereInput[]
+    NOT?: FieldOptionWhereInput | FieldOptionWhereInput[]
+    id?: IntFilter<"FieldOption"> | number
+    field_id?: IntFilter<"FieldOption"> | number
+    option_value?: StringFilter<"FieldOption"> | string
+    option_label?: StringFilter<"FieldOption"> | string
+    order?: IntFilter<"FieldOption"> | number
+    created_at?: DateTimeFilter<"FieldOption"> | Date | string
+    updated_at?: DateTimeFilter<"FieldOption"> | Date | string
+    form_field?: XOR<FormFieldScalarRelationFilter, FormFieldWhereInput>
+  }
+
+  export type FieldOptionOrderByWithRelationInput = {
+    id?: SortOrder
+    field_id?: SortOrder
+    option_value?: SortOrder
+    option_label?: SortOrder
+    order?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    form_field?: FormFieldOrderByWithRelationInput
+  }
+
+  export type FieldOptionWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: FieldOptionWhereInput | FieldOptionWhereInput[]
+    OR?: FieldOptionWhereInput[]
+    NOT?: FieldOptionWhereInput | FieldOptionWhereInput[]
+    field_id?: IntFilter<"FieldOption"> | number
+    option_value?: StringFilter<"FieldOption"> | string
+    option_label?: StringFilter<"FieldOption"> | string
+    order?: IntFilter<"FieldOption"> | number
+    created_at?: DateTimeFilter<"FieldOption"> | Date | string
+    updated_at?: DateTimeFilter<"FieldOption"> | Date | string
+    form_field?: XOR<FormFieldScalarRelationFilter, FormFieldWhereInput>
+  }, "id">
+
+  export type FieldOptionOrderByWithAggregationInput = {
+    id?: SortOrder
+    field_id?: SortOrder
+    option_value?: SortOrder
+    option_label?: SortOrder
+    order?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: FieldOptionCountOrderByAggregateInput
+    _avg?: FieldOptionAvgOrderByAggregateInput
+    _max?: FieldOptionMaxOrderByAggregateInput
+    _min?: FieldOptionMinOrderByAggregateInput
+    _sum?: FieldOptionSumOrderByAggregateInput
+  }
+
+  export type FieldOptionScalarWhereWithAggregatesInput = {
+    AND?: FieldOptionScalarWhereWithAggregatesInput | FieldOptionScalarWhereWithAggregatesInput[]
+    OR?: FieldOptionScalarWhereWithAggregatesInput[]
+    NOT?: FieldOptionScalarWhereWithAggregatesInput | FieldOptionScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"FieldOption"> | number
+    field_id?: IntWithAggregatesFilter<"FieldOption"> | number
+    option_value?: StringWithAggregatesFilter<"FieldOption"> | string
+    option_label?: StringWithAggregatesFilter<"FieldOption"> | string
+    order?: IntWithAggregatesFilter<"FieldOption"> | number
+    created_at?: DateTimeWithAggregatesFilter<"FieldOption"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"FieldOption"> | Date | string
+  }
+
+  export type DocumentTypeLocationWhereInput = {
+    AND?: DocumentTypeLocationWhereInput | DocumentTypeLocationWhereInput[]
+    OR?: DocumentTypeLocationWhereInput[]
+    NOT?: DocumentTypeLocationWhereInput | DocumentTypeLocationWhereInput[]
+    id?: IntFilter<"DocumentTypeLocation"> | number
+    document_type_id?: IntFilter<"DocumentTypeLocation"> | number
+    location_id?: IntFilter<"DocumentTypeLocation"> | number
+    created_at?: DateTimeFilter<"DocumentTypeLocation"> | Date | string
+    updated_at?: DateTimeFilter<"DocumentTypeLocation"> | Date | string
+    document_type?: XOR<DocumentTypeScalarRelationFilter, DocumentTypeWhereInput>
+  }
+
+  export type DocumentTypeLocationOrderByWithRelationInput = {
+    id?: SortOrder
+    document_type_id?: SortOrder
+    location_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    document_type?: DocumentTypeOrderByWithRelationInput
+  }
+
+  export type DocumentTypeLocationWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    document_type_id_location_id?: DocumentTypeLocationDocument_type_idLocation_idCompoundUniqueInput
+    AND?: DocumentTypeLocationWhereInput | DocumentTypeLocationWhereInput[]
+    OR?: DocumentTypeLocationWhereInput[]
+    NOT?: DocumentTypeLocationWhereInput | DocumentTypeLocationWhereInput[]
+    document_type_id?: IntFilter<"DocumentTypeLocation"> | number
+    location_id?: IntFilter<"DocumentTypeLocation"> | number
+    created_at?: DateTimeFilter<"DocumentTypeLocation"> | Date | string
+    updated_at?: DateTimeFilter<"DocumentTypeLocation"> | Date | string
+    document_type?: XOR<DocumentTypeScalarRelationFilter, DocumentTypeWhereInput>
+  }, "id" | "document_type_id_location_id">
+
+  export type DocumentTypeLocationOrderByWithAggregationInput = {
+    id?: SortOrder
+    document_type_id?: SortOrder
+    location_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: DocumentTypeLocationCountOrderByAggregateInput
+    _avg?: DocumentTypeLocationAvgOrderByAggregateInput
+    _max?: DocumentTypeLocationMaxOrderByAggregateInput
+    _min?: DocumentTypeLocationMinOrderByAggregateInput
+    _sum?: DocumentTypeLocationSumOrderByAggregateInput
+  }
+
+  export type DocumentTypeLocationScalarWhereWithAggregatesInput = {
+    AND?: DocumentTypeLocationScalarWhereWithAggregatesInput | DocumentTypeLocationScalarWhereWithAggregatesInput[]
+    OR?: DocumentTypeLocationScalarWhereWithAggregatesInput[]
+    NOT?: DocumentTypeLocationScalarWhereWithAggregatesInput | DocumentTypeLocationScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"DocumentTypeLocation"> | number
+    document_type_id?: IntWithAggregatesFilter<"DocumentTypeLocation"> | number
+    location_id?: IntWithAggregatesFilter<"DocumentTypeLocation"> | number
+    created_at?: DateTimeWithAggregatesFilter<"DocumentTypeLocation"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"DocumentTypeLocation"> | Date | string
+  }
+
   export type DocumentTypeCreateInput = {
     name: string
     createdAt?: Date | string
@@ -9737,9 +13859,15 @@ export namespace Prisma {
     formId?: string | null
     hideHeader?: boolean
     showFormButtons?: boolean
+    parent_type_id?: string | null
+    parent_name?: string | null
+    child_type_id?: string | null
+    child_name?: string | null
+    documentTitles?: DocumentTitleCreateNestedManyWithoutDocument_typesInput
     documentConfigurations?: DocumentConfigurationCreateNestedManyWithoutDocumentTypeInput
     document_fields?: document_fieldsCreateNestedManyWithoutDocument_typesInput
-    documentTitles?: DocumentTitleCreateNestedManyWithoutDocumentTypeInput
+    form_template?: FormTemplateCreateNestedOneWithoutDocument_typesInput
+    locations?: DocumentTypeLocationCreateNestedManyWithoutDocument_typeInput
   }
 
   export type DocumentTypeUncheckedCreateInput = {
@@ -9751,9 +13879,15 @@ export namespace Prisma {
     formId?: string | null
     hideHeader?: boolean
     showFormButtons?: boolean
+    parent_type_id?: string | null
+    parent_name?: string | null
+    child_type_id?: string | null
+    child_name?: string | null
+    form_template_id?: number | null
+    documentTitles?: DocumentTitleUncheckedCreateNestedManyWithoutDocument_typesInput
     documentConfigurations?: DocumentConfigurationUncheckedCreateNestedManyWithoutDocumentTypeInput
     document_fields?: document_fieldsUncheckedCreateNestedManyWithoutDocument_typesInput
-    documentTitles?: DocumentTitleUncheckedCreateNestedManyWithoutDocumentTypeInput
+    locations?: DocumentTypeLocationUncheckedCreateNestedManyWithoutDocument_typeInput
   }
 
   export type DocumentTypeUpdateInput = {
@@ -9764,9 +13898,15 @@ export namespace Prisma {
     formId?: NullableStringFieldUpdateOperationsInput | string | null
     hideHeader?: BoolFieldUpdateOperationsInput | boolean
     showFormButtons?: BoolFieldUpdateOperationsInput | boolean
+    parent_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parent_name?: NullableStringFieldUpdateOperationsInput | string | null
+    child_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    child_name?: NullableStringFieldUpdateOperationsInput | string | null
+    documentTitles?: DocumentTitleUpdateManyWithoutDocument_typesNestedInput
     documentConfigurations?: DocumentConfigurationUpdateManyWithoutDocumentTypeNestedInput
     document_fields?: document_fieldsUpdateManyWithoutDocument_typesNestedInput
-    documentTitles?: DocumentTitleUpdateManyWithoutDocumentTypeNestedInput
+    form_template?: FormTemplateUpdateOneWithoutDocument_typesNestedInput
+    locations?: DocumentTypeLocationUpdateManyWithoutDocument_typeNestedInput
   }
 
   export type DocumentTypeUncheckedUpdateInput = {
@@ -9778,9 +13918,15 @@ export namespace Prisma {
     formId?: NullableStringFieldUpdateOperationsInput | string | null
     hideHeader?: BoolFieldUpdateOperationsInput | boolean
     showFormButtons?: BoolFieldUpdateOperationsInput | boolean
+    parent_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parent_name?: NullableStringFieldUpdateOperationsInput | string | null
+    child_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    child_name?: NullableStringFieldUpdateOperationsInput | string | null
+    form_template_id?: NullableIntFieldUpdateOperationsInput | number | null
+    documentTitles?: DocumentTitleUncheckedUpdateManyWithoutDocument_typesNestedInput
     documentConfigurations?: DocumentConfigurationUncheckedUpdateManyWithoutDocumentTypeNestedInput
     document_fields?: document_fieldsUncheckedUpdateManyWithoutDocument_typesNestedInput
-    documentTitles?: DocumentTitleUncheckedUpdateManyWithoutDocumentTypeNestedInput
+    locations?: DocumentTypeLocationUncheckedUpdateManyWithoutDocument_typeNestedInput
   }
 
   export type DocumentTypeCreateManyInput = {
@@ -9792,6 +13938,11 @@ export namespace Prisma {
     formId?: string | null
     hideHeader?: boolean
     showFormButtons?: boolean
+    parent_type_id?: string | null
+    parent_name?: string | null
+    child_type_id?: string | null
+    child_name?: string | null
+    form_template_id?: number | null
   }
 
   export type DocumentTypeUpdateManyMutationInput = {
@@ -9802,6 +13953,10 @@ export namespace Prisma {
     formId?: NullableStringFieldUpdateOperationsInput | string | null
     hideHeader?: BoolFieldUpdateOperationsInput | boolean
     showFormButtons?: BoolFieldUpdateOperationsInput | boolean
+    parent_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parent_name?: NullableStringFieldUpdateOperationsInput | string | null
+    child_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    child_name?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type DocumentTypeUncheckedUpdateManyInput = {
@@ -9813,297 +13968,288 @@ export namespace Prisma {
     formId?: NullableStringFieldUpdateOperationsInput | string | null
     hideHeader?: BoolFieldUpdateOperationsInput | boolean
     showFormButtons?: BoolFieldUpdateOperationsInput | boolean
+    parent_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parent_name?: NullableStringFieldUpdateOperationsInput | string | null
+    child_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    child_name?: NullableStringFieldUpdateOperationsInput | string | null
+    form_template_id?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type DocumentTitleCreateInput = {
     title: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    created_at?: Date | string
+    updated_at: Date | string
     shareable?: boolean
-    isDisplay?: boolean
-    requireNumber?: boolean
-    requireValidDate?: boolean
-    requireExpireDate?: boolean
-    requireDocData?: boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: string | null
-    requireAttachmentFront?: boolean
-    requireAttachmentBack?: boolean
+    is_display?: boolean
+    require_number?: boolean
+    require_valid_date?: boolean
+    require_expire_date?: boolean
+    require_doc_data?: boolean
+    doc_data_options?: NullableJsonNullValueInput | InputJsonValue
+    doc_data_name?: string | null
+    require_attachment_front?: boolean
+    require_attachment_back?: boolean
     description?: string | null
-    formDescription?: string | null
-    formTitle?: string | null
+    form_description?: string | null
+    form_title?: string | null
+    document_types: DocumentTypeCreateNestedOneWithoutDocumentTitlesInput
     documentConfigurations?: DocumentConfigurationCreateNestedManyWithoutDocumentTitleInput
     document_fields?: document_fieldsCreateNestedManyWithoutDocument_titlesInput
-    documentType: DocumentTypeCreateNestedOneWithoutDocumentTitlesInput
-    formFieldEntries?: FormFieldCreateNestedManyWithoutDocumentTitleInput
   }
 
   export type DocumentTitleUncheckedCreateInput = {
     id?: number
     title: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    created_at?: Date | string
+    updated_at: Date | string
     shareable?: boolean
-    documentTypeId: number
-    isDisplay?: boolean
-    requireNumber?: boolean
-    requireValidDate?: boolean
-    requireExpireDate?: boolean
-    requireDocData?: boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: string | null
-    requireAttachmentFront?: boolean
-    requireAttachmentBack?: boolean
+    document_type_id: number
+    is_display?: boolean
+    require_number?: boolean
+    require_valid_date?: boolean
+    require_expire_date?: boolean
+    require_doc_data?: boolean
+    doc_data_options?: NullableJsonNullValueInput | InputJsonValue
+    doc_data_name?: string | null
+    require_attachment_front?: boolean
+    require_attachment_back?: boolean
     description?: string | null
-    formDescription?: string | null
-    formTitle?: string | null
+    form_description?: string | null
+    form_title?: string | null
     documentConfigurations?: DocumentConfigurationUncheckedCreateNestedManyWithoutDocumentTitleInput
     document_fields?: document_fieldsUncheckedCreateNestedManyWithoutDocument_titlesInput
-    formFieldEntries?: FormFieldUncheckedCreateNestedManyWithoutDocumentTitleInput
   }
 
   export type DocumentTitleUpdateInput = {
     title?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     shareable?: BoolFieldUpdateOperationsInput | boolean
-    isDisplay?: BoolFieldUpdateOperationsInput | boolean
-    requireNumber?: BoolFieldUpdateOperationsInput | boolean
-    requireValidDate?: BoolFieldUpdateOperationsInput | boolean
-    requireExpireDate?: BoolFieldUpdateOperationsInput | boolean
-    requireDocData?: BoolFieldUpdateOperationsInput | boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: NullableStringFieldUpdateOperationsInput | string | null
-    requireAttachmentFront?: BoolFieldUpdateOperationsInput | boolean
-    requireAttachmentBack?: BoolFieldUpdateOperationsInput | boolean
+    is_display?: BoolFieldUpdateOperationsInput | boolean
+    require_number?: BoolFieldUpdateOperationsInput | boolean
+    require_valid_date?: BoolFieldUpdateOperationsInput | boolean
+    require_expire_date?: BoolFieldUpdateOperationsInput | boolean
+    require_doc_data?: BoolFieldUpdateOperationsInput | boolean
+    doc_data_options?: NullableJsonNullValueInput | InputJsonValue
+    doc_data_name?: NullableStringFieldUpdateOperationsInput | string | null
+    require_attachment_front?: BoolFieldUpdateOperationsInput | boolean
+    require_attachment_back?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    formDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    formTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    form_description?: NullableStringFieldUpdateOperationsInput | string | null
+    form_title?: NullableStringFieldUpdateOperationsInput | string | null
+    document_types?: DocumentTypeUpdateOneRequiredWithoutDocumentTitlesNestedInput
     documentConfigurations?: DocumentConfigurationUpdateManyWithoutDocumentTitleNestedInput
     document_fields?: document_fieldsUpdateManyWithoutDocument_titlesNestedInput
-    documentType?: DocumentTypeUpdateOneRequiredWithoutDocumentTitlesNestedInput
-    formFieldEntries?: FormFieldUpdateManyWithoutDocumentTitleNestedInput
   }
 
   export type DocumentTitleUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     shareable?: BoolFieldUpdateOperationsInput | boolean
-    documentTypeId?: IntFieldUpdateOperationsInput | number
-    isDisplay?: BoolFieldUpdateOperationsInput | boolean
-    requireNumber?: BoolFieldUpdateOperationsInput | boolean
-    requireValidDate?: BoolFieldUpdateOperationsInput | boolean
-    requireExpireDate?: BoolFieldUpdateOperationsInput | boolean
-    requireDocData?: BoolFieldUpdateOperationsInput | boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: NullableStringFieldUpdateOperationsInput | string | null
-    requireAttachmentFront?: BoolFieldUpdateOperationsInput | boolean
-    requireAttachmentBack?: BoolFieldUpdateOperationsInput | boolean
+    document_type_id?: IntFieldUpdateOperationsInput | number
+    is_display?: BoolFieldUpdateOperationsInput | boolean
+    require_number?: BoolFieldUpdateOperationsInput | boolean
+    require_valid_date?: BoolFieldUpdateOperationsInput | boolean
+    require_expire_date?: BoolFieldUpdateOperationsInput | boolean
+    require_doc_data?: BoolFieldUpdateOperationsInput | boolean
+    doc_data_options?: NullableJsonNullValueInput | InputJsonValue
+    doc_data_name?: NullableStringFieldUpdateOperationsInput | string | null
+    require_attachment_front?: BoolFieldUpdateOperationsInput | boolean
+    require_attachment_back?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    formDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    formTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    form_description?: NullableStringFieldUpdateOperationsInput | string | null
+    form_title?: NullableStringFieldUpdateOperationsInput | string | null
     documentConfigurations?: DocumentConfigurationUncheckedUpdateManyWithoutDocumentTitleNestedInput
     document_fields?: document_fieldsUncheckedUpdateManyWithoutDocument_titlesNestedInput
-    formFieldEntries?: FormFieldUncheckedUpdateManyWithoutDocumentTitleNestedInput
   }
 
   export type DocumentTitleCreateManyInput = {
     id?: number
     title: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    created_at?: Date | string
+    updated_at: Date | string
     shareable?: boolean
-    documentTypeId: number
-    isDisplay?: boolean
-    requireNumber?: boolean
-    requireValidDate?: boolean
-    requireExpireDate?: boolean
-    requireDocData?: boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: string | null
-    requireAttachmentFront?: boolean
-    requireAttachmentBack?: boolean
+    document_type_id: number
+    is_display?: boolean
+    require_number?: boolean
+    require_valid_date?: boolean
+    require_expire_date?: boolean
+    require_doc_data?: boolean
+    doc_data_options?: NullableJsonNullValueInput | InputJsonValue
+    doc_data_name?: string | null
+    require_attachment_front?: boolean
+    require_attachment_back?: boolean
     description?: string | null
-    formDescription?: string | null
-    formTitle?: string | null
+    form_description?: string | null
+    form_title?: string | null
   }
 
   export type DocumentTitleUpdateManyMutationInput = {
     title?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     shareable?: BoolFieldUpdateOperationsInput | boolean
-    isDisplay?: BoolFieldUpdateOperationsInput | boolean
-    requireNumber?: BoolFieldUpdateOperationsInput | boolean
-    requireValidDate?: BoolFieldUpdateOperationsInput | boolean
-    requireExpireDate?: BoolFieldUpdateOperationsInput | boolean
-    requireDocData?: BoolFieldUpdateOperationsInput | boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: NullableStringFieldUpdateOperationsInput | string | null
-    requireAttachmentFront?: BoolFieldUpdateOperationsInput | boolean
-    requireAttachmentBack?: BoolFieldUpdateOperationsInput | boolean
+    is_display?: BoolFieldUpdateOperationsInput | boolean
+    require_number?: BoolFieldUpdateOperationsInput | boolean
+    require_valid_date?: BoolFieldUpdateOperationsInput | boolean
+    require_expire_date?: BoolFieldUpdateOperationsInput | boolean
+    require_doc_data?: BoolFieldUpdateOperationsInput | boolean
+    doc_data_options?: NullableJsonNullValueInput | InputJsonValue
+    doc_data_name?: NullableStringFieldUpdateOperationsInput | string | null
+    require_attachment_front?: BoolFieldUpdateOperationsInput | boolean
+    require_attachment_back?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    formDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    formTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    form_description?: NullableStringFieldUpdateOperationsInput | string | null
+    form_title?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type DocumentTitleUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     shareable?: BoolFieldUpdateOperationsInput | boolean
-    documentTypeId?: IntFieldUpdateOperationsInput | number
-    isDisplay?: BoolFieldUpdateOperationsInput | boolean
-    requireNumber?: BoolFieldUpdateOperationsInput | boolean
-    requireValidDate?: BoolFieldUpdateOperationsInput | boolean
-    requireExpireDate?: BoolFieldUpdateOperationsInput | boolean
-    requireDocData?: BoolFieldUpdateOperationsInput | boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: NullableStringFieldUpdateOperationsInput | string | null
-    requireAttachmentFront?: BoolFieldUpdateOperationsInput | boolean
-    requireAttachmentBack?: BoolFieldUpdateOperationsInput | boolean
+    document_type_id?: IntFieldUpdateOperationsInput | number
+    is_display?: BoolFieldUpdateOperationsInput | boolean
+    require_number?: BoolFieldUpdateOperationsInput | boolean
+    require_valid_date?: BoolFieldUpdateOperationsInput | boolean
+    require_expire_date?: BoolFieldUpdateOperationsInput | boolean
+    require_doc_data?: BoolFieldUpdateOperationsInput | boolean
+    doc_data_options?: NullableJsonNullValueInput | InputJsonValue
+    doc_data_name?: NullableStringFieldUpdateOperationsInput | string | null
+    require_attachment_front?: BoolFieldUpdateOperationsInput | boolean
+    require_attachment_back?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    formDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    formTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    form_description?: NullableStringFieldUpdateOperationsInput | string | null
+    form_title?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type FormFieldCreateInput = {
-    fieldName: string
+    field_id: string
+    field_name: string
+    field_type: string
     label: string
-    type: string
     placeholder?: string | null
     required?: boolean
+    is_hidden?: boolean
     order?: number
-    fullWidth?: boolean
-    hidden?: boolean
-    defaultValue?: string | null
-    options?: NullableJsonNullValueInput | InputJsonValue
-    validation?: NullableJsonNullValueInput | InputJsonValue
-    conditionalShow?: NullableJsonNullValueInput | InputJsonValue
-    helpText?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    documentTitle: DocumentTitleCreateNestedOneWithoutFormFieldEntriesInput
+    full_width?: boolean
+    display_conditions?: NullableJsonNullValueInput | InputJsonValue
+    validation_rules?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    form_template: FormTemplateCreateNestedOneWithoutForm_fieldsInput
+    field_options?: FieldOptionCreateNestedManyWithoutForm_fieldInput
   }
 
   export type FormFieldUncheckedCreateInput = {
     id?: number
-    documentTitleId: number
-    fieldName: string
+    template_id: number
+    field_id: string
+    field_name: string
+    field_type: string
     label: string
-    type: string
     placeholder?: string | null
     required?: boolean
+    is_hidden?: boolean
     order?: number
-    fullWidth?: boolean
-    hidden?: boolean
-    defaultValue?: string | null
-    options?: NullableJsonNullValueInput | InputJsonValue
-    validation?: NullableJsonNullValueInput | InputJsonValue
-    conditionalShow?: NullableJsonNullValueInput | InputJsonValue
-    helpText?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    full_width?: boolean
+    display_conditions?: NullableJsonNullValueInput | InputJsonValue
+    validation_rules?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    field_options?: FieldOptionUncheckedCreateNestedManyWithoutForm_fieldInput
   }
 
   export type FormFieldUpdateInput = {
-    fieldName?: StringFieldUpdateOperationsInput | string
+    field_id?: StringFieldUpdateOperationsInput | string
+    field_name?: StringFieldUpdateOperationsInput | string
+    field_type?: StringFieldUpdateOperationsInput | string
     label?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
     placeholder?: NullableStringFieldUpdateOperationsInput | string | null
     required?: BoolFieldUpdateOperationsInput | boolean
+    is_hidden?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
-    fullWidth?: BoolFieldUpdateOperationsInput | boolean
-    hidden?: BoolFieldUpdateOperationsInput | boolean
-    defaultValue?: NullableStringFieldUpdateOperationsInput | string | null
-    options?: NullableJsonNullValueInput | InputJsonValue
-    validation?: NullableJsonNullValueInput | InputJsonValue
-    conditionalShow?: NullableJsonNullValueInput | InputJsonValue
-    helpText?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    documentTitle?: DocumentTitleUpdateOneRequiredWithoutFormFieldEntriesNestedInput
+    full_width?: BoolFieldUpdateOperationsInput | boolean
+    display_conditions?: NullableJsonNullValueInput | InputJsonValue
+    validation_rules?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    form_template?: FormTemplateUpdateOneRequiredWithoutForm_fieldsNestedInput
+    field_options?: FieldOptionUpdateManyWithoutForm_fieldNestedInput
   }
 
   export type FormFieldUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    documentTitleId?: IntFieldUpdateOperationsInput | number
-    fieldName?: StringFieldUpdateOperationsInput | string
+    template_id?: IntFieldUpdateOperationsInput | number
+    field_id?: StringFieldUpdateOperationsInput | string
+    field_name?: StringFieldUpdateOperationsInput | string
+    field_type?: StringFieldUpdateOperationsInput | string
     label?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
     placeholder?: NullableStringFieldUpdateOperationsInput | string | null
     required?: BoolFieldUpdateOperationsInput | boolean
+    is_hidden?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
-    fullWidth?: BoolFieldUpdateOperationsInput | boolean
-    hidden?: BoolFieldUpdateOperationsInput | boolean
-    defaultValue?: NullableStringFieldUpdateOperationsInput | string | null
-    options?: NullableJsonNullValueInput | InputJsonValue
-    validation?: NullableJsonNullValueInput | InputJsonValue
-    conditionalShow?: NullableJsonNullValueInput | InputJsonValue
-    helpText?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    full_width?: BoolFieldUpdateOperationsInput | boolean
+    display_conditions?: NullableJsonNullValueInput | InputJsonValue
+    validation_rules?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    field_options?: FieldOptionUncheckedUpdateManyWithoutForm_fieldNestedInput
   }
 
   export type FormFieldCreateManyInput = {
     id?: number
-    documentTitleId: number
-    fieldName: string
+    template_id: number
+    field_id: string
+    field_name: string
+    field_type: string
     label: string
-    type: string
     placeholder?: string | null
     required?: boolean
+    is_hidden?: boolean
     order?: number
-    fullWidth?: boolean
-    hidden?: boolean
-    defaultValue?: string | null
-    options?: NullableJsonNullValueInput | InputJsonValue
-    validation?: NullableJsonNullValueInput | InputJsonValue
-    conditionalShow?: NullableJsonNullValueInput | InputJsonValue
-    helpText?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    full_width?: boolean
+    display_conditions?: NullableJsonNullValueInput | InputJsonValue
+    validation_rules?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type FormFieldUpdateManyMutationInput = {
-    fieldName?: StringFieldUpdateOperationsInput | string
+    field_id?: StringFieldUpdateOperationsInput | string
+    field_name?: StringFieldUpdateOperationsInput | string
+    field_type?: StringFieldUpdateOperationsInput | string
     label?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
     placeholder?: NullableStringFieldUpdateOperationsInput | string | null
     required?: BoolFieldUpdateOperationsInput | boolean
+    is_hidden?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
-    fullWidth?: BoolFieldUpdateOperationsInput | boolean
-    hidden?: BoolFieldUpdateOperationsInput | boolean
-    defaultValue?: NullableStringFieldUpdateOperationsInput | string | null
-    options?: NullableJsonNullValueInput | InputJsonValue
-    validation?: NullableJsonNullValueInput | InputJsonValue
-    conditionalShow?: NullableJsonNullValueInput | InputJsonValue
-    helpText?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    full_width?: BoolFieldUpdateOperationsInput | boolean
+    display_conditions?: NullableJsonNullValueInput | InputJsonValue
+    validation_rules?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FormFieldUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    documentTitleId?: IntFieldUpdateOperationsInput | number
-    fieldName?: StringFieldUpdateOperationsInput | string
+    template_id?: IntFieldUpdateOperationsInput | number
+    field_id?: StringFieldUpdateOperationsInput | string
+    field_name?: StringFieldUpdateOperationsInput | string
+    field_type?: StringFieldUpdateOperationsInput | string
     label?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
     placeholder?: NullableStringFieldUpdateOperationsInput | string | null
     required?: BoolFieldUpdateOperationsInput | boolean
+    is_hidden?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
-    fullWidth?: BoolFieldUpdateOperationsInput | boolean
-    hidden?: BoolFieldUpdateOperationsInput | boolean
-    defaultValue?: NullableStringFieldUpdateOperationsInput | string | null
-    options?: NullableJsonNullValueInput | InputJsonValue
-    validation?: NullableJsonNullValueInput | InputJsonValue
-    conditionalShow?: NullableJsonNullValueInput | InputJsonValue
-    helpText?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    full_width?: BoolFieldUpdateOperationsInput | boolean
+    display_conditions?: NullableJsonNullValueInput | InputJsonValue
+    validation_rules?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DocumentConfigurationCreateInput = {
@@ -10411,6 +14557,206 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type FormTemplateCreateInput = {
+    form_key: string
+    name: string
+    description?: string | null
+    version?: number
+    is_active?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+    form_fields?: FormFieldCreateNestedManyWithoutForm_templateInput
+    document_types?: DocumentTypeCreateNestedManyWithoutForm_templateInput
+  }
+
+  export type FormTemplateUncheckedCreateInput = {
+    id?: number
+    form_key: string
+    name: string
+    description?: string | null
+    version?: number
+    is_active?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+    form_fields?: FormFieldUncheckedCreateNestedManyWithoutForm_templateInput
+    document_types?: DocumentTypeUncheckedCreateNestedManyWithoutForm_templateInput
+  }
+
+  export type FormTemplateUpdateInput = {
+    form_key?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    form_fields?: FormFieldUpdateManyWithoutForm_templateNestedInput
+    document_types?: DocumentTypeUpdateManyWithoutForm_templateNestedInput
+  }
+
+  export type FormTemplateUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    form_key?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    form_fields?: FormFieldUncheckedUpdateManyWithoutForm_templateNestedInput
+    document_types?: DocumentTypeUncheckedUpdateManyWithoutForm_templateNestedInput
+  }
+
+  export type FormTemplateCreateManyInput = {
+    id?: number
+    form_key: string
+    name: string
+    description?: string | null
+    version?: number
+    is_active?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type FormTemplateUpdateManyMutationInput = {
+    form_key?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FormTemplateUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    form_key?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FieldOptionCreateInput = {
+    option_value: string
+    option_label: string
+    order?: number
+    created_at?: Date | string
+    updated_at?: Date | string
+    form_field: FormFieldCreateNestedOneWithoutField_optionsInput
+  }
+
+  export type FieldOptionUncheckedCreateInput = {
+    id?: number
+    field_id: number
+    option_value: string
+    option_label: string
+    order?: number
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type FieldOptionUpdateInput = {
+    option_value?: StringFieldUpdateOperationsInput | string
+    option_label?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    form_field?: FormFieldUpdateOneRequiredWithoutField_optionsNestedInput
+  }
+
+  export type FieldOptionUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    field_id?: IntFieldUpdateOperationsInput | number
+    option_value?: StringFieldUpdateOperationsInput | string
+    option_label?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FieldOptionCreateManyInput = {
+    id?: number
+    field_id: number
+    option_value: string
+    option_label: string
+    order?: number
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type FieldOptionUpdateManyMutationInput = {
+    option_value?: StringFieldUpdateOperationsInput | string
+    option_label?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FieldOptionUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    field_id?: IntFieldUpdateOperationsInput | number
+    option_value?: StringFieldUpdateOperationsInput | string
+    option_label?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentTypeLocationCreateInput = {
+    location_id: number
+    created_at?: Date | string
+    updated_at?: Date | string
+    document_type: DocumentTypeCreateNestedOneWithoutLocationsInput
+  }
+
+  export type DocumentTypeLocationUncheckedCreateInput = {
+    id?: number
+    document_type_id: number
+    location_id: number
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type DocumentTypeLocationUpdateInput = {
+    location_id?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    document_type?: DocumentTypeUpdateOneRequiredWithoutLocationsNestedInput
+  }
+
+  export type DocumentTypeLocationUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    document_type_id?: IntFieldUpdateOperationsInput | number
+    location_id?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentTypeLocationCreateManyInput = {
+    id?: number
+    document_type_id: number
+    location_id: number
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type DocumentTypeLocationUpdateManyMutationInput = {
+    location_id?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentTypeLocationUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    document_type_id?: IntFieldUpdateOperationsInput | number
+    location_id?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -10468,6 +14814,23 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type DocumentTitleListRelationFilter = {
+    every?: DocumentTitleWhereInput
+    some?: DocumentTitleWhereInput
+    none?: DocumentTitleWhereInput
+  }
+
   export type DocumentConfigurationListRelationFilter = {
     every?: DocumentConfigurationWhereInput
     some?: DocumentConfigurationWhereInput
@@ -10480,15 +14843,24 @@ export namespace Prisma {
     none?: document_fieldsWhereInput
   }
 
-  export type DocumentTitleListRelationFilter = {
-    every?: DocumentTitleWhereInput
-    some?: DocumentTitleWhereInput
-    none?: DocumentTitleWhereInput
+  export type FormTemplateNullableScalarRelationFilter = {
+    is?: FormTemplateWhereInput | null
+    isNot?: FormTemplateWhereInput | null
+  }
+
+  export type DocumentTypeLocationListRelationFilter = {
+    every?: DocumentTypeLocationWhereInput
+    some?: DocumentTypeLocationWhereInput
+    none?: DocumentTypeLocationWhereInput
   }
 
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type DocumentTitleOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type DocumentConfigurationOrderByRelationAggregateInput = {
@@ -10499,8 +14871,13 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type DocumentTitleOrderByRelationAggregateInput = {
+  export type DocumentTypeLocationOrderByRelationAggregateInput = {
     _count?: SortOrder
+  }
+
+  export type DocumentTypeParent_type_id_child_type_idCompoundUniqueInput = {
+    parent_type_id: string
+    child_type_id: string
   }
 
   export type DocumentTypeCountOrderByAggregateInput = {
@@ -10512,10 +14889,16 @@ export namespace Prisma {
     formId?: SortOrder
     hideHeader?: SortOrder
     showFormButtons?: SortOrder
+    parent_type_id?: SortOrder
+    parent_name?: SortOrder
+    child_type_id?: SortOrder
+    child_name?: SortOrder
+    form_template_id?: SortOrder
   }
 
   export type DocumentTypeAvgOrderByAggregateInput = {
     id?: SortOrder
+    form_template_id?: SortOrder
   }
 
   export type DocumentTypeMaxOrderByAggregateInput = {
@@ -10527,6 +14910,11 @@ export namespace Prisma {
     formId?: SortOrder
     hideHeader?: SortOrder
     showFormButtons?: SortOrder
+    parent_type_id?: SortOrder
+    parent_name?: SortOrder
+    child_type_id?: SortOrder
+    child_name?: SortOrder
+    form_template_id?: SortOrder
   }
 
   export type DocumentTypeMinOrderByAggregateInput = {
@@ -10538,10 +14926,16 @@ export namespace Prisma {
     formId?: SortOrder
     hideHeader?: SortOrder
     showFormButtons?: SortOrder
+    parent_type_id?: SortOrder
+    parent_name?: SortOrder
+    child_type_id?: SortOrder
+    child_name?: SortOrder
+    form_template_id?: SortOrder
   }
 
   export type DocumentTypeSumOrderByAggregateInput = {
     id?: SortOrder
+    form_template_id?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -10617,6 +15011,22 @@ export namespace Prisma {
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
   }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -10646,85 +15056,75 @@ export namespace Prisma {
     isNot?: DocumentTypeWhereInput
   }
 
-  export type FormFieldListRelationFilter = {
-    every?: FormFieldWhereInput
-    some?: FormFieldWhereInput
-    none?: FormFieldWhereInput
-  }
-
-  export type FormFieldOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type DocumentTitleCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
     shareable?: SortOrder
-    documentTypeId?: SortOrder
-    isDisplay?: SortOrder
-    requireNumber?: SortOrder
-    requireValidDate?: SortOrder
-    requireExpireDate?: SortOrder
-    requireDocData?: SortOrder
-    docDataOptions?: SortOrder
-    docDataName?: SortOrder
-    requireAttachmentFront?: SortOrder
-    requireAttachmentBack?: SortOrder
+    document_type_id?: SortOrder
+    is_display?: SortOrder
+    require_number?: SortOrder
+    require_valid_date?: SortOrder
+    require_expire_date?: SortOrder
+    require_doc_data?: SortOrder
+    doc_data_options?: SortOrder
+    doc_data_name?: SortOrder
+    require_attachment_front?: SortOrder
+    require_attachment_back?: SortOrder
     description?: SortOrder
-    formDescription?: SortOrder
-    formTitle?: SortOrder
+    form_description?: SortOrder
+    form_title?: SortOrder
   }
 
   export type DocumentTitleAvgOrderByAggregateInput = {
     id?: SortOrder
-    documentTypeId?: SortOrder
+    document_type_id?: SortOrder
   }
 
   export type DocumentTitleMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
     shareable?: SortOrder
-    documentTypeId?: SortOrder
-    isDisplay?: SortOrder
-    requireNumber?: SortOrder
-    requireValidDate?: SortOrder
-    requireExpireDate?: SortOrder
-    requireDocData?: SortOrder
-    docDataName?: SortOrder
-    requireAttachmentFront?: SortOrder
-    requireAttachmentBack?: SortOrder
+    document_type_id?: SortOrder
+    is_display?: SortOrder
+    require_number?: SortOrder
+    require_valid_date?: SortOrder
+    require_expire_date?: SortOrder
+    require_doc_data?: SortOrder
+    doc_data_name?: SortOrder
+    require_attachment_front?: SortOrder
+    require_attachment_back?: SortOrder
     description?: SortOrder
-    formDescription?: SortOrder
-    formTitle?: SortOrder
+    form_description?: SortOrder
+    form_title?: SortOrder
   }
 
   export type DocumentTitleMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
     shareable?: SortOrder
-    documentTypeId?: SortOrder
-    isDisplay?: SortOrder
-    requireNumber?: SortOrder
-    requireValidDate?: SortOrder
-    requireExpireDate?: SortOrder
-    requireDocData?: SortOrder
-    docDataName?: SortOrder
-    requireAttachmentFront?: SortOrder
-    requireAttachmentBack?: SortOrder
+    document_type_id?: SortOrder
+    is_display?: SortOrder
+    require_number?: SortOrder
+    require_valid_date?: SortOrder
+    require_expire_date?: SortOrder
+    require_doc_data?: SortOrder
+    doc_data_name?: SortOrder
+    require_attachment_front?: SortOrder
+    require_attachment_back?: SortOrder
     description?: SortOrder
-    formDescription?: SortOrder
-    formTitle?: SortOrder
+    form_description?: SortOrder
+    form_title?: SortOrder
   }
 
   export type DocumentTitleSumOrderByAggregateInput = {
     id?: SortOrder
-    documentTypeId?: SortOrder
+    document_type_id?: SortOrder
   }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -10753,75 +15153,86 @@ export namespace Prisma {
     _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
-  export type DocumentTitleScalarRelationFilter = {
-    is?: DocumentTitleWhereInput
-    isNot?: DocumentTitleWhereInput
+  export type FormTemplateScalarRelationFilter = {
+    is?: FormTemplateWhereInput
+    isNot?: FormTemplateWhereInput
+  }
+
+  export type FieldOptionListRelationFilter = {
+    every?: FieldOptionWhereInput
+    some?: FieldOptionWhereInput
+    none?: FieldOptionWhereInput
+  }
+
+  export type FieldOptionOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type FormFieldCountOrderByAggregateInput = {
     id?: SortOrder
-    documentTitleId?: SortOrder
-    fieldName?: SortOrder
+    template_id?: SortOrder
+    field_id?: SortOrder
+    field_name?: SortOrder
+    field_type?: SortOrder
     label?: SortOrder
-    type?: SortOrder
     placeholder?: SortOrder
     required?: SortOrder
+    is_hidden?: SortOrder
     order?: SortOrder
-    fullWidth?: SortOrder
-    hidden?: SortOrder
-    defaultValue?: SortOrder
-    options?: SortOrder
-    validation?: SortOrder
-    conditionalShow?: SortOrder
-    helpText?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    full_width?: SortOrder
+    display_conditions?: SortOrder
+    validation_rules?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type FormFieldAvgOrderByAggregateInput = {
     id?: SortOrder
-    documentTitleId?: SortOrder
+    template_id?: SortOrder
     order?: SortOrder
   }
 
   export type FormFieldMaxOrderByAggregateInput = {
     id?: SortOrder
-    documentTitleId?: SortOrder
-    fieldName?: SortOrder
+    template_id?: SortOrder
+    field_id?: SortOrder
+    field_name?: SortOrder
+    field_type?: SortOrder
     label?: SortOrder
-    type?: SortOrder
     placeholder?: SortOrder
     required?: SortOrder
+    is_hidden?: SortOrder
     order?: SortOrder
-    fullWidth?: SortOrder
-    hidden?: SortOrder
-    defaultValue?: SortOrder
-    helpText?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    full_width?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type FormFieldMinOrderByAggregateInput = {
     id?: SortOrder
-    documentTitleId?: SortOrder
-    fieldName?: SortOrder
+    template_id?: SortOrder
+    field_id?: SortOrder
+    field_name?: SortOrder
+    field_type?: SortOrder
     label?: SortOrder
-    type?: SortOrder
     placeholder?: SortOrder
     required?: SortOrder
+    is_hidden?: SortOrder
     order?: SortOrder
-    fullWidth?: SortOrder
-    hidden?: SortOrder
-    defaultValue?: SortOrder
-    helpText?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    full_width?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type FormFieldSumOrderByAggregateInput = {
     id?: SortOrder
-    documentTitleId?: SortOrder
+    template_id?: SortOrder
     order?: SortOrder
+  }
+
+  export type DocumentTitleScalarRelationFilter = {
+    is?: DocumentTitleWhereInput
+    isNot?: DocumentTitleWhereInput
   }
 
   export type RegionScalarRelationFilter = {
@@ -10927,17 +15338,6 @@ export namespace Prisma {
     id?: SortOrder
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type DocumentTitleNullableScalarRelationFilter = {
     is?: DocumentTitleWhereInput | null
     isNot?: DocumentTitleWhereInput | null
@@ -11017,20 +15417,162 @@ export namespace Prisma {
     document_title_id?: SortOrder
   }
 
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
+  export type FormFieldListRelationFilter = {
+    every?: FormFieldWhereInput
+    some?: FormFieldWhereInput
+    none?: FormFieldWhereInput
+  }
+
+  export type DocumentTypeListRelationFilter = {
+    every?: DocumentTypeWhereInput
+    some?: DocumentTypeWhereInput
+    none?: DocumentTypeWhereInput
+  }
+
+  export type FormFieldOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DocumentTypeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type FormTemplateCountOrderByAggregateInput = {
+    id?: SortOrder
+    form_key?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    version?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type FormTemplateAvgOrderByAggregateInput = {
+    id?: SortOrder
+    version?: SortOrder
+  }
+
+  export type FormTemplateMaxOrderByAggregateInput = {
+    id?: SortOrder
+    form_key?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    version?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type FormTemplateMinOrderByAggregateInput = {
+    id?: SortOrder
+    form_key?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    version?: SortOrder
+    is_active?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type FormTemplateSumOrderByAggregateInput = {
+    id?: SortOrder
+    version?: SortOrder
+  }
+
+  export type FormFieldScalarRelationFilter = {
+    is?: FormFieldWhereInput
+    isNot?: FormFieldWhereInput
+  }
+
+  export type FieldOptionCountOrderByAggregateInput = {
+    id?: SortOrder
+    field_id?: SortOrder
+    option_value?: SortOrder
+    option_label?: SortOrder
+    order?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type FieldOptionAvgOrderByAggregateInput = {
+    id?: SortOrder
+    field_id?: SortOrder
+    order?: SortOrder
+  }
+
+  export type FieldOptionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    field_id?: SortOrder
+    option_value?: SortOrder
+    option_label?: SortOrder
+    order?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type FieldOptionMinOrderByAggregateInput = {
+    id?: SortOrder
+    field_id?: SortOrder
+    option_value?: SortOrder
+    option_label?: SortOrder
+    order?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type FieldOptionSumOrderByAggregateInput = {
+    id?: SortOrder
+    field_id?: SortOrder
+    order?: SortOrder
+  }
+
+  export type DocumentTypeLocationDocument_type_idLocation_idCompoundUniqueInput = {
+    document_type_id: number
+    location_id: number
+  }
+
+  export type DocumentTypeLocationCountOrderByAggregateInput = {
+    id?: SortOrder
+    document_type_id?: SortOrder
+    location_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type DocumentTypeLocationAvgOrderByAggregateInput = {
+    id?: SortOrder
+    document_type_id?: SortOrder
+    location_id?: SortOrder
+  }
+
+  export type DocumentTypeLocationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    document_type_id?: SortOrder
+    location_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type DocumentTypeLocationMinOrderByAggregateInput = {
+    id?: SortOrder
+    document_type_id?: SortOrder
+    location_id?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type DocumentTypeLocationSumOrderByAggregateInput = {
+    id?: SortOrder
+    document_type_id?: SortOrder
+    location_id?: SortOrder
+  }
+
+  export type DocumentTitleCreateNestedManyWithoutDocument_typesInput = {
+    create?: XOR<DocumentTitleCreateWithoutDocument_typesInput, DocumentTitleUncheckedCreateWithoutDocument_typesInput> | DocumentTitleCreateWithoutDocument_typesInput[] | DocumentTitleUncheckedCreateWithoutDocument_typesInput[]
+    connectOrCreate?: DocumentTitleCreateOrConnectWithoutDocument_typesInput | DocumentTitleCreateOrConnectWithoutDocument_typesInput[]
+    createMany?: DocumentTitleCreateManyDocument_typesInputEnvelope
+    connect?: DocumentTitleWhereUniqueInput | DocumentTitleWhereUniqueInput[]
   }
 
   export type DocumentConfigurationCreateNestedManyWithoutDocumentTypeInput = {
@@ -11047,10 +15589,23 @@ export namespace Prisma {
     connect?: document_fieldsWhereUniqueInput | document_fieldsWhereUniqueInput[]
   }
 
-  export type DocumentTitleCreateNestedManyWithoutDocumentTypeInput = {
-    create?: XOR<DocumentTitleCreateWithoutDocumentTypeInput, DocumentTitleUncheckedCreateWithoutDocumentTypeInput> | DocumentTitleCreateWithoutDocumentTypeInput[] | DocumentTitleUncheckedCreateWithoutDocumentTypeInput[]
-    connectOrCreate?: DocumentTitleCreateOrConnectWithoutDocumentTypeInput | DocumentTitleCreateOrConnectWithoutDocumentTypeInput[]
-    createMany?: DocumentTitleCreateManyDocumentTypeInputEnvelope
+  export type FormTemplateCreateNestedOneWithoutDocument_typesInput = {
+    create?: XOR<FormTemplateCreateWithoutDocument_typesInput, FormTemplateUncheckedCreateWithoutDocument_typesInput>
+    connectOrCreate?: FormTemplateCreateOrConnectWithoutDocument_typesInput
+    connect?: FormTemplateWhereUniqueInput
+  }
+
+  export type DocumentTypeLocationCreateNestedManyWithoutDocument_typeInput = {
+    create?: XOR<DocumentTypeLocationCreateWithoutDocument_typeInput, DocumentTypeLocationUncheckedCreateWithoutDocument_typeInput> | DocumentTypeLocationCreateWithoutDocument_typeInput[] | DocumentTypeLocationUncheckedCreateWithoutDocument_typeInput[]
+    connectOrCreate?: DocumentTypeLocationCreateOrConnectWithoutDocument_typeInput | DocumentTypeLocationCreateOrConnectWithoutDocument_typeInput[]
+    createMany?: DocumentTypeLocationCreateManyDocument_typeInputEnvelope
+    connect?: DocumentTypeLocationWhereUniqueInput | DocumentTypeLocationWhereUniqueInput[]
+  }
+
+  export type DocumentTitleUncheckedCreateNestedManyWithoutDocument_typesInput = {
+    create?: XOR<DocumentTitleCreateWithoutDocument_typesInput, DocumentTitleUncheckedCreateWithoutDocument_typesInput> | DocumentTitleCreateWithoutDocument_typesInput[] | DocumentTitleUncheckedCreateWithoutDocument_typesInput[]
+    connectOrCreate?: DocumentTitleCreateOrConnectWithoutDocument_typesInput | DocumentTitleCreateOrConnectWithoutDocument_typesInput[]
+    createMany?: DocumentTitleCreateManyDocument_typesInputEnvelope
     connect?: DocumentTitleWhereUniqueInput | DocumentTitleWhereUniqueInput[]
   }
 
@@ -11068,11 +15623,11 @@ export namespace Prisma {
     connect?: document_fieldsWhereUniqueInput | document_fieldsWhereUniqueInput[]
   }
 
-  export type DocumentTitleUncheckedCreateNestedManyWithoutDocumentTypeInput = {
-    create?: XOR<DocumentTitleCreateWithoutDocumentTypeInput, DocumentTitleUncheckedCreateWithoutDocumentTypeInput> | DocumentTitleCreateWithoutDocumentTypeInput[] | DocumentTitleUncheckedCreateWithoutDocumentTypeInput[]
-    connectOrCreate?: DocumentTitleCreateOrConnectWithoutDocumentTypeInput | DocumentTitleCreateOrConnectWithoutDocumentTypeInput[]
-    createMany?: DocumentTitleCreateManyDocumentTypeInputEnvelope
-    connect?: DocumentTitleWhereUniqueInput | DocumentTitleWhereUniqueInput[]
+  export type DocumentTypeLocationUncheckedCreateNestedManyWithoutDocument_typeInput = {
+    create?: XOR<DocumentTypeLocationCreateWithoutDocument_typeInput, DocumentTypeLocationUncheckedCreateWithoutDocument_typeInput> | DocumentTypeLocationCreateWithoutDocument_typeInput[] | DocumentTypeLocationUncheckedCreateWithoutDocument_typeInput[]
+    connectOrCreate?: DocumentTypeLocationCreateOrConnectWithoutDocument_typeInput | DocumentTypeLocationCreateOrConnectWithoutDocument_typeInput[]
+    createMany?: DocumentTypeLocationCreateManyDocument_typeInputEnvelope
+    connect?: DocumentTypeLocationWhereUniqueInput | DocumentTypeLocationWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -11089,6 +15644,20 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type DocumentTitleUpdateManyWithoutDocument_typesNestedInput = {
+    create?: XOR<DocumentTitleCreateWithoutDocument_typesInput, DocumentTitleUncheckedCreateWithoutDocument_typesInput> | DocumentTitleCreateWithoutDocument_typesInput[] | DocumentTitleUncheckedCreateWithoutDocument_typesInput[]
+    connectOrCreate?: DocumentTitleCreateOrConnectWithoutDocument_typesInput | DocumentTitleCreateOrConnectWithoutDocument_typesInput[]
+    upsert?: DocumentTitleUpsertWithWhereUniqueWithoutDocument_typesInput | DocumentTitleUpsertWithWhereUniqueWithoutDocument_typesInput[]
+    createMany?: DocumentTitleCreateManyDocument_typesInputEnvelope
+    set?: DocumentTitleWhereUniqueInput | DocumentTitleWhereUniqueInput[]
+    disconnect?: DocumentTitleWhereUniqueInput | DocumentTitleWhereUniqueInput[]
+    delete?: DocumentTitleWhereUniqueInput | DocumentTitleWhereUniqueInput[]
+    connect?: DocumentTitleWhereUniqueInput | DocumentTitleWhereUniqueInput[]
+    update?: DocumentTitleUpdateWithWhereUniqueWithoutDocument_typesInput | DocumentTitleUpdateWithWhereUniqueWithoutDocument_typesInput[]
+    updateMany?: DocumentTitleUpdateManyWithWhereWithoutDocument_typesInput | DocumentTitleUpdateManyWithWhereWithoutDocument_typesInput[]
+    deleteMany?: DocumentTitleScalarWhereInput | DocumentTitleScalarWhereInput[]
   }
 
   export type DocumentConfigurationUpdateManyWithoutDocumentTypeNestedInput = {
@@ -11119,18 +15688,28 @@ export namespace Prisma {
     deleteMany?: document_fieldsScalarWhereInput | document_fieldsScalarWhereInput[]
   }
 
-  export type DocumentTitleUpdateManyWithoutDocumentTypeNestedInput = {
-    create?: XOR<DocumentTitleCreateWithoutDocumentTypeInput, DocumentTitleUncheckedCreateWithoutDocumentTypeInput> | DocumentTitleCreateWithoutDocumentTypeInput[] | DocumentTitleUncheckedCreateWithoutDocumentTypeInput[]
-    connectOrCreate?: DocumentTitleCreateOrConnectWithoutDocumentTypeInput | DocumentTitleCreateOrConnectWithoutDocumentTypeInput[]
-    upsert?: DocumentTitleUpsertWithWhereUniqueWithoutDocumentTypeInput | DocumentTitleUpsertWithWhereUniqueWithoutDocumentTypeInput[]
-    createMany?: DocumentTitleCreateManyDocumentTypeInputEnvelope
-    set?: DocumentTitleWhereUniqueInput | DocumentTitleWhereUniqueInput[]
-    disconnect?: DocumentTitleWhereUniqueInput | DocumentTitleWhereUniqueInput[]
-    delete?: DocumentTitleWhereUniqueInput | DocumentTitleWhereUniqueInput[]
-    connect?: DocumentTitleWhereUniqueInput | DocumentTitleWhereUniqueInput[]
-    update?: DocumentTitleUpdateWithWhereUniqueWithoutDocumentTypeInput | DocumentTitleUpdateWithWhereUniqueWithoutDocumentTypeInput[]
-    updateMany?: DocumentTitleUpdateManyWithWhereWithoutDocumentTypeInput | DocumentTitleUpdateManyWithWhereWithoutDocumentTypeInput[]
-    deleteMany?: DocumentTitleScalarWhereInput | DocumentTitleScalarWhereInput[]
+  export type FormTemplateUpdateOneWithoutDocument_typesNestedInput = {
+    create?: XOR<FormTemplateCreateWithoutDocument_typesInput, FormTemplateUncheckedCreateWithoutDocument_typesInput>
+    connectOrCreate?: FormTemplateCreateOrConnectWithoutDocument_typesInput
+    upsert?: FormTemplateUpsertWithoutDocument_typesInput
+    disconnect?: FormTemplateWhereInput | boolean
+    delete?: FormTemplateWhereInput | boolean
+    connect?: FormTemplateWhereUniqueInput
+    update?: XOR<XOR<FormTemplateUpdateToOneWithWhereWithoutDocument_typesInput, FormTemplateUpdateWithoutDocument_typesInput>, FormTemplateUncheckedUpdateWithoutDocument_typesInput>
+  }
+
+  export type DocumentTypeLocationUpdateManyWithoutDocument_typeNestedInput = {
+    create?: XOR<DocumentTypeLocationCreateWithoutDocument_typeInput, DocumentTypeLocationUncheckedCreateWithoutDocument_typeInput> | DocumentTypeLocationCreateWithoutDocument_typeInput[] | DocumentTypeLocationUncheckedCreateWithoutDocument_typeInput[]
+    connectOrCreate?: DocumentTypeLocationCreateOrConnectWithoutDocument_typeInput | DocumentTypeLocationCreateOrConnectWithoutDocument_typeInput[]
+    upsert?: DocumentTypeLocationUpsertWithWhereUniqueWithoutDocument_typeInput | DocumentTypeLocationUpsertWithWhereUniqueWithoutDocument_typeInput[]
+    createMany?: DocumentTypeLocationCreateManyDocument_typeInputEnvelope
+    set?: DocumentTypeLocationWhereUniqueInput | DocumentTypeLocationWhereUniqueInput[]
+    disconnect?: DocumentTypeLocationWhereUniqueInput | DocumentTypeLocationWhereUniqueInput[]
+    delete?: DocumentTypeLocationWhereUniqueInput | DocumentTypeLocationWhereUniqueInput[]
+    connect?: DocumentTypeLocationWhereUniqueInput | DocumentTypeLocationWhereUniqueInput[]
+    update?: DocumentTypeLocationUpdateWithWhereUniqueWithoutDocument_typeInput | DocumentTypeLocationUpdateWithWhereUniqueWithoutDocument_typeInput[]
+    updateMany?: DocumentTypeLocationUpdateManyWithWhereWithoutDocument_typeInput | DocumentTypeLocationUpdateManyWithWhereWithoutDocument_typeInput[]
+    deleteMany?: DocumentTypeLocationScalarWhereInput | DocumentTypeLocationScalarWhereInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -11139,6 +15718,28 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type DocumentTitleUncheckedUpdateManyWithoutDocument_typesNestedInput = {
+    create?: XOR<DocumentTitleCreateWithoutDocument_typesInput, DocumentTitleUncheckedCreateWithoutDocument_typesInput> | DocumentTitleCreateWithoutDocument_typesInput[] | DocumentTitleUncheckedCreateWithoutDocument_typesInput[]
+    connectOrCreate?: DocumentTitleCreateOrConnectWithoutDocument_typesInput | DocumentTitleCreateOrConnectWithoutDocument_typesInput[]
+    upsert?: DocumentTitleUpsertWithWhereUniqueWithoutDocument_typesInput | DocumentTitleUpsertWithWhereUniqueWithoutDocument_typesInput[]
+    createMany?: DocumentTitleCreateManyDocument_typesInputEnvelope
+    set?: DocumentTitleWhereUniqueInput | DocumentTitleWhereUniqueInput[]
+    disconnect?: DocumentTitleWhereUniqueInput | DocumentTitleWhereUniqueInput[]
+    delete?: DocumentTitleWhereUniqueInput | DocumentTitleWhereUniqueInput[]
+    connect?: DocumentTitleWhereUniqueInput | DocumentTitleWhereUniqueInput[]
+    update?: DocumentTitleUpdateWithWhereUniqueWithoutDocument_typesInput | DocumentTitleUpdateWithWhereUniqueWithoutDocument_typesInput[]
+    updateMany?: DocumentTitleUpdateManyWithWhereWithoutDocument_typesInput | DocumentTitleUpdateManyWithWhereWithoutDocument_typesInput[]
+    deleteMany?: DocumentTitleScalarWhereInput | DocumentTitleScalarWhereInput[]
   }
 
   export type DocumentConfigurationUncheckedUpdateManyWithoutDocumentTypeNestedInput = {
@@ -11169,18 +15770,24 @@ export namespace Prisma {
     deleteMany?: document_fieldsScalarWhereInput | document_fieldsScalarWhereInput[]
   }
 
-  export type DocumentTitleUncheckedUpdateManyWithoutDocumentTypeNestedInput = {
-    create?: XOR<DocumentTitleCreateWithoutDocumentTypeInput, DocumentTitleUncheckedCreateWithoutDocumentTypeInput> | DocumentTitleCreateWithoutDocumentTypeInput[] | DocumentTitleUncheckedCreateWithoutDocumentTypeInput[]
-    connectOrCreate?: DocumentTitleCreateOrConnectWithoutDocumentTypeInput | DocumentTitleCreateOrConnectWithoutDocumentTypeInput[]
-    upsert?: DocumentTitleUpsertWithWhereUniqueWithoutDocumentTypeInput | DocumentTitleUpsertWithWhereUniqueWithoutDocumentTypeInput[]
-    createMany?: DocumentTitleCreateManyDocumentTypeInputEnvelope
-    set?: DocumentTitleWhereUniqueInput | DocumentTitleWhereUniqueInput[]
-    disconnect?: DocumentTitleWhereUniqueInput | DocumentTitleWhereUniqueInput[]
-    delete?: DocumentTitleWhereUniqueInput | DocumentTitleWhereUniqueInput[]
-    connect?: DocumentTitleWhereUniqueInput | DocumentTitleWhereUniqueInput[]
-    update?: DocumentTitleUpdateWithWhereUniqueWithoutDocumentTypeInput | DocumentTitleUpdateWithWhereUniqueWithoutDocumentTypeInput[]
-    updateMany?: DocumentTitleUpdateManyWithWhereWithoutDocumentTypeInput | DocumentTitleUpdateManyWithWhereWithoutDocumentTypeInput[]
-    deleteMany?: DocumentTitleScalarWhereInput | DocumentTitleScalarWhereInput[]
+  export type DocumentTypeLocationUncheckedUpdateManyWithoutDocument_typeNestedInput = {
+    create?: XOR<DocumentTypeLocationCreateWithoutDocument_typeInput, DocumentTypeLocationUncheckedCreateWithoutDocument_typeInput> | DocumentTypeLocationCreateWithoutDocument_typeInput[] | DocumentTypeLocationUncheckedCreateWithoutDocument_typeInput[]
+    connectOrCreate?: DocumentTypeLocationCreateOrConnectWithoutDocument_typeInput | DocumentTypeLocationCreateOrConnectWithoutDocument_typeInput[]
+    upsert?: DocumentTypeLocationUpsertWithWhereUniqueWithoutDocument_typeInput | DocumentTypeLocationUpsertWithWhereUniqueWithoutDocument_typeInput[]
+    createMany?: DocumentTypeLocationCreateManyDocument_typeInputEnvelope
+    set?: DocumentTypeLocationWhereUniqueInput | DocumentTypeLocationWhereUniqueInput[]
+    disconnect?: DocumentTypeLocationWhereUniqueInput | DocumentTypeLocationWhereUniqueInput[]
+    delete?: DocumentTypeLocationWhereUniqueInput | DocumentTypeLocationWhereUniqueInput[]
+    connect?: DocumentTypeLocationWhereUniqueInput | DocumentTypeLocationWhereUniqueInput[]
+    update?: DocumentTypeLocationUpdateWithWhereUniqueWithoutDocument_typeInput | DocumentTypeLocationUpdateWithWhereUniqueWithoutDocument_typeInput[]
+    updateMany?: DocumentTypeLocationUpdateManyWithWhereWithoutDocument_typeInput | DocumentTypeLocationUpdateManyWithWhereWithoutDocument_typeInput[]
+    deleteMany?: DocumentTypeLocationScalarWhereInput | DocumentTypeLocationScalarWhereInput[]
+  }
+
+  export type DocumentTypeCreateNestedOneWithoutDocumentTitlesInput = {
+    create?: XOR<DocumentTypeCreateWithoutDocumentTitlesInput, DocumentTypeUncheckedCreateWithoutDocumentTitlesInput>
+    connectOrCreate?: DocumentTypeCreateOrConnectWithoutDocumentTitlesInput
+    connect?: DocumentTypeWhereUniqueInput
   }
 
   export type DocumentConfigurationCreateNestedManyWithoutDocumentTitleInput = {
@@ -11197,19 +15804,6 @@ export namespace Prisma {
     connect?: document_fieldsWhereUniqueInput | document_fieldsWhereUniqueInput[]
   }
 
-  export type DocumentTypeCreateNestedOneWithoutDocumentTitlesInput = {
-    create?: XOR<DocumentTypeCreateWithoutDocumentTitlesInput, DocumentTypeUncheckedCreateWithoutDocumentTitlesInput>
-    connectOrCreate?: DocumentTypeCreateOrConnectWithoutDocumentTitlesInput
-    connect?: DocumentTypeWhereUniqueInput
-  }
-
-  export type FormFieldCreateNestedManyWithoutDocumentTitleInput = {
-    create?: XOR<FormFieldCreateWithoutDocumentTitleInput, FormFieldUncheckedCreateWithoutDocumentTitleInput> | FormFieldCreateWithoutDocumentTitleInput[] | FormFieldUncheckedCreateWithoutDocumentTitleInput[]
-    connectOrCreate?: FormFieldCreateOrConnectWithoutDocumentTitleInput | FormFieldCreateOrConnectWithoutDocumentTitleInput[]
-    createMany?: FormFieldCreateManyDocumentTitleInputEnvelope
-    connect?: FormFieldWhereUniqueInput | FormFieldWhereUniqueInput[]
-  }
-
   export type DocumentConfigurationUncheckedCreateNestedManyWithoutDocumentTitleInput = {
     create?: XOR<DocumentConfigurationCreateWithoutDocumentTitleInput, DocumentConfigurationUncheckedCreateWithoutDocumentTitleInput> | DocumentConfigurationCreateWithoutDocumentTitleInput[] | DocumentConfigurationUncheckedCreateWithoutDocumentTitleInput[]
     connectOrCreate?: DocumentConfigurationCreateOrConnectWithoutDocumentTitleInput | DocumentConfigurationCreateOrConnectWithoutDocumentTitleInput[]
@@ -11224,11 +15818,12 @@ export namespace Prisma {
     connect?: document_fieldsWhereUniqueInput | document_fieldsWhereUniqueInput[]
   }
 
-  export type FormFieldUncheckedCreateNestedManyWithoutDocumentTitleInput = {
-    create?: XOR<FormFieldCreateWithoutDocumentTitleInput, FormFieldUncheckedCreateWithoutDocumentTitleInput> | FormFieldCreateWithoutDocumentTitleInput[] | FormFieldUncheckedCreateWithoutDocumentTitleInput[]
-    connectOrCreate?: FormFieldCreateOrConnectWithoutDocumentTitleInput | FormFieldCreateOrConnectWithoutDocumentTitleInput[]
-    createMany?: FormFieldCreateManyDocumentTitleInputEnvelope
-    connect?: FormFieldWhereUniqueInput | FormFieldWhereUniqueInput[]
+  export type DocumentTypeUpdateOneRequiredWithoutDocumentTitlesNestedInput = {
+    create?: XOR<DocumentTypeCreateWithoutDocumentTitlesInput, DocumentTypeUncheckedCreateWithoutDocumentTitlesInput>
+    connectOrCreate?: DocumentTypeCreateOrConnectWithoutDocumentTitlesInput
+    upsert?: DocumentTypeUpsertWithoutDocumentTitlesInput
+    connect?: DocumentTypeWhereUniqueInput
+    update?: XOR<XOR<DocumentTypeUpdateToOneWithWhereWithoutDocumentTitlesInput, DocumentTypeUpdateWithoutDocumentTitlesInput>, DocumentTypeUncheckedUpdateWithoutDocumentTitlesInput>
   }
 
   export type DocumentConfigurationUpdateManyWithoutDocumentTitleNestedInput = {
@@ -11259,28 +15854,6 @@ export namespace Prisma {
     deleteMany?: document_fieldsScalarWhereInput | document_fieldsScalarWhereInput[]
   }
 
-  export type DocumentTypeUpdateOneRequiredWithoutDocumentTitlesNestedInput = {
-    create?: XOR<DocumentTypeCreateWithoutDocumentTitlesInput, DocumentTypeUncheckedCreateWithoutDocumentTitlesInput>
-    connectOrCreate?: DocumentTypeCreateOrConnectWithoutDocumentTitlesInput
-    upsert?: DocumentTypeUpsertWithoutDocumentTitlesInput
-    connect?: DocumentTypeWhereUniqueInput
-    update?: XOR<XOR<DocumentTypeUpdateToOneWithWhereWithoutDocumentTitlesInput, DocumentTypeUpdateWithoutDocumentTitlesInput>, DocumentTypeUncheckedUpdateWithoutDocumentTitlesInput>
-  }
-
-  export type FormFieldUpdateManyWithoutDocumentTitleNestedInput = {
-    create?: XOR<FormFieldCreateWithoutDocumentTitleInput, FormFieldUncheckedCreateWithoutDocumentTitleInput> | FormFieldCreateWithoutDocumentTitleInput[] | FormFieldUncheckedCreateWithoutDocumentTitleInput[]
-    connectOrCreate?: FormFieldCreateOrConnectWithoutDocumentTitleInput | FormFieldCreateOrConnectWithoutDocumentTitleInput[]
-    upsert?: FormFieldUpsertWithWhereUniqueWithoutDocumentTitleInput | FormFieldUpsertWithWhereUniqueWithoutDocumentTitleInput[]
-    createMany?: FormFieldCreateManyDocumentTitleInputEnvelope
-    set?: FormFieldWhereUniqueInput | FormFieldWhereUniqueInput[]
-    disconnect?: FormFieldWhereUniqueInput | FormFieldWhereUniqueInput[]
-    delete?: FormFieldWhereUniqueInput | FormFieldWhereUniqueInput[]
-    connect?: FormFieldWhereUniqueInput | FormFieldWhereUniqueInput[]
-    update?: FormFieldUpdateWithWhereUniqueWithoutDocumentTitleInput | FormFieldUpdateWithWhereUniqueWithoutDocumentTitleInput[]
-    updateMany?: FormFieldUpdateManyWithWhereWithoutDocumentTitleInput | FormFieldUpdateManyWithWhereWithoutDocumentTitleInput[]
-    deleteMany?: FormFieldScalarWhereInput | FormFieldScalarWhereInput[]
-  }
-
   export type DocumentConfigurationUncheckedUpdateManyWithoutDocumentTitleNestedInput = {
     create?: XOR<DocumentConfigurationCreateWithoutDocumentTitleInput, DocumentConfigurationUncheckedCreateWithoutDocumentTitleInput> | DocumentConfigurationCreateWithoutDocumentTitleInput[] | DocumentConfigurationUncheckedCreateWithoutDocumentTitleInput[]
     connectOrCreate?: DocumentConfigurationCreateOrConnectWithoutDocumentTitleInput | DocumentConfigurationCreateOrConnectWithoutDocumentTitleInput[]
@@ -11309,32 +15882,60 @@ export namespace Prisma {
     deleteMany?: document_fieldsScalarWhereInput | document_fieldsScalarWhereInput[]
   }
 
-  export type FormFieldUncheckedUpdateManyWithoutDocumentTitleNestedInput = {
-    create?: XOR<FormFieldCreateWithoutDocumentTitleInput, FormFieldUncheckedCreateWithoutDocumentTitleInput> | FormFieldCreateWithoutDocumentTitleInput[] | FormFieldUncheckedCreateWithoutDocumentTitleInput[]
-    connectOrCreate?: FormFieldCreateOrConnectWithoutDocumentTitleInput | FormFieldCreateOrConnectWithoutDocumentTitleInput[]
-    upsert?: FormFieldUpsertWithWhereUniqueWithoutDocumentTitleInput | FormFieldUpsertWithWhereUniqueWithoutDocumentTitleInput[]
-    createMany?: FormFieldCreateManyDocumentTitleInputEnvelope
-    set?: FormFieldWhereUniqueInput | FormFieldWhereUniqueInput[]
-    disconnect?: FormFieldWhereUniqueInput | FormFieldWhereUniqueInput[]
-    delete?: FormFieldWhereUniqueInput | FormFieldWhereUniqueInput[]
-    connect?: FormFieldWhereUniqueInput | FormFieldWhereUniqueInput[]
-    update?: FormFieldUpdateWithWhereUniqueWithoutDocumentTitleInput | FormFieldUpdateWithWhereUniqueWithoutDocumentTitleInput[]
-    updateMany?: FormFieldUpdateManyWithWhereWithoutDocumentTitleInput | FormFieldUpdateManyWithWhereWithoutDocumentTitleInput[]
-    deleteMany?: FormFieldScalarWhereInput | FormFieldScalarWhereInput[]
+  export type FormTemplateCreateNestedOneWithoutForm_fieldsInput = {
+    create?: XOR<FormTemplateCreateWithoutForm_fieldsInput, FormTemplateUncheckedCreateWithoutForm_fieldsInput>
+    connectOrCreate?: FormTemplateCreateOrConnectWithoutForm_fieldsInput
+    connect?: FormTemplateWhereUniqueInput
   }
 
-  export type DocumentTitleCreateNestedOneWithoutFormFieldEntriesInput = {
-    create?: XOR<DocumentTitleCreateWithoutFormFieldEntriesInput, DocumentTitleUncheckedCreateWithoutFormFieldEntriesInput>
-    connectOrCreate?: DocumentTitleCreateOrConnectWithoutFormFieldEntriesInput
-    connect?: DocumentTitleWhereUniqueInput
+  export type FieldOptionCreateNestedManyWithoutForm_fieldInput = {
+    create?: XOR<FieldOptionCreateWithoutForm_fieldInput, FieldOptionUncheckedCreateWithoutForm_fieldInput> | FieldOptionCreateWithoutForm_fieldInput[] | FieldOptionUncheckedCreateWithoutForm_fieldInput[]
+    connectOrCreate?: FieldOptionCreateOrConnectWithoutForm_fieldInput | FieldOptionCreateOrConnectWithoutForm_fieldInput[]
+    createMany?: FieldOptionCreateManyForm_fieldInputEnvelope
+    connect?: FieldOptionWhereUniqueInput | FieldOptionWhereUniqueInput[]
   }
 
-  export type DocumentTitleUpdateOneRequiredWithoutFormFieldEntriesNestedInput = {
-    create?: XOR<DocumentTitleCreateWithoutFormFieldEntriesInput, DocumentTitleUncheckedCreateWithoutFormFieldEntriesInput>
-    connectOrCreate?: DocumentTitleCreateOrConnectWithoutFormFieldEntriesInput
-    upsert?: DocumentTitleUpsertWithoutFormFieldEntriesInput
-    connect?: DocumentTitleWhereUniqueInput
-    update?: XOR<XOR<DocumentTitleUpdateToOneWithWhereWithoutFormFieldEntriesInput, DocumentTitleUpdateWithoutFormFieldEntriesInput>, DocumentTitleUncheckedUpdateWithoutFormFieldEntriesInput>
+  export type FieldOptionUncheckedCreateNestedManyWithoutForm_fieldInput = {
+    create?: XOR<FieldOptionCreateWithoutForm_fieldInput, FieldOptionUncheckedCreateWithoutForm_fieldInput> | FieldOptionCreateWithoutForm_fieldInput[] | FieldOptionUncheckedCreateWithoutForm_fieldInput[]
+    connectOrCreate?: FieldOptionCreateOrConnectWithoutForm_fieldInput | FieldOptionCreateOrConnectWithoutForm_fieldInput[]
+    createMany?: FieldOptionCreateManyForm_fieldInputEnvelope
+    connect?: FieldOptionWhereUniqueInput | FieldOptionWhereUniqueInput[]
+  }
+
+  export type FormTemplateUpdateOneRequiredWithoutForm_fieldsNestedInput = {
+    create?: XOR<FormTemplateCreateWithoutForm_fieldsInput, FormTemplateUncheckedCreateWithoutForm_fieldsInput>
+    connectOrCreate?: FormTemplateCreateOrConnectWithoutForm_fieldsInput
+    upsert?: FormTemplateUpsertWithoutForm_fieldsInput
+    connect?: FormTemplateWhereUniqueInput
+    update?: XOR<XOR<FormTemplateUpdateToOneWithWhereWithoutForm_fieldsInput, FormTemplateUpdateWithoutForm_fieldsInput>, FormTemplateUncheckedUpdateWithoutForm_fieldsInput>
+  }
+
+  export type FieldOptionUpdateManyWithoutForm_fieldNestedInput = {
+    create?: XOR<FieldOptionCreateWithoutForm_fieldInput, FieldOptionUncheckedCreateWithoutForm_fieldInput> | FieldOptionCreateWithoutForm_fieldInput[] | FieldOptionUncheckedCreateWithoutForm_fieldInput[]
+    connectOrCreate?: FieldOptionCreateOrConnectWithoutForm_fieldInput | FieldOptionCreateOrConnectWithoutForm_fieldInput[]
+    upsert?: FieldOptionUpsertWithWhereUniqueWithoutForm_fieldInput | FieldOptionUpsertWithWhereUniqueWithoutForm_fieldInput[]
+    createMany?: FieldOptionCreateManyForm_fieldInputEnvelope
+    set?: FieldOptionWhereUniqueInput | FieldOptionWhereUniqueInput[]
+    disconnect?: FieldOptionWhereUniqueInput | FieldOptionWhereUniqueInput[]
+    delete?: FieldOptionWhereUniqueInput | FieldOptionWhereUniqueInput[]
+    connect?: FieldOptionWhereUniqueInput | FieldOptionWhereUniqueInput[]
+    update?: FieldOptionUpdateWithWhereUniqueWithoutForm_fieldInput | FieldOptionUpdateWithWhereUniqueWithoutForm_fieldInput[]
+    updateMany?: FieldOptionUpdateManyWithWhereWithoutForm_fieldInput | FieldOptionUpdateManyWithWhereWithoutForm_fieldInput[]
+    deleteMany?: FieldOptionScalarWhereInput | FieldOptionScalarWhereInput[]
+  }
+
+  export type FieldOptionUncheckedUpdateManyWithoutForm_fieldNestedInput = {
+    create?: XOR<FieldOptionCreateWithoutForm_fieldInput, FieldOptionUncheckedCreateWithoutForm_fieldInput> | FieldOptionCreateWithoutForm_fieldInput[] | FieldOptionUncheckedCreateWithoutForm_fieldInput[]
+    connectOrCreate?: FieldOptionCreateOrConnectWithoutForm_fieldInput | FieldOptionCreateOrConnectWithoutForm_fieldInput[]
+    upsert?: FieldOptionUpsertWithWhereUniqueWithoutForm_fieldInput | FieldOptionUpsertWithWhereUniqueWithoutForm_fieldInput[]
+    createMany?: FieldOptionCreateManyForm_fieldInputEnvelope
+    set?: FieldOptionWhereUniqueInput | FieldOptionWhereUniqueInput[]
+    disconnect?: FieldOptionWhereUniqueInput | FieldOptionWhereUniqueInput[]
+    delete?: FieldOptionWhereUniqueInput | FieldOptionWhereUniqueInput[]
+    connect?: FieldOptionWhereUniqueInput | FieldOptionWhereUniqueInput[]
+    update?: FieldOptionUpdateWithWhereUniqueWithoutForm_fieldInput | FieldOptionUpdateWithWhereUniqueWithoutForm_fieldInput[]
+    updateMany?: FieldOptionUpdateManyWithWhereWithoutForm_fieldInput | FieldOptionUpdateManyWithWhereWithoutForm_fieldInput[]
+    deleteMany?: FieldOptionScalarWhereInput | FieldOptionScalarWhereInput[]
   }
 
   export type DocumentTitleCreateNestedOneWithoutDocumentConfigurationsInput = {
@@ -11451,12 +16052,116 @@ export namespace Prisma {
     update?: XOR<XOR<DocumentTypeUpdateToOneWithWhereWithoutDocument_fieldsInput, DocumentTypeUpdateWithoutDocument_fieldsInput>, DocumentTypeUncheckedUpdateWithoutDocument_fieldsInput>
   }
 
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
+  export type FormFieldCreateNestedManyWithoutForm_templateInput = {
+    create?: XOR<FormFieldCreateWithoutForm_templateInput, FormFieldUncheckedCreateWithoutForm_templateInput> | FormFieldCreateWithoutForm_templateInput[] | FormFieldUncheckedCreateWithoutForm_templateInput[]
+    connectOrCreate?: FormFieldCreateOrConnectWithoutForm_templateInput | FormFieldCreateOrConnectWithoutForm_templateInput[]
+    createMany?: FormFieldCreateManyForm_templateInputEnvelope
+    connect?: FormFieldWhereUniqueInput | FormFieldWhereUniqueInput[]
+  }
+
+  export type DocumentTypeCreateNestedManyWithoutForm_templateInput = {
+    create?: XOR<DocumentTypeCreateWithoutForm_templateInput, DocumentTypeUncheckedCreateWithoutForm_templateInput> | DocumentTypeCreateWithoutForm_templateInput[] | DocumentTypeUncheckedCreateWithoutForm_templateInput[]
+    connectOrCreate?: DocumentTypeCreateOrConnectWithoutForm_templateInput | DocumentTypeCreateOrConnectWithoutForm_templateInput[]
+    createMany?: DocumentTypeCreateManyForm_templateInputEnvelope
+    connect?: DocumentTypeWhereUniqueInput | DocumentTypeWhereUniqueInput[]
+  }
+
+  export type FormFieldUncheckedCreateNestedManyWithoutForm_templateInput = {
+    create?: XOR<FormFieldCreateWithoutForm_templateInput, FormFieldUncheckedCreateWithoutForm_templateInput> | FormFieldCreateWithoutForm_templateInput[] | FormFieldUncheckedCreateWithoutForm_templateInput[]
+    connectOrCreate?: FormFieldCreateOrConnectWithoutForm_templateInput | FormFieldCreateOrConnectWithoutForm_templateInput[]
+    createMany?: FormFieldCreateManyForm_templateInputEnvelope
+    connect?: FormFieldWhereUniqueInput | FormFieldWhereUniqueInput[]
+  }
+
+  export type DocumentTypeUncheckedCreateNestedManyWithoutForm_templateInput = {
+    create?: XOR<DocumentTypeCreateWithoutForm_templateInput, DocumentTypeUncheckedCreateWithoutForm_templateInput> | DocumentTypeCreateWithoutForm_templateInput[] | DocumentTypeUncheckedCreateWithoutForm_templateInput[]
+    connectOrCreate?: DocumentTypeCreateOrConnectWithoutForm_templateInput | DocumentTypeCreateOrConnectWithoutForm_templateInput[]
+    createMany?: DocumentTypeCreateManyForm_templateInputEnvelope
+    connect?: DocumentTypeWhereUniqueInput | DocumentTypeWhereUniqueInput[]
+  }
+
+  export type FormFieldUpdateManyWithoutForm_templateNestedInput = {
+    create?: XOR<FormFieldCreateWithoutForm_templateInput, FormFieldUncheckedCreateWithoutForm_templateInput> | FormFieldCreateWithoutForm_templateInput[] | FormFieldUncheckedCreateWithoutForm_templateInput[]
+    connectOrCreate?: FormFieldCreateOrConnectWithoutForm_templateInput | FormFieldCreateOrConnectWithoutForm_templateInput[]
+    upsert?: FormFieldUpsertWithWhereUniqueWithoutForm_templateInput | FormFieldUpsertWithWhereUniqueWithoutForm_templateInput[]
+    createMany?: FormFieldCreateManyForm_templateInputEnvelope
+    set?: FormFieldWhereUniqueInput | FormFieldWhereUniqueInput[]
+    disconnect?: FormFieldWhereUniqueInput | FormFieldWhereUniqueInput[]
+    delete?: FormFieldWhereUniqueInput | FormFieldWhereUniqueInput[]
+    connect?: FormFieldWhereUniqueInput | FormFieldWhereUniqueInput[]
+    update?: FormFieldUpdateWithWhereUniqueWithoutForm_templateInput | FormFieldUpdateWithWhereUniqueWithoutForm_templateInput[]
+    updateMany?: FormFieldUpdateManyWithWhereWithoutForm_templateInput | FormFieldUpdateManyWithWhereWithoutForm_templateInput[]
+    deleteMany?: FormFieldScalarWhereInput | FormFieldScalarWhereInput[]
+  }
+
+  export type DocumentTypeUpdateManyWithoutForm_templateNestedInput = {
+    create?: XOR<DocumentTypeCreateWithoutForm_templateInput, DocumentTypeUncheckedCreateWithoutForm_templateInput> | DocumentTypeCreateWithoutForm_templateInput[] | DocumentTypeUncheckedCreateWithoutForm_templateInput[]
+    connectOrCreate?: DocumentTypeCreateOrConnectWithoutForm_templateInput | DocumentTypeCreateOrConnectWithoutForm_templateInput[]
+    upsert?: DocumentTypeUpsertWithWhereUniqueWithoutForm_templateInput | DocumentTypeUpsertWithWhereUniqueWithoutForm_templateInput[]
+    createMany?: DocumentTypeCreateManyForm_templateInputEnvelope
+    set?: DocumentTypeWhereUniqueInput | DocumentTypeWhereUniqueInput[]
+    disconnect?: DocumentTypeWhereUniqueInput | DocumentTypeWhereUniqueInput[]
+    delete?: DocumentTypeWhereUniqueInput | DocumentTypeWhereUniqueInput[]
+    connect?: DocumentTypeWhereUniqueInput | DocumentTypeWhereUniqueInput[]
+    update?: DocumentTypeUpdateWithWhereUniqueWithoutForm_templateInput | DocumentTypeUpdateWithWhereUniqueWithoutForm_templateInput[]
+    updateMany?: DocumentTypeUpdateManyWithWhereWithoutForm_templateInput | DocumentTypeUpdateManyWithWhereWithoutForm_templateInput[]
+    deleteMany?: DocumentTypeScalarWhereInput | DocumentTypeScalarWhereInput[]
+  }
+
+  export type FormFieldUncheckedUpdateManyWithoutForm_templateNestedInput = {
+    create?: XOR<FormFieldCreateWithoutForm_templateInput, FormFieldUncheckedCreateWithoutForm_templateInput> | FormFieldCreateWithoutForm_templateInput[] | FormFieldUncheckedCreateWithoutForm_templateInput[]
+    connectOrCreate?: FormFieldCreateOrConnectWithoutForm_templateInput | FormFieldCreateOrConnectWithoutForm_templateInput[]
+    upsert?: FormFieldUpsertWithWhereUniqueWithoutForm_templateInput | FormFieldUpsertWithWhereUniqueWithoutForm_templateInput[]
+    createMany?: FormFieldCreateManyForm_templateInputEnvelope
+    set?: FormFieldWhereUniqueInput | FormFieldWhereUniqueInput[]
+    disconnect?: FormFieldWhereUniqueInput | FormFieldWhereUniqueInput[]
+    delete?: FormFieldWhereUniqueInput | FormFieldWhereUniqueInput[]
+    connect?: FormFieldWhereUniqueInput | FormFieldWhereUniqueInput[]
+    update?: FormFieldUpdateWithWhereUniqueWithoutForm_templateInput | FormFieldUpdateWithWhereUniqueWithoutForm_templateInput[]
+    updateMany?: FormFieldUpdateManyWithWhereWithoutForm_templateInput | FormFieldUpdateManyWithWhereWithoutForm_templateInput[]
+    deleteMany?: FormFieldScalarWhereInput | FormFieldScalarWhereInput[]
+  }
+
+  export type DocumentTypeUncheckedUpdateManyWithoutForm_templateNestedInput = {
+    create?: XOR<DocumentTypeCreateWithoutForm_templateInput, DocumentTypeUncheckedCreateWithoutForm_templateInput> | DocumentTypeCreateWithoutForm_templateInput[] | DocumentTypeUncheckedCreateWithoutForm_templateInput[]
+    connectOrCreate?: DocumentTypeCreateOrConnectWithoutForm_templateInput | DocumentTypeCreateOrConnectWithoutForm_templateInput[]
+    upsert?: DocumentTypeUpsertWithWhereUniqueWithoutForm_templateInput | DocumentTypeUpsertWithWhereUniqueWithoutForm_templateInput[]
+    createMany?: DocumentTypeCreateManyForm_templateInputEnvelope
+    set?: DocumentTypeWhereUniqueInput | DocumentTypeWhereUniqueInput[]
+    disconnect?: DocumentTypeWhereUniqueInput | DocumentTypeWhereUniqueInput[]
+    delete?: DocumentTypeWhereUniqueInput | DocumentTypeWhereUniqueInput[]
+    connect?: DocumentTypeWhereUniqueInput | DocumentTypeWhereUniqueInput[]
+    update?: DocumentTypeUpdateWithWhereUniqueWithoutForm_templateInput | DocumentTypeUpdateWithWhereUniqueWithoutForm_templateInput[]
+    updateMany?: DocumentTypeUpdateManyWithWhereWithoutForm_templateInput | DocumentTypeUpdateManyWithWhereWithoutForm_templateInput[]
+    deleteMany?: DocumentTypeScalarWhereInput | DocumentTypeScalarWhereInput[]
+  }
+
+  export type FormFieldCreateNestedOneWithoutField_optionsInput = {
+    create?: XOR<FormFieldCreateWithoutField_optionsInput, FormFieldUncheckedCreateWithoutField_optionsInput>
+    connectOrCreate?: FormFieldCreateOrConnectWithoutField_optionsInput
+    connect?: FormFieldWhereUniqueInput
+  }
+
+  export type FormFieldUpdateOneRequiredWithoutField_optionsNestedInput = {
+    create?: XOR<FormFieldCreateWithoutField_optionsInput, FormFieldUncheckedCreateWithoutField_optionsInput>
+    connectOrCreate?: FormFieldCreateOrConnectWithoutField_optionsInput
+    upsert?: FormFieldUpsertWithoutField_optionsInput
+    connect?: FormFieldWhereUniqueInput
+    update?: XOR<XOR<FormFieldUpdateToOneWithWhereWithoutField_optionsInput, FormFieldUpdateWithoutField_optionsInput>, FormFieldUncheckedUpdateWithoutField_optionsInput>
+  }
+
+  export type DocumentTypeCreateNestedOneWithoutLocationsInput = {
+    create?: XOR<DocumentTypeCreateWithoutLocationsInput, DocumentTypeUncheckedCreateWithoutLocationsInput>
+    connectOrCreate?: DocumentTypeCreateOrConnectWithoutLocationsInput
+    connect?: DocumentTypeWhereUniqueInput
+  }
+
+  export type DocumentTypeUpdateOneRequiredWithoutLocationsNestedInput = {
+    create?: XOR<DocumentTypeCreateWithoutLocationsInput, DocumentTypeUncheckedCreateWithoutLocationsInput>
+    connectOrCreate?: DocumentTypeCreateOrConnectWithoutLocationsInput
+    upsert?: DocumentTypeUpsertWithoutLocationsInput
+    connect?: DocumentTypeWhereUniqueInput
+    update?: XOR<XOR<DocumentTypeUpdateToOneWithWhereWithoutLocationsInput, DocumentTypeUpdateWithoutLocationsInput>, DocumentTypeUncheckedUpdateWithoutLocationsInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -11512,6 +16217,17 @@ export namespace Prisma {
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -11589,46 +16305,12 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
-  }
-  export type NestedJsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -11656,6 +16338,82 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type DocumentTitleCreateWithoutDocument_typesInput = {
+    title: string
+    created_at?: Date | string
+    updated_at: Date | string
+    shareable?: boolean
+    is_display?: boolean
+    require_number?: boolean
+    require_valid_date?: boolean
+    require_expire_date?: boolean
+    require_doc_data?: boolean
+    doc_data_options?: NullableJsonNullValueInput | InputJsonValue
+    doc_data_name?: string | null
+    require_attachment_front?: boolean
+    require_attachment_back?: boolean
+    description?: string | null
+    form_description?: string | null
+    form_title?: string | null
+    documentConfigurations?: DocumentConfigurationCreateNestedManyWithoutDocumentTitleInput
+    document_fields?: document_fieldsCreateNestedManyWithoutDocument_titlesInput
+  }
+
+  export type DocumentTitleUncheckedCreateWithoutDocument_typesInput = {
+    id?: number
+    title: string
+    created_at?: Date | string
+    updated_at: Date | string
+    shareable?: boolean
+    is_display?: boolean
+    require_number?: boolean
+    require_valid_date?: boolean
+    require_expire_date?: boolean
+    require_doc_data?: boolean
+    doc_data_options?: NullableJsonNullValueInput | InputJsonValue
+    doc_data_name?: string | null
+    require_attachment_front?: boolean
+    require_attachment_back?: boolean
+    description?: string | null
+    form_description?: string | null
+    form_title?: string | null
+    documentConfigurations?: DocumentConfigurationUncheckedCreateNestedManyWithoutDocumentTitleInput
+    document_fields?: document_fieldsUncheckedCreateNestedManyWithoutDocument_titlesInput
+  }
+
+  export type DocumentTitleCreateOrConnectWithoutDocument_typesInput = {
+    where: DocumentTitleWhereUniqueInput
+    create: XOR<DocumentTitleCreateWithoutDocument_typesInput, DocumentTitleUncheckedCreateWithoutDocument_typesInput>
+  }
+
+  export type DocumentTitleCreateManyDocument_typesInputEnvelope = {
+    data: DocumentTitleCreateManyDocument_typesInput | DocumentTitleCreateManyDocument_typesInput[]
+    skipDuplicates?: boolean
   }
 
   export type DocumentConfigurationCreateWithoutDocumentTypeInput = {
@@ -11742,59 +16500,95 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type DocumentTitleCreateWithoutDocumentTypeInput = {
-    title: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    shareable?: boolean
-    isDisplay?: boolean
-    requireNumber?: boolean
-    requireValidDate?: boolean
-    requireExpireDate?: boolean
-    requireDocData?: boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: string | null
-    requireAttachmentFront?: boolean
-    requireAttachmentBack?: boolean
+  export type FormTemplateCreateWithoutDocument_typesInput = {
+    form_key: string
+    name: string
     description?: string | null
-    formDescription?: string | null
-    formTitle?: string | null
-    documentConfigurations?: DocumentConfigurationCreateNestedManyWithoutDocumentTitleInput
-    document_fields?: document_fieldsCreateNestedManyWithoutDocument_titlesInput
-    formFieldEntries?: FormFieldCreateNestedManyWithoutDocumentTitleInput
+    version?: number
+    is_active?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+    form_fields?: FormFieldCreateNestedManyWithoutForm_templateInput
   }
 
-  export type DocumentTitleUncheckedCreateWithoutDocumentTypeInput = {
+  export type FormTemplateUncheckedCreateWithoutDocument_typesInput = {
     id?: number
-    title: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    shareable?: boolean
-    isDisplay?: boolean
-    requireNumber?: boolean
-    requireValidDate?: boolean
-    requireExpireDate?: boolean
-    requireDocData?: boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: string | null
-    requireAttachmentFront?: boolean
-    requireAttachmentBack?: boolean
+    form_key: string
+    name: string
     description?: string | null
-    formDescription?: string | null
-    formTitle?: string | null
-    documentConfigurations?: DocumentConfigurationUncheckedCreateNestedManyWithoutDocumentTitleInput
-    document_fields?: document_fieldsUncheckedCreateNestedManyWithoutDocument_titlesInput
-    formFieldEntries?: FormFieldUncheckedCreateNestedManyWithoutDocumentTitleInput
+    version?: number
+    is_active?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+    form_fields?: FormFieldUncheckedCreateNestedManyWithoutForm_templateInput
   }
 
-  export type DocumentTitleCreateOrConnectWithoutDocumentTypeInput = {
-    where: DocumentTitleWhereUniqueInput
-    create: XOR<DocumentTitleCreateWithoutDocumentTypeInput, DocumentTitleUncheckedCreateWithoutDocumentTypeInput>
+  export type FormTemplateCreateOrConnectWithoutDocument_typesInput = {
+    where: FormTemplateWhereUniqueInput
+    create: XOR<FormTemplateCreateWithoutDocument_typesInput, FormTemplateUncheckedCreateWithoutDocument_typesInput>
   }
 
-  export type DocumentTitleCreateManyDocumentTypeInputEnvelope = {
-    data: DocumentTitleCreateManyDocumentTypeInput | DocumentTitleCreateManyDocumentTypeInput[]
+  export type DocumentTypeLocationCreateWithoutDocument_typeInput = {
+    location_id: number
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type DocumentTypeLocationUncheckedCreateWithoutDocument_typeInput = {
+    id?: number
+    location_id: number
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type DocumentTypeLocationCreateOrConnectWithoutDocument_typeInput = {
+    where: DocumentTypeLocationWhereUniqueInput
+    create: XOR<DocumentTypeLocationCreateWithoutDocument_typeInput, DocumentTypeLocationUncheckedCreateWithoutDocument_typeInput>
+  }
+
+  export type DocumentTypeLocationCreateManyDocument_typeInputEnvelope = {
+    data: DocumentTypeLocationCreateManyDocument_typeInput | DocumentTypeLocationCreateManyDocument_typeInput[]
     skipDuplicates?: boolean
+  }
+
+  export type DocumentTitleUpsertWithWhereUniqueWithoutDocument_typesInput = {
+    where: DocumentTitleWhereUniqueInput
+    update: XOR<DocumentTitleUpdateWithoutDocument_typesInput, DocumentTitleUncheckedUpdateWithoutDocument_typesInput>
+    create: XOR<DocumentTitleCreateWithoutDocument_typesInput, DocumentTitleUncheckedCreateWithoutDocument_typesInput>
+  }
+
+  export type DocumentTitleUpdateWithWhereUniqueWithoutDocument_typesInput = {
+    where: DocumentTitleWhereUniqueInput
+    data: XOR<DocumentTitleUpdateWithoutDocument_typesInput, DocumentTitleUncheckedUpdateWithoutDocument_typesInput>
+  }
+
+  export type DocumentTitleUpdateManyWithWhereWithoutDocument_typesInput = {
+    where: DocumentTitleScalarWhereInput
+    data: XOR<DocumentTitleUpdateManyMutationInput, DocumentTitleUncheckedUpdateManyWithoutDocument_typesInput>
+  }
+
+  export type DocumentTitleScalarWhereInput = {
+    AND?: DocumentTitleScalarWhereInput | DocumentTitleScalarWhereInput[]
+    OR?: DocumentTitleScalarWhereInput[]
+    NOT?: DocumentTitleScalarWhereInput | DocumentTitleScalarWhereInput[]
+    id?: IntFilter<"DocumentTitle"> | number
+    title?: StringFilter<"DocumentTitle"> | string
+    created_at?: DateTimeFilter<"DocumentTitle"> | Date | string
+    updated_at?: DateTimeFilter<"DocumentTitle"> | Date | string
+    shareable?: BoolFilter<"DocumentTitle"> | boolean
+    document_type_id?: IntFilter<"DocumentTitle"> | number
+    is_display?: BoolFilter<"DocumentTitle"> | boolean
+    require_number?: BoolFilter<"DocumentTitle"> | boolean
+    require_valid_date?: BoolFilter<"DocumentTitle"> | boolean
+    require_expire_date?: BoolFilter<"DocumentTitle"> | boolean
+    require_doc_data?: BoolFilter<"DocumentTitle"> | boolean
+    doc_data_options?: JsonNullableFilter<"DocumentTitle">
+    doc_data_name?: StringNullableFilter<"DocumentTitle"> | string | null
+    require_attachment_front?: BoolFilter<"DocumentTitle"> | boolean
+    require_attachment_back?: BoolFilter<"DocumentTitle"> | boolean
+    description?: StringNullableFilter<"DocumentTitle"> | string | null
+    form_description?: StringNullableFilter<"DocumentTitle"> | string | null
+    form_title?: StringNullableFilter<"DocumentTitle"> | string | null
   }
 
   export type DocumentConfigurationUpsertWithWhereUniqueWithoutDocumentTypeInput = {
@@ -11870,44 +16664,107 @@ export namespace Prisma {
     updated_at?: DateTimeFilter<"document_fields"> | Date | string
   }
 
-  export type DocumentTitleUpsertWithWhereUniqueWithoutDocumentTypeInput = {
-    where: DocumentTitleWhereUniqueInput
-    update: XOR<DocumentTitleUpdateWithoutDocumentTypeInput, DocumentTitleUncheckedUpdateWithoutDocumentTypeInput>
-    create: XOR<DocumentTitleCreateWithoutDocumentTypeInput, DocumentTitleUncheckedCreateWithoutDocumentTypeInput>
+  export type FormTemplateUpsertWithoutDocument_typesInput = {
+    update: XOR<FormTemplateUpdateWithoutDocument_typesInput, FormTemplateUncheckedUpdateWithoutDocument_typesInput>
+    create: XOR<FormTemplateCreateWithoutDocument_typesInput, FormTemplateUncheckedCreateWithoutDocument_typesInput>
+    where?: FormTemplateWhereInput
   }
 
-  export type DocumentTitleUpdateWithWhereUniqueWithoutDocumentTypeInput = {
-    where: DocumentTitleWhereUniqueInput
-    data: XOR<DocumentTitleUpdateWithoutDocumentTypeInput, DocumentTitleUncheckedUpdateWithoutDocumentTypeInput>
+  export type FormTemplateUpdateToOneWithWhereWithoutDocument_typesInput = {
+    where?: FormTemplateWhereInput
+    data: XOR<FormTemplateUpdateWithoutDocument_typesInput, FormTemplateUncheckedUpdateWithoutDocument_typesInput>
   }
 
-  export type DocumentTitleUpdateManyWithWhereWithoutDocumentTypeInput = {
-    where: DocumentTitleScalarWhereInput
-    data: XOR<DocumentTitleUpdateManyMutationInput, DocumentTitleUncheckedUpdateManyWithoutDocumentTypeInput>
+  export type FormTemplateUpdateWithoutDocument_typesInput = {
+    form_key?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    form_fields?: FormFieldUpdateManyWithoutForm_templateNestedInput
   }
 
-  export type DocumentTitleScalarWhereInput = {
-    AND?: DocumentTitleScalarWhereInput | DocumentTitleScalarWhereInput[]
-    OR?: DocumentTitleScalarWhereInput[]
-    NOT?: DocumentTitleScalarWhereInput | DocumentTitleScalarWhereInput[]
-    id?: IntFilter<"DocumentTitle"> | number
-    title?: StringFilter<"DocumentTitle"> | string
-    createdAt?: DateTimeFilter<"DocumentTitle"> | Date | string
-    updatedAt?: DateTimeFilter<"DocumentTitle"> | Date | string
-    shareable?: BoolFilter<"DocumentTitle"> | boolean
-    documentTypeId?: IntFilter<"DocumentTitle"> | number
-    isDisplay?: BoolFilter<"DocumentTitle"> | boolean
-    requireNumber?: BoolFilter<"DocumentTitle"> | boolean
-    requireValidDate?: BoolFilter<"DocumentTitle"> | boolean
-    requireExpireDate?: BoolFilter<"DocumentTitle"> | boolean
-    requireDocData?: BoolFilter<"DocumentTitle"> | boolean
-    docDataOptions?: JsonNullableFilter<"DocumentTitle">
-    docDataName?: StringNullableFilter<"DocumentTitle"> | string | null
-    requireAttachmentFront?: BoolFilter<"DocumentTitle"> | boolean
-    requireAttachmentBack?: BoolFilter<"DocumentTitle"> | boolean
-    description?: StringNullableFilter<"DocumentTitle"> | string | null
-    formDescription?: StringNullableFilter<"DocumentTitle"> | string | null
-    formTitle?: StringNullableFilter<"DocumentTitle"> | string | null
+  export type FormTemplateUncheckedUpdateWithoutDocument_typesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    form_key?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    form_fields?: FormFieldUncheckedUpdateManyWithoutForm_templateNestedInput
+  }
+
+  export type DocumentTypeLocationUpsertWithWhereUniqueWithoutDocument_typeInput = {
+    where: DocumentTypeLocationWhereUniqueInput
+    update: XOR<DocumentTypeLocationUpdateWithoutDocument_typeInput, DocumentTypeLocationUncheckedUpdateWithoutDocument_typeInput>
+    create: XOR<DocumentTypeLocationCreateWithoutDocument_typeInput, DocumentTypeLocationUncheckedCreateWithoutDocument_typeInput>
+  }
+
+  export type DocumentTypeLocationUpdateWithWhereUniqueWithoutDocument_typeInput = {
+    where: DocumentTypeLocationWhereUniqueInput
+    data: XOR<DocumentTypeLocationUpdateWithoutDocument_typeInput, DocumentTypeLocationUncheckedUpdateWithoutDocument_typeInput>
+  }
+
+  export type DocumentTypeLocationUpdateManyWithWhereWithoutDocument_typeInput = {
+    where: DocumentTypeLocationScalarWhereInput
+    data: XOR<DocumentTypeLocationUpdateManyMutationInput, DocumentTypeLocationUncheckedUpdateManyWithoutDocument_typeInput>
+  }
+
+  export type DocumentTypeLocationScalarWhereInput = {
+    AND?: DocumentTypeLocationScalarWhereInput | DocumentTypeLocationScalarWhereInput[]
+    OR?: DocumentTypeLocationScalarWhereInput[]
+    NOT?: DocumentTypeLocationScalarWhereInput | DocumentTypeLocationScalarWhereInput[]
+    id?: IntFilter<"DocumentTypeLocation"> | number
+    document_type_id?: IntFilter<"DocumentTypeLocation"> | number
+    location_id?: IntFilter<"DocumentTypeLocation"> | number
+    created_at?: DateTimeFilter<"DocumentTypeLocation"> | Date | string
+    updated_at?: DateTimeFilter<"DocumentTypeLocation"> | Date | string
+  }
+
+  export type DocumentTypeCreateWithoutDocumentTitlesInput = {
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    description?: string | null
+    formId?: string | null
+    hideHeader?: boolean
+    showFormButtons?: boolean
+    parent_type_id?: string | null
+    parent_name?: string | null
+    child_type_id?: string | null
+    child_name?: string | null
+    documentConfigurations?: DocumentConfigurationCreateNestedManyWithoutDocumentTypeInput
+    document_fields?: document_fieldsCreateNestedManyWithoutDocument_typesInput
+    form_template?: FormTemplateCreateNestedOneWithoutDocument_typesInput
+    locations?: DocumentTypeLocationCreateNestedManyWithoutDocument_typeInput
+  }
+
+  export type DocumentTypeUncheckedCreateWithoutDocumentTitlesInput = {
+    id?: number
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    description?: string | null
+    formId?: string | null
+    hideHeader?: boolean
+    showFormButtons?: boolean
+    parent_type_id?: string | null
+    parent_name?: string | null
+    child_type_id?: string | null
+    child_name?: string | null
+    form_template_id?: number | null
+    documentConfigurations?: DocumentConfigurationUncheckedCreateNestedManyWithoutDocumentTypeInput
+    document_fields?: document_fieldsUncheckedCreateNestedManyWithoutDocument_typesInput
+    locations?: DocumentTypeLocationUncheckedCreateNestedManyWithoutDocument_typeInput
+  }
+
+  export type DocumentTypeCreateOrConnectWithoutDocumentTitlesInput = {
+    where: DocumentTypeWhereUniqueInput
+    create: XOR<DocumentTypeCreateWithoutDocumentTitlesInput, DocumentTypeUncheckedCreateWithoutDocumentTitlesInput>
   }
 
   export type DocumentConfigurationCreateWithoutDocumentTitleInput = {
@@ -11994,81 +16851,52 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type DocumentTypeCreateWithoutDocumentTitlesInput = {
-    name: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    description?: string | null
-    formId?: string | null
-    hideHeader?: boolean
-    showFormButtons?: boolean
-    documentConfigurations?: DocumentConfigurationCreateNestedManyWithoutDocumentTypeInput
-    document_fields?: document_fieldsCreateNestedManyWithoutDocument_typesInput
-  }
-
-  export type DocumentTypeUncheckedCreateWithoutDocumentTitlesInput = {
-    id?: number
-    name: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    description?: string | null
-    formId?: string | null
-    hideHeader?: boolean
-    showFormButtons?: boolean
-    documentConfigurations?: DocumentConfigurationUncheckedCreateNestedManyWithoutDocumentTypeInput
-    document_fields?: document_fieldsUncheckedCreateNestedManyWithoutDocument_typesInput
-  }
-
-  export type DocumentTypeCreateOrConnectWithoutDocumentTitlesInput = {
-    where: DocumentTypeWhereUniqueInput
+  export type DocumentTypeUpsertWithoutDocumentTitlesInput = {
+    update: XOR<DocumentTypeUpdateWithoutDocumentTitlesInput, DocumentTypeUncheckedUpdateWithoutDocumentTitlesInput>
     create: XOR<DocumentTypeCreateWithoutDocumentTitlesInput, DocumentTypeUncheckedCreateWithoutDocumentTitlesInput>
+    where?: DocumentTypeWhereInput
   }
 
-  export type FormFieldCreateWithoutDocumentTitleInput = {
-    fieldName: string
-    label: string
-    type: string
-    placeholder?: string | null
-    required?: boolean
-    order?: number
-    fullWidth?: boolean
-    hidden?: boolean
-    defaultValue?: string | null
-    options?: NullableJsonNullValueInput | InputJsonValue
-    validation?: NullableJsonNullValueInput | InputJsonValue
-    conditionalShow?: NullableJsonNullValueInput | InputJsonValue
-    helpText?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+  export type DocumentTypeUpdateToOneWithWhereWithoutDocumentTitlesInput = {
+    where?: DocumentTypeWhereInput
+    data: XOR<DocumentTypeUpdateWithoutDocumentTitlesInput, DocumentTypeUncheckedUpdateWithoutDocumentTitlesInput>
   }
 
-  export type FormFieldUncheckedCreateWithoutDocumentTitleInput = {
-    id?: number
-    fieldName: string
-    label: string
-    type: string
-    placeholder?: string | null
-    required?: boolean
-    order?: number
-    fullWidth?: boolean
-    hidden?: boolean
-    defaultValue?: string | null
-    options?: NullableJsonNullValueInput | InputJsonValue
-    validation?: NullableJsonNullValueInput | InputJsonValue
-    conditionalShow?: NullableJsonNullValueInput | InputJsonValue
-    helpText?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+  export type DocumentTypeUpdateWithoutDocumentTitlesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    formId?: NullableStringFieldUpdateOperationsInput | string | null
+    hideHeader?: BoolFieldUpdateOperationsInput | boolean
+    showFormButtons?: BoolFieldUpdateOperationsInput | boolean
+    parent_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parent_name?: NullableStringFieldUpdateOperationsInput | string | null
+    child_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    child_name?: NullableStringFieldUpdateOperationsInput | string | null
+    documentConfigurations?: DocumentConfigurationUpdateManyWithoutDocumentTypeNestedInput
+    document_fields?: document_fieldsUpdateManyWithoutDocument_typesNestedInput
+    form_template?: FormTemplateUpdateOneWithoutDocument_typesNestedInput
+    locations?: DocumentTypeLocationUpdateManyWithoutDocument_typeNestedInput
   }
 
-  export type FormFieldCreateOrConnectWithoutDocumentTitleInput = {
-    where: FormFieldWhereUniqueInput
-    create: XOR<FormFieldCreateWithoutDocumentTitleInput, FormFieldUncheckedCreateWithoutDocumentTitleInput>
-  }
-
-  export type FormFieldCreateManyDocumentTitleInputEnvelope = {
-    data: FormFieldCreateManyDocumentTitleInput | FormFieldCreateManyDocumentTitleInput[]
-    skipDuplicates?: boolean
+  export type DocumentTypeUncheckedUpdateWithoutDocumentTitlesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    formId?: NullableStringFieldUpdateOperationsInput | string | null
+    hideHeader?: BoolFieldUpdateOperationsInput | boolean
+    showFormButtons?: BoolFieldUpdateOperationsInput | boolean
+    parent_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parent_name?: NullableStringFieldUpdateOperationsInput | string | null
+    child_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    child_name?: NullableStringFieldUpdateOperationsInput | string | null
+    form_template_id?: NullableIntFieldUpdateOperationsInput | number | null
+    documentConfigurations?: DocumentConfigurationUncheckedUpdateManyWithoutDocumentTypeNestedInput
+    document_fields?: document_fieldsUncheckedUpdateManyWithoutDocument_typesNestedInput
+    locations?: DocumentTypeLocationUncheckedUpdateManyWithoutDocument_typeNestedInput
   }
 
   export type DocumentConfigurationUpsertWithWhereUniqueWithoutDocumentTitleInput = {
@@ -12103,230 +16931,165 @@ export namespace Prisma {
     data: XOR<document_fieldsUpdateManyMutationInput, document_fieldsUncheckedUpdateManyWithoutDocument_titlesInput>
   }
 
-  export type DocumentTypeUpsertWithoutDocumentTitlesInput = {
-    update: XOR<DocumentTypeUpdateWithoutDocumentTitlesInput, DocumentTypeUncheckedUpdateWithoutDocumentTitlesInput>
-    create: XOR<DocumentTypeCreateWithoutDocumentTitlesInput, DocumentTypeUncheckedCreateWithoutDocumentTitlesInput>
-    where?: DocumentTypeWhereInput
-  }
-
-  export type DocumentTypeUpdateToOneWithWhereWithoutDocumentTitlesInput = {
-    where?: DocumentTypeWhereInput
-    data: XOR<DocumentTypeUpdateWithoutDocumentTitlesInput, DocumentTypeUncheckedUpdateWithoutDocumentTitlesInput>
-  }
-
-  export type DocumentTypeUpdateWithoutDocumentTitlesInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    formId?: NullableStringFieldUpdateOperationsInput | string | null
-    hideHeader?: BoolFieldUpdateOperationsInput | boolean
-    showFormButtons?: BoolFieldUpdateOperationsInput | boolean
-    documentConfigurations?: DocumentConfigurationUpdateManyWithoutDocumentTypeNestedInput
-    document_fields?: document_fieldsUpdateManyWithoutDocument_typesNestedInput
-  }
-
-  export type DocumentTypeUncheckedUpdateWithoutDocumentTitlesInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    formId?: NullableStringFieldUpdateOperationsInput | string | null
-    hideHeader?: BoolFieldUpdateOperationsInput | boolean
-    showFormButtons?: BoolFieldUpdateOperationsInput | boolean
-    documentConfigurations?: DocumentConfigurationUncheckedUpdateManyWithoutDocumentTypeNestedInput
-    document_fields?: document_fieldsUncheckedUpdateManyWithoutDocument_typesNestedInput
-  }
-
-  export type FormFieldUpsertWithWhereUniqueWithoutDocumentTitleInput = {
-    where: FormFieldWhereUniqueInput
-    update: XOR<FormFieldUpdateWithoutDocumentTitleInput, FormFieldUncheckedUpdateWithoutDocumentTitleInput>
-    create: XOR<FormFieldCreateWithoutDocumentTitleInput, FormFieldUncheckedCreateWithoutDocumentTitleInput>
-  }
-
-  export type FormFieldUpdateWithWhereUniqueWithoutDocumentTitleInput = {
-    where: FormFieldWhereUniqueInput
-    data: XOR<FormFieldUpdateWithoutDocumentTitleInput, FormFieldUncheckedUpdateWithoutDocumentTitleInput>
-  }
-
-  export type FormFieldUpdateManyWithWhereWithoutDocumentTitleInput = {
-    where: FormFieldScalarWhereInput
-    data: XOR<FormFieldUpdateManyMutationInput, FormFieldUncheckedUpdateManyWithoutDocumentTitleInput>
-  }
-
-  export type FormFieldScalarWhereInput = {
-    AND?: FormFieldScalarWhereInput | FormFieldScalarWhereInput[]
-    OR?: FormFieldScalarWhereInput[]
-    NOT?: FormFieldScalarWhereInput | FormFieldScalarWhereInput[]
-    id?: IntFilter<"FormField"> | number
-    documentTitleId?: IntFilter<"FormField"> | number
-    fieldName?: StringFilter<"FormField"> | string
-    label?: StringFilter<"FormField"> | string
-    type?: StringFilter<"FormField"> | string
-    placeholder?: StringNullableFilter<"FormField"> | string | null
-    required?: BoolFilter<"FormField"> | boolean
-    order?: IntFilter<"FormField"> | number
-    fullWidth?: BoolFilter<"FormField"> | boolean
-    hidden?: BoolFilter<"FormField"> | boolean
-    defaultValue?: StringNullableFilter<"FormField"> | string | null
-    options?: JsonNullableFilter<"FormField">
-    validation?: JsonNullableFilter<"FormField">
-    conditionalShow?: JsonNullableFilter<"FormField">
-    helpText?: StringNullableFilter<"FormField"> | string | null
-    createdAt?: DateTimeFilter<"FormField"> | Date | string
-    updatedAt?: DateTimeFilter<"FormField"> | Date | string
-  }
-
-  export type DocumentTitleCreateWithoutFormFieldEntriesInput = {
-    title: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    shareable?: boolean
-    isDisplay?: boolean
-    requireNumber?: boolean
-    requireValidDate?: boolean
-    requireExpireDate?: boolean
-    requireDocData?: boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: string | null
-    requireAttachmentFront?: boolean
-    requireAttachmentBack?: boolean
+  export type FormTemplateCreateWithoutForm_fieldsInput = {
+    form_key: string
+    name: string
     description?: string | null
-    formDescription?: string | null
-    formTitle?: string | null
-    documentConfigurations?: DocumentConfigurationCreateNestedManyWithoutDocumentTitleInput
-    document_fields?: document_fieldsCreateNestedManyWithoutDocument_titlesInput
-    documentType: DocumentTypeCreateNestedOneWithoutDocumentTitlesInput
+    version?: number
+    is_active?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+    document_types?: DocumentTypeCreateNestedManyWithoutForm_templateInput
   }
 
-  export type DocumentTitleUncheckedCreateWithoutFormFieldEntriesInput = {
+  export type FormTemplateUncheckedCreateWithoutForm_fieldsInput = {
     id?: number
-    title: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    shareable?: boolean
-    documentTypeId: number
-    isDisplay?: boolean
-    requireNumber?: boolean
-    requireValidDate?: boolean
-    requireExpireDate?: boolean
-    requireDocData?: boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: string | null
-    requireAttachmentFront?: boolean
-    requireAttachmentBack?: boolean
+    form_key: string
+    name: string
     description?: string | null
-    formDescription?: string | null
-    formTitle?: string | null
-    documentConfigurations?: DocumentConfigurationUncheckedCreateNestedManyWithoutDocumentTitleInput
-    document_fields?: document_fieldsUncheckedCreateNestedManyWithoutDocument_titlesInput
+    version?: number
+    is_active?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+    document_types?: DocumentTypeUncheckedCreateNestedManyWithoutForm_templateInput
   }
 
-  export type DocumentTitleCreateOrConnectWithoutFormFieldEntriesInput = {
-    where: DocumentTitleWhereUniqueInput
-    create: XOR<DocumentTitleCreateWithoutFormFieldEntriesInput, DocumentTitleUncheckedCreateWithoutFormFieldEntriesInput>
+  export type FormTemplateCreateOrConnectWithoutForm_fieldsInput = {
+    where: FormTemplateWhereUniqueInput
+    create: XOR<FormTemplateCreateWithoutForm_fieldsInput, FormTemplateUncheckedCreateWithoutForm_fieldsInput>
   }
 
-  export type DocumentTitleUpsertWithoutFormFieldEntriesInput = {
-    update: XOR<DocumentTitleUpdateWithoutFormFieldEntriesInput, DocumentTitleUncheckedUpdateWithoutFormFieldEntriesInput>
-    create: XOR<DocumentTitleCreateWithoutFormFieldEntriesInput, DocumentTitleUncheckedCreateWithoutFormFieldEntriesInput>
-    where?: DocumentTitleWhereInput
+  export type FieldOptionCreateWithoutForm_fieldInput = {
+    option_value: string
+    option_label: string
+    order?: number
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
-  export type DocumentTitleUpdateToOneWithWhereWithoutFormFieldEntriesInput = {
-    where?: DocumentTitleWhereInput
-    data: XOR<DocumentTitleUpdateWithoutFormFieldEntriesInput, DocumentTitleUncheckedUpdateWithoutFormFieldEntriesInput>
+  export type FieldOptionUncheckedCreateWithoutForm_fieldInput = {
+    id?: number
+    option_value: string
+    option_label: string
+    order?: number
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
-  export type DocumentTitleUpdateWithoutFormFieldEntriesInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    shareable?: BoolFieldUpdateOperationsInput | boolean
-    isDisplay?: BoolFieldUpdateOperationsInput | boolean
-    requireNumber?: BoolFieldUpdateOperationsInput | boolean
-    requireValidDate?: BoolFieldUpdateOperationsInput | boolean
-    requireExpireDate?: BoolFieldUpdateOperationsInput | boolean
-    requireDocData?: BoolFieldUpdateOperationsInput | boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: NullableStringFieldUpdateOperationsInput | string | null
-    requireAttachmentFront?: BoolFieldUpdateOperationsInput | boolean
-    requireAttachmentBack?: BoolFieldUpdateOperationsInput | boolean
+  export type FieldOptionCreateOrConnectWithoutForm_fieldInput = {
+    where: FieldOptionWhereUniqueInput
+    create: XOR<FieldOptionCreateWithoutForm_fieldInput, FieldOptionUncheckedCreateWithoutForm_fieldInput>
+  }
+
+  export type FieldOptionCreateManyForm_fieldInputEnvelope = {
+    data: FieldOptionCreateManyForm_fieldInput | FieldOptionCreateManyForm_fieldInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FormTemplateUpsertWithoutForm_fieldsInput = {
+    update: XOR<FormTemplateUpdateWithoutForm_fieldsInput, FormTemplateUncheckedUpdateWithoutForm_fieldsInput>
+    create: XOR<FormTemplateCreateWithoutForm_fieldsInput, FormTemplateUncheckedCreateWithoutForm_fieldsInput>
+    where?: FormTemplateWhereInput
+  }
+
+  export type FormTemplateUpdateToOneWithWhereWithoutForm_fieldsInput = {
+    where?: FormTemplateWhereInput
+    data: XOR<FormTemplateUpdateWithoutForm_fieldsInput, FormTemplateUncheckedUpdateWithoutForm_fieldsInput>
+  }
+
+  export type FormTemplateUpdateWithoutForm_fieldsInput = {
+    form_key?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    formDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    formTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    documentConfigurations?: DocumentConfigurationUpdateManyWithoutDocumentTitleNestedInput
-    document_fields?: document_fieldsUpdateManyWithoutDocument_titlesNestedInput
-    documentType?: DocumentTypeUpdateOneRequiredWithoutDocumentTitlesNestedInput
+    version?: IntFieldUpdateOperationsInput | number
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    document_types?: DocumentTypeUpdateManyWithoutForm_templateNestedInput
   }
 
-  export type DocumentTitleUncheckedUpdateWithoutFormFieldEntriesInput = {
+  export type FormTemplateUncheckedUpdateWithoutForm_fieldsInput = {
     id?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    shareable?: BoolFieldUpdateOperationsInput | boolean
-    documentTypeId?: IntFieldUpdateOperationsInput | number
-    isDisplay?: BoolFieldUpdateOperationsInput | boolean
-    requireNumber?: BoolFieldUpdateOperationsInput | boolean
-    requireValidDate?: BoolFieldUpdateOperationsInput | boolean
-    requireExpireDate?: BoolFieldUpdateOperationsInput | boolean
-    requireDocData?: BoolFieldUpdateOperationsInput | boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: NullableStringFieldUpdateOperationsInput | string | null
-    requireAttachmentFront?: BoolFieldUpdateOperationsInput | boolean
-    requireAttachmentBack?: BoolFieldUpdateOperationsInput | boolean
+    form_key?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    formDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    formTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    documentConfigurations?: DocumentConfigurationUncheckedUpdateManyWithoutDocumentTitleNestedInput
-    document_fields?: document_fieldsUncheckedUpdateManyWithoutDocument_titlesNestedInput
+    version?: IntFieldUpdateOperationsInput | number
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    document_types?: DocumentTypeUncheckedUpdateManyWithoutForm_templateNestedInput
+  }
+
+  export type FieldOptionUpsertWithWhereUniqueWithoutForm_fieldInput = {
+    where: FieldOptionWhereUniqueInput
+    update: XOR<FieldOptionUpdateWithoutForm_fieldInput, FieldOptionUncheckedUpdateWithoutForm_fieldInput>
+    create: XOR<FieldOptionCreateWithoutForm_fieldInput, FieldOptionUncheckedCreateWithoutForm_fieldInput>
+  }
+
+  export type FieldOptionUpdateWithWhereUniqueWithoutForm_fieldInput = {
+    where: FieldOptionWhereUniqueInput
+    data: XOR<FieldOptionUpdateWithoutForm_fieldInput, FieldOptionUncheckedUpdateWithoutForm_fieldInput>
+  }
+
+  export type FieldOptionUpdateManyWithWhereWithoutForm_fieldInput = {
+    where: FieldOptionScalarWhereInput
+    data: XOR<FieldOptionUpdateManyMutationInput, FieldOptionUncheckedUpdateManyWithoutForm_fieldInput>
+  }
+
+  export type FieldOptionScalarWhereInput = {
+    AND?: FieldOptionScalarWhereInput | FieldOptionScalarWhereInput[]
+    OR?: FieldOptionScalarWhereInput[]
+    NOT?: FieldOptionScalarWhereInput | FieldOptionScalarWhereInput[]
+    id?: IntFilter<"FieldOption"> | number
+    field_id?: IntFilter<"FieldOption"> | number
+    option_value?: StringFilter<"FieldOption"> | string
+    option_label?: StringFilter<"FieldOption"> | string
+    order?: IntFilter<"FieldOption"> | number
+    created_at?: DateTimeFilter<"FieldOption"> | Date | string
+    updated_at?: DateTimeFilter<"FieldOption"> | Date | string
   }
 
   export type DocumentTitleCreateWithoutDocumentConfigurationsInput = {
     title: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    created_at?: Date | string
+    updated_at: Date | string
     shareable?: boolean
-    isDisplay?: boolean
-    requireNumber?: boolean
-    requireValidDate?: boolean
-    requireExpireDate?: boolean
-    requireDocData?: boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: string | null
-    requireAttachmentFront?: boolean
-    requireAttachmentBack?: boolean
+    is_display?: boolean
+    require_number?: boolean
+    require_valid_date?: boolean
+    require_expire_date?: boolean
+    require_doc_data?: boolean
+    doc_data_options?: NullableJsonNullValueInput | InputJsonValue
+    doc_data_name?: string | null
+    require_attachment_front?: boolean
+    require_attachment_back?: boolean
     description?: string | null
-    formDescription?: string | null
-    formTitle?: string | null
+    form_description?: string | null
+    form_title?: string | null
+    document_types: DocumentTypeCreateNestedOneWithoutDocumentTitlesInput
     document_fields?: document_fieldsCreateNestedManyWithoutDocument_titlesInput
-    documentType: DocumentTypeCreateNestedOneWithoutDocumentTitlesInput
-    formFieldEntries?: FormFieldCreateNestedManyWithoutDocumentTitleInput
   }
 
   export type DocumentTitleUncheckedCreateWithoutDocumentConfigurationsInput = {
     id?: number
     title: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    created_at?: Date | string
+    updated_at: Date | string
     shareable?: boolean
-    documentTypeId: number
-    isDisplay?: boolean
-    requireNumber?: boolean
-    requireValidDate?: boolean
-    requireExpireDate?: boolean
-    requireDocData?: boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: string | null
-    requireAttachmentFront?: boolean
-    requireAttachmentBack?: boolean
+    document_type_id: number
+    is_display?: boolean
+    require_number?: boolean
+    require_valid_date?: boolean
+    require_expire_date?: boolean
+    require_doc_data?: boolean
+    doc_data_options?: NullableJsonNullValueInput | InputJsonValue
+    doc_data_name?: string | null
+    require_attachment_front?: boolean
+    require_attachment_back?: boolean
     description?: string | null
-    formDescription?: string | null
-    formTitle?: string | null
+    form_description?: string | null
+    form_title?: string | null
     document_fields?: document_fieldsUncheckedCreateNestedManyWithoutDocument_titlesInput
-    formFieldEntries?: FormFieldUncheckedCreateNestedManyWithoutDocumentTitleInput
   }
 
   export type DocumentTitleCreateOrConnectWithoutDocumentConfigurationsInput = {
@@ -12342,8 +17105,14 @@ export namespace Prisma {
     formId?: string | null
     hideHeader?: boolean
     showFormButtons?: boolean
+    parent_type_id?: string | null
+    parent_name?: string | null
+    child_type_id?: string | null
+    child_name?: string | null
+    documentTitles?: DocumentTitleCreateNestedManyWithoutDocument_typesInput
     document_fields?: document_fieldsCreateNestedManyWithoutDocument_typesInput
-    documentTitles?: DocumentTitleCreateNestedManyWithoutDocumentTypeInput
+    form_template?: FormTemplateCreateNestedOneWithoutDocument_typesInput
+    locations?: DocumentTypeLocationCreateNestedManyWithoutDocument_typeInput
   }
 
   export type DocumentTypeUncheckedCreateWithoutDocumentConfigurationsInput = {
@@ -12355,8 +17124,14 @@ export namespace Prisma {
     formId?: string | null
     hideHeader?: boolean
     showFormButtons?: boolean
+    parent_type_id?: string | null
+    parent_name?: string | null
+    child_type_id?: string | null
+    child_name?: string | null
+    form_template_id?: number | null
+    documentTitles?: DocumentTitleUncheckedCreateNestedManyWithoutDocument_typesInput
     document_fields?: document_fieldsUncheckedCreateNestedManyWithoutDocument_typesInput
-    documentTitles?: DocumentTitleUncheckedCreateNestedManyWithoutDocumentTypeInput
+    locations?: DocumentTypeLocationUncheckedCreateNestedManyWithoutDocument_typeInput
   }
 
   export type DocumentTypeCreateOrConnectWithoutDocumentConfigurationsInput = {
@@ -12401,47 +17176,45 @@ export namespace Prisma {
 
   export type DocumentTitleUpdateWithoutDocumentConfigurationsInput = {
     title?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     shareable?: BoolFieldUpdateOperationsInput | boolean
-    isDisplay?: BoolFieldUpdateOperationsInput | boolean
-    requireNumber?: BoolFieldUpdateOperationsInput | boolean
-    requireValidDate?: BoolFieldUpdateOperationsInput | boolean
-    requireExpireDate?: BoolFieldUpdateOperationsInput | boolean
-    requireDocData?: BoolFieldUpdateOperationsInput | boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: NullableStringFieldUpdateOperationsInput | string | null
-    requireAttachmentFront?: BoolFieldUpdateOperationsInput | boolean
-    requireAttachmentBack?: BoolFieldUpdateOperationsInput | boolean
+    is_display?: BoolFieldUpdateOperationsInput | boolean
+    require_number?: BoolFieldUpdateOperationsInput | boolean
+    require_valid_date?: BoolFieldUpdateOperationsInput | boolean
+    require_expire_date?: BoolFieldUpdateOperationsInput | boolean
+    require_doc_data?: BoolFieldUpdateOperationsInput | boolean
+    doc_data_options?: NullableJsonNullValueInput | InputJsonValue
+    doc_data_name?: NullableStringFieldUpdateOperationsInput | string | null
+    require_attachment_front?: BoolFieldUpdateOperationsInput | boolean
+    require_attachment_back?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    formDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    formTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    form_description?: NullableStringFieldUpdateOperationsInput | string | null
+    form_title?: NullableStringFieldUpdateOperationsInput | string | null
+    document_types?: DocumentTypeUpdateOneRequiredWithoutDocumentTitlesNestedInput
     document_fields?: document_fieldsUpdateManyWithoutDocument_titlesNestedInput
-    documentType?: DocumentTypeUpdateOneRequiredWithoutDocumentTitlesNestedInput
-    formFieldEntries?: FormFieldUpdateManyWithoutDocumentTitleNestedInput
   }
 
   export type DocumentTitleUncheckedUpdateWithoutDocumentConfigurationsInput = {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     shareable?: BoolFieldUpdateOperationsInput | boolean
-    documentTypeId?: IntFieldUpdateOperationsInput | number
-    isDisplay?: BoolFieldUpdateOperationsInput | boolean
-    requireNumber?: BoolFieldUpdateOperationsInput | boolean
-    requireValidDate?: BoolFieldUpdateOperationsInput | boolean
-    requireExpireDate?: BoolFieldUpdateOperationsInput | boolean
-    requireDocData?: BoolFieldUpdateOperationsInput | boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: NullableStringFieldUpdateOperationsInput | string | null
-    requireAttachmentFront?: BoolFieldUpdateOperationsInput | boolean
-    requireAttachmentBack?: BoolFieldUpdateOperationsInput | boolean
+    document_type_id?: IntFieldUpdateOperationsInput | number
+    is_display?: BoolFieldUpdateOperationsInput | boolean
+    require_number?: BoolFieldUpdateOperationsInput | boolean
+    require_valid_date?: BoolFieldUpdateOperationsInput | boolean
+    require_expire_date?: BoolFieldUpdateOperationsInput | boolean
+    require_doc_data?: BoolFieldUpdateOperationsInput | boolean
+    doc_data_options?: NullableJsonNullValueInput | InputJsonValue
+    doc_data_name?: NullableStringFieldUpdateOperationsInput | string | null
+    require_attachment_front?: BoolFieldUpdateOperationsInput | boolean
+    require_attachment_back?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    formDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    formTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    form_description?: NullableStringFieldUpdateOperationsInput | string | null
+    form_title?: NullableStringFieldUpdateOperationsInput | string | null
     document_fields?: document_fieldsUncheckedUpdateManyWithoutDocument_titlesNestedInput
-    formFieldEntries?: FormFieldUncheckedUpdateManyWithoutDocumentTitleNestedInput
   }
 
   export type DocumentTypeUpsertWithoutDocumentConfigurationsInput = {
@@ -12463,8 +17236,14 @@ export namespace Prisma {
     formId?: NullableStringFieldUpdateOperationsInput | string | null
     hideHeader?: BoolFieldUpdateOperationsInput | boolean
     showFormButtons?: BoolFieldUpdateOperationsInput | boolean
+    parent_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parent_name?: NullableStringFieldUpdateOperationsInput | string | null
+    child_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    child_name?: NullableStringFieldUpdateOperationsInput | string | null
+    documentTitles?: DocumentTitleUpdateManyWithoutDocument_typesNestedInput
     document_fields?: document_fieldsUpdateManyWithoutDocument_typesNestedInput
-    documentTitles?: DocumentTitleUpdateManyWithoutDocumentTypeNestedInput
+    form_template?: FormTemplateUpdateOneWithoutDocument_typesNestedInput
+    locations?: DocumentTypeLocationUpdateManyWithoutDocument_typeNestedInput
   }
 
   export type DocumentTypeUncheckedUpdateWithoutDocumentConfigurationsInput = {
@@ -12476,8 +17255,14 @@ export namespace Prisma {
     formId?: NullableStringFieldUpdateOperationsInput | string | null
     hideHeader?: BoolFieldUpdateOperationsInput | boolean
     showFormButtons?: BoolFieldUpdateOperationsInput | boolean
+    parent_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parent_name?: NullableStringFieldUpdateOperationsInput | string | null
+    child_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    child_name?: NullableStringFieldUpdateOperationsInput | string | null
+    form_template_id?: NullableIntFieldUpdateOperationsInput | number | null
+    documentTitles?: DocumentTitleUncheckedUpdateManyWithoutDocument_typesNestedInput
     document_fields?: document_fieldsUncheckedUpdateManyWithoutDocument_typesNestedInput
-    documentTitles?: DocumentTitleUncheckedUpdateManyWithoutDocumentTypeNestedInput
+    locations?: DocumentTypeLocationUncheckedUpdateManyWithoutDocument_typeNestedInput
   }
 
   export type RegionUpsertWithoutDocumentConfigurationsInput = {
@@ -12561,47 +17346,45 @@ export namespace Prisma {
 
   export type DocumentTitleCreateWithoutDocument_fieldsInput = {
     title: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    created_at?: Date | string
+    updated_at: Date | string
     shareable?: boolean
-    isDisplay?: boolean
-    requireNumber?: boolean
-    requireValidDate?: boolean
-    requireExpireDate?: boolean
-    requireDocData?: boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: string | null
-    requireAttachmentFront?: boolean
-    requireAttachmentBack?: boolean
+    is_display?: boolean
+    require_number?: boolean
+    require_valid_date?: boolean
+    require_expire_date?: boolean
+    require_doc_data?: boolean
+    doc_data_options?: NullableJsonNullValueInput | InputJsonValue
+    doc_data_name?: string | null
+    require_attachment_front?: boolean
+    require_attachment_back?: boolean
     description?: string | null
-    formDescription?: string | null
-    formTitle?: string | null
+    form_description?: string | null
+    form_title?: string | null
+    document_types: DocumentTypeCreateNestedOneWithoutDocumentTitlesInput
     documentConfigurations?: DocumentConfigurationCreateNestedManyWithoutDocumentTitleInput
-    documentType: DocumentTypeCreateNestedOneWithoutDocumentTitlesInput
-    formFieldEntries?: FormFieldCreateNestedManyWithoutDocumentTitleInput
   }
 
   export type DocumentTitleUncheckedCreateWithoutDocument_fieldsInput = {
     id?: number
     title: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    created_at?: Date | string
+    updated_at: Date | string
     shareable?: boolean
-    documentTypeId: number
-    isDisplay?: boolean
-    requireNumber?: boolean
-    requireValidDate?: boolean
-    requireExpireDate?: boolean
-    requireDocData?: boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: string | null
-    requireAttachmentFront?: boolean
-    requireAttachmentBack?: boolean
+    document_type_id: number
+    is_display?: boolean
+    require_number?: boolean
+    require_valid_date?: boolean
+    require_expire_date?: boolean
+    require_doc_data?: boolean
+    doc_data_options?: NullableJsonNullValueInput | InputJsonValue
+    doc_data_name?: string | null
+    require_attachment_front?: boolean
+    require_attachment_back?: boolean
     description?: string | null
-    formDescription?: string | null
-    formTitle?: string | null
+    form_description?: string | null
+    form_title?: string | null
     documentConfigurations?: DocumentConfigurationUncheckedCreateNestedManyWithoutDocumentTitleInput
-    formFieldEntries?: FormFieldUncheckedCreateNestedManyWithoutDocumentTitleInput
   }
 
   export type DocumentTitleCreateOrConnectWithoutDocument_fieldsInput = {
@@ -12617,8 +17400,14 @@ export namespace Prisma {
     formId?: string | null
     hideHeader?: boolean
     showFormButtons?: boolean
+    parent_type_id?: string | null
+    parent_name?: string | null
+    child_type_id?: string | null
+    child_name?: string | null
+    documentTitles?: DocumentTitleCreateNestedManyWithoutDocument_typesInput
     documentConfigurations?: DocumentConfigurationCreateNestedManyWithoutDocumentTypeInput
-    documentTitles?: DocumentTitleCreateNestedManyWithoutDocumentTypeInput
+    form_template?: FormTemplateCreateNestedOneWithoutDocument_typesInput
+    locations?: DocumentTypeLocationCreateNestedManyWithoutDocument_typeInput
   }
 
   export type DocumentTypeUncheckedCreateWithoutDocument_fieldsInput = {
@@ -12630,8 +17419,14 @@ export namespace Prisma {
     formId?: string | null
     hideHeader?: boolean
     showFormButtons?: boolean
+    parent_type_id?: string | null
+    parent_name?: string | null
+    child_type_id?: string | null
+    child_name?: string | null
+    form_template_id?: number | null
+    documentTitles?: DocumentTitleUncheckedCreateNestedManyWithoutDocument_typesInput
     documentConfigurations?: DocumentConfigurationUncheckedCreateNestedManyWithoutDocumentTypeInput
-    documentTitles?: DocumentTitleUncheckedCreateNestedManyWithoutDocumentTypeInput
+    locations?: DocumentTypeLocationUncheckedCreateNestedManyWithoutDocument_typeInput
   }
 
   export type DocumentTypeCreateOrConnectWithoutDocument_fieldsInput = {
@@ -12652,47 +17447,45 @@ export namespace Prisma {
 
   export type DocumentTitleUpdateWithoutDocument_fieldsInput = {
     title?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     shareable?: BoolFieldUpdateOperationsInput | boolean
-    isDisplay?: BoolFieldUpdateOperationsInput | boolean
-    requireNumber?: BoolFieldUpdateOperationsInput | boolean
-    requireValidDate?: BoolFieldUpdateOperationsInput | boolean
-    requireExpireDate?: BoolFieldUpdateOperationsInput | boolean
-    requireDocData?: BoolFieldUpdateOperationsInput | boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: NullableStringFieldUpdateOperationsInput | string | null
-    requireAttachmentFront?: BoolFieldUpdateOperationsInput | boolean
-    requireAttachmentBack?: BoolFieldUpdateOperationsInput | boolean
+    is_display?: BoolFieldUpdateOperationsInput | boolean
+    require_number?: BoolFieldUpdateOperationsInput | boolean
+    require_valid_date?: BoolFieldUpdateOperationsInput | boolean
+    require_expire_date?: BoolFieldUpdateOperationsInput | boolean
+    require_doc_data?: BoolFieldUpdateOperationsInput | boolean
+    doc_data_options?: NullableJsonNullValueInput | InputJsonValue
+    doc_data_name?: NullableStringFieldUpdateOperationsInput | string | null
+    require_attachment_front?: BoolFieldUpdateOperationsInput | boolean
+    require_attachment_back?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    formDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    formTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    form_description?: NullableStringFieldUpdateOperationsInput | string | null
+    form_title?: NullableStringFieldUpdateOperationsInput | string | null
+    document_types?: DocumentTypeUpdateOneRequiredWithoutDocumentTitlesNestedInput
     documentConfigurations?: DocumentConfigurationUpdateManyWithoutDocumentTitleNestedInput
-    documentType?: DocumentTypeUpdateOneRequiredWithoutDocumentTitlesNestedInput
-    formFieldEntries?: FormFieldUpdateManyWithoutDocumentTitleNestedInput
   }
 
   export type DocumentTitleUncheckedUpdateWithoutDocument_fieldsInput = {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     shareable?: BoolFieldUpdateOperationsInput | boolean
-    documentTypeId?: IntFieldUpdateOperationsInput | number
-    isDisplay?: BoolFieldUpdateOperationsInput | boolean
-    requireNumber?: BoolFieldUpdateOperationsInput | boolean
-    requireValidDate?: BoolFieldUpdateOperationsInput | boolean
-    requireExpireDate?: BoolFieldUpdateOperationsInput | boolean
-    requireDocData?: BoolFieldUpdateOperationsInput | boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: NullableStringFieldUpdateOperationsInput | string | null
-    requireAttachmentFront?: BoolFieldUpdateOperationsInput | boolean
-    requireAttachmentBack?: BoolFieldUpdateOperationsInput | boolean
+    document_type_id?: IntFieldUpdateOperationsInput | number
+    is_display?: BoolFieldUpdateOperationsInput | boolean
+    require_number?: BoolFieldUpdateOperationsInput | boolean
+    require_valid_date?: BoolFieldUpdateOperationsInput | boolean
+    require_expire_date?: BoolFieldUpdateOperationsInput | boolean
+    require_doc_data?: BoolFieldUpdateOperationsInput | boolean
+    doc_data_options?: NullableJsonNullValueInput | InputJsonValue
+    doc_data_name?: NullableStringFieldUpdateOperationsInput | string | null
+    require_attachment_front?: BoolFieldUpdateOperationsInput | boolean
+    require_attachment_back?: BoolFieldUpdateOperationsInput | boolean
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    formDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    formTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    form_description?: NullableStringFieldUpdateOperationsInput | string | null
+    form_title?: NullableStringFieldUpdateOperationsInput | string | null
     documentConfigurations?: DocumentConfigurationUncheckedUpdateManyWithoutDocumentTitleNestedInput
-    formFieldEntries?: FormFieldUncheckedUpdateManyWithoutDocumentTitleNestedInput
   }
 
   export type DocumentTypeUpsertWithoutDocument_fieldsInput = {
@@ -12714,8 +17507,14 @@ export namespace Prisma {
     formId?: NullableStringFieldUpdateOperationsInput | string | null
     hideHeader?: BoolFieldUpdateOperationsInput | boolean
     showFormButtons?: BoolFieldUpdateOperationsInput | boolean
+    parent_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parent_name?: NullableStringFieldUpdateOperationsInput | string | null
+    child_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    child_name?: NullableStringFieldUpdateOperationsInput | string | null
+    documentTitles?: DocumentTitleUpdateManyWithoutDocument_typesNestedInput
     documentConfigurations?: DocumentConfigurationUpdateManyWithoutDocumentTypeNestedInput
-    documentTitles?: DocumentTitleUpdateManyWithoutDocumentTypeNestedInput
+    form_template?: FormTemplateUpdateOneWithoutDocument_typesNestedInput
+    locations?: DocumentTypeLocationUpdateManyWithoutDocument_typeNestedInput
   }
 
   export type DocumentTypeUncheckedUpdateWithoutDocument_fieldsInput = {
@@ -12727,8 +17526,374 @@ export namespace Prisma {
     formId?: NullableStringFieldUpdateOperationsInput | string | null
     hideHeader?: BoolFieldUpdateOperationsInput | boolean
     showFormButtons?: BoolFieldUpdateOperationsInput | boolean
+    parent_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parent_name?: NullableStringFieldUpdateOperationsInput | string | null
+    child_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    child_name?: NullableStringFieldUpdateOperationsInput | string | null
+    form_template_id?: NullableIntFieldUpdateOperationsInput | number | null
+    documentTitles?: DocumentTitleUncheckedUpdateManyWithoutDocument_typesNestedInput
     documentConfigurations?: DocumentConfigurationUncheckedUpdateManyWithoutDocumentTypeNestedInput
-    documentTitles?: DocumentTitleUncheckedUpdateManyWithoutDocumentTypeNestedInput
+    locations?: DocumentTypeLocationUncheckedUpdateManyWithoutDocument_typeNestedInput
+  }
+
+  export type FormFieldCreateWithoutForm_templateInput = {
+    field_id: string
+    field_name: string
+    field_type: string
+    label: string
+    placeholder?: string | null
+    required?: boolean
+    is_hidden?: boolean
+    order?: number
+    full_width?: boolean
+    display_conditions?: NullableJsonNullValueInput | InputJsonValue
+    validation_rules?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    field_options?: FieldOptionCreateNestedManyWithoutForm_fieldInput
+  }
+
+  export type FormFieldUncheckedCreateWithoutForm_templateInput = {
+    id?: number
+    field_id: string
+    field_name: string
+    field_type: string
+    label: string
+    placeholder?: string | null
+    required?: boolean
+    is_hidden?: boolean
+    order?: number
+    full_width?: boolean
+    display_conditions?: NullableJsonNullValueInput | InputJsonValue
+    validation_rules?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    field_options?: FieldOptionUncheckedCreateNestedManyWithoutForm_fieldInput
+  }
+
+  export type FormFieldCreateOrConnectWithoutForm_templateInput = {
+    where: FormFieldWhereUniqueInput
+    create: XOR<FormFieldCreateWithoutForm_templateInput, FormFieldUncheckedCreateWithoutForm_templateInput>
+  }
+
+  export type FormFieldCreateManyForm_templateInputEnvelope = {
+    data: FormFieldCreateManyForm_templateInput | FormFieldCreateManyForm_templateInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DocumentTypeCreateWithoutForm_templateInput = {
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    description?: string | null
+    formId?: string | null
+    hideHeader?: boolean
+    showFormButtons?: boolean
+    parent_type_id?: string | null
+    parent_name?: string | null
+    child_type_id?: string | null
+    child_name?: string | null
+    documentTitles?: DocumentTitleCreateNestedManyWithoutDocument_typesInput
+    documentConfigurations?: DocumentConfigurationCreateNestedManyWithoutDocumentTypeInput
+    document_fields?: document_fieldsCreateNestedManyWithoutDocument_typesInput
+    locations?: DocumentTypeLocationCreateNestedManyWithoutDocument_typeInput
+  }
+
+  export type DocumentTypeUncheckedCreateWithoutForm_templateInput = {
+    id?: number
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    description?: string | null
+    formId?: string | null
+    hideHeader?: boolean
+    showFormButtons?: boolean
+    parent_type_id?: string | null
+    parent_name?: string | null
+    child_type_id?: string | null
+    child_name?: string | null
+    documentTitles?: DocumentTitleUncheckedCreateNestedManyWithoutDocument_typesInput
+    documentConfigurations?: DocumentConfigurationUncheckedCreateNestedManyWithoutDocumentTypeInput
+    document_fields?: document_fieldsUncheckedCreateNestedManyWithoutDocument_typesInput
+    locations?: DocumentTypeLocationUncheckedCreateNestedManyWithoutDocument_typeInput
+  }
+
+  export type DocumentTypeCreateOrConnectWithoutForm_templateInput = {
+    where: DocumentTypeWhereUniqueInput
+    create: XOR<DocumentTypeCreateWithoutForm_templateInput, DocumentTypeUncheckedCreateWithoutForm_templateInput>
+  }
+
+  export type DocumentTypeCreateManyForm_templateInputEnvelope = {
+    data: DocumentTypeCreateManyForm_templateInput | DocumentTypeCreateManyForm_templateInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FormFieldUpsertWithWhereUniqueWithoutForm_templateInput = {
+    where: FormFieldWhereUniqueInput
+    update: XOR<FormFieldUpdateWithoutForm_templateInput, FormFieldUncheckedUpdateWithoutForm_templateInput>
+    create: XOR<FormFieldCreateWithoutForm_templateInput, FormFieldUncheckedCreateWithoutForm_templateInput>
+  }
+
+  export type FormFieldUpdateWithWhereUniqueWithoutForm_templateInput = {
+    where: FormFieldWhereUniqueInput
+    data: XOR<FormFieldUpdateWithoutForm_templateInput, FormFieldUncheckedUpdateWithoutForm_templateInput>
+  }
+
+  export type FormFieldUpdateManyWithWhereWithoutForm_templateInput = {
+    where: FormFieldScalarWhereInput
+    data: XOR<FormFieldUpdateManyMutationInput, FormFieldUncheckedUpdateManyWithoutForm_templateInput>
+  }
+
+  export type FormFieldScalarWhereInput = {
+    AND?: FormFieldScalarWhereInput | FormFieldScalarWhereInput[]
+    OR?: FormFieldScalarWhereInput[]
+    NOT?: FormFieldScalarWhereInput | FormFieldScalarWhereInput[]
+    id?: IntFilter<"FormField"> | number
+    template_id?: IntFilter<"FormField"> | number
+    field_id?: StringFilter<"FormField"> | string
+    field_name?: StringFilter<"FormField"> | string
+    field_type?: StringFilter<"FormField"> | string
+    label?: StringFilter<"FormField"> | string
+    placeholder?: StringNullableFilter<"FormField"> | string | null
+    required?: BoolFilter<"FormField"> | boolean
+    is_hidden?: BoolFilter<"FormField"> | boolean
+    order?: IntFilter<"FormField"> | number
+    full_width?: BoolFilter<"FormField"> | boolean
+    display_conditions?: JsonNullableFilter<"FormField">
+    validation_rules?: JsonNullableFilter<"FormField">
+    created_at?: DateTimeFilter<"FormField"> | Date | string
+    updated_at?: DateTimeFilter<"FormField"> | Date | string
+  }
+
+  export type DocumentTypeUpsertWithWhereUniqueWithoutForm_templateInput = {
+    where: DocumentTypeWhereUniqueInput
+    update: XOR<DocumentTypeUpdateWithoutForm_templateInput, DocumentTypeUncheckedUpdateWithoutForm_templateInput>
+    create: XOR<DocumentTypeCreateWithoutForm_templateInput, DocumentTypeUncheckedCreateWithoutForm_templateInput>
+  }
+
+  export type DocumentTypeUpdateWithWhereUniqueWithoutForm_templateInput = {
+    where: DocumentTypeWhereUniqueInput
+    data: XOR<DocumentTypeUpdateWithoutForm_templateInput, DocumentTypeUncheckedUpdateWithoutForm_templateInput>
+  }
+
+  export type DocumentTypeUpdateManyWithWhereWithoutForm_templateInput = {
+    where: DocumentTypeScalarWhereInput
+    data: XOR<DocumentTypeUpdateManyMutationInput, DocumentTypeUncheckedUpdateManyWithoutForm_templateInput>
+  }
+
+  export type DocumentTypeScalarWhereInput = {
+    AND?: DocumentTypeScalarWhereInput | DocumentTypeScalarWhereInput[]
+    OR?: DocumentTypeScalarWhereInput[]
+    NOT?: DocumentTypeScalarWhereInput | DocumentTypeScalarWhereInput[]
+    id?: IntFilter<"DocumentType"> | number
+    name?: StringFilter<"DocumentType"> | string
+    createdAt?: DateTimeFilter<"DocumentType"> | Date | string
+    updatedAt?: DateTimeFilter<"DocumentType"> | Date | string
+    description?: StringNullableFilter<"DocumentType"> | string | null
+    formId?: StringNullableFilter<"DocumentType"> | string | null
+    hideHeader?: BoolFilter<"DocumentType"> | boolean
+    showFormButtons?: BoolFilter<"DocumentType"> | boolean
+    parent_type_id?: StringNullableFilter<"DocumentType"> | string | null
+    parent_name?: StringNullableFilter<"DocumentType"> | string | null
+    child_type_id?: StringNullableFilter<"DocumentType"> | string | null
+    child_name?: StringNullableFilter<"DocumentType"> | string | null
+    form_template_id?: IntNullableFilter<"DocumentType"> | number | null
+  }
+
+  export type FormFieldCreateWithoutField_optionsInput = {
+    field_id: string
+    field_name: string
+    field_type: string
+    label: string
+    placeholder?: string | null
+    required?: boolean
+    is_hidden?: boolean
+    order?: number
+    full_width?: boolean
+    display_conditions?: NullableJsonNullValueInput | InputJsonValue
+    validation_rules?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    form_template: FormTemplateCreateNestedOneWithoutForm_fieldsInput
+  }
+
+  export type FormFieldUncheckedCreateWithoutField_optionsInput = {
+    id?: number
+    template_id: number
+    field_id: string
+    field_name: string
+    field_type: string
+    label: string
+    placeholder?: string | null
+    required?: boolean
+    is_hidden?: boolean
+    order?: number
+    full_width?: boolean
+    display_conditions?: NullableJsonNullValueInput | InputJsonValue
+    validation_rules?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type FormFieldCreateOrConnectWithoutField_optionsInput = {
+    where: FormFieldWhereUniqueInput
+    create: XOR<FormFieldCreateWithoutField_optionsInput, FormFieldUncheckedCreateWithoutField_optionsInput>
+  }
+
+  export type FormFieldUpsertWithoutField_optionsInput = {
+    update: XOR<FormFieldUpdateWithoutField_optionsInput, FormFieldUncheckedUpdateWithoutField_optionsInput>
+    create: XOR<FormFieldCreateWithoutField_optionsInput, FormFieldUncheckedCreateWithoutField_optionsInput>
+    where?: FormFieldWhereInput
+  }
+
+  export type FormFieldUpdateToOneWithWhereWithoutField_optionsInput = {
+    where?: FormFieldWhereInput
+    data: XOR<FormFieldUpdateWithoutField_optionsInput, FormFieldUncheckedUpdateWithoutField_optionsInput>
+  }
+
+  export type FormFieldUpdateWithoutField_optionsInput = {
+    field_id?: StringFieldUpdateOperationsInput | string
+    field_name?: StringFieldUpdateOperationsInput | string
+    field_type?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    placeholder?: NullableStringFieldUpdateOperationsInput | string | null
+    required?: BoolFieldUpdateOperationsInput | boolean
+    is_hidden?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    full_width?: BoolFieldUpdateOperationsInput | boolean
+    display_conditions?: NullableJsonNullValueInput | InputJsonValue
+    validation_rules?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    form_template?: FormTemplateUpdateOneRequiredWithoutForm_fieldsNestedInput
+  }
+
+  export type FormFieldUncheckedUpdateWithoutField_optionsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    template_id?: IntFieldUpdateOperationsInput | number
+    field_id?: StringFieldUpdateOperationsInput | string
+    field_name?: StringFieldUpdateOperationsInput | string
+    field_type?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    placeholder?: NullableStringFieldUpdateOperationsInput | string | null
+    required?: BoolFieldUpdateOperationsInput | boolean
+    is_hidden?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    full_width?: BoolFieldUpdateOperationsInput | boolean
+    display_conditions?: NullableJsonNullValueInput | InputJsonValue
+    validation_rules?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentTypeCreateWithoutLocationsInput = {
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    description?: string | null
+    formId?: string | null
+    hideHeader?: boolean
+    showFormButtons?: boolean
+    parent_type_id?: string | null
+    parent_name?: string | null
+    child_type_id?: string | null
+    child_name?: string | null
+    documentTitles?: DocumentTitleCreateNestedManyWithoutDocument_typesInput
+    documentConfigurations?: DocumentConfigurationCreateNestedManyWithoutDocumentTypeInput
+    document_fields?: document_fieldsCreateNestedManyWithoutDocument_typesInput
+    form_template?: FormTemplateCreateNestedOneWithoutDocument_typesInput
+  }
+
+  export type DocumentTypeUncheckedCreateWithoutLocationsInput = {
+    id?: number
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    description?: string | null
+    formId?: string | null
+    hideHeader?: boolean
+    showFormButtons?: boolean
+    parent_type_id?: string | null
+    parent_name?: string | null
+    child_type_id?: string | null
+    child_name?: string | null
+    form_template_id?: number | null
+    documentTitles?: DocumentTitleUncheckedCreateNestedManyWithoutDocument_typesInput
+    documentConfigurations?: DocumentConfigurationUncheckedCreateNestedManyWithoutDocumentTypeInput
+    document_fields?: document_fieldsUncheckedCreateNestedManyWithoutDocument_typesInput
+  }
+
+  export type DocumentTypeCreateOrConnectWithoutLocationsInput = {
+    where: DocumentTypeWhereUniqueInput
+    create: XOR<DocumentTypeCreateWithoutLocationsInput, DocumentTypeUncheckedCreateWithoutLocationsInput>
+  }
+
+  export type DocumentTypeUpsertWithoutLocationsInput = {
+    update: XOR<DocumentTypeUpdateWithoutLocationsInput, DocumentTypeUncheckedUpdateWithoutLocationsInput>
+    create: XOR<DocumentTypeCreateWithoutLocationsInput, DocumentTypeUncheckedCreateWithoutLocationsInput>
+    where?: DocumentTypeWhereInput
+  }
+
+  export type DocumentTypeUpdateToOneWithWhereWithoutLocationsInput = {
+    where?: DocumentTypeWhereInput
+    data: XOR<DocumentTypeUpdateWithoutLocationsInput, DocumentTypeUncheckedUpdateWithoutLocationsInput>
+  }
+
+  export type DocumentTypeUpdateWithoutLocationsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    formId?: NullableStringFieldUpdateOperationsInput | string | null
+    hideHeader?: BoolFieldUpdateOperationsInput | boolean
+    showFormButtons?: BoolFieldUpdateOperationsInput | boolean
+    parent_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parent_name?: NullableStringFieldUpdateOperationsInput | string | null
+    child_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    child_name?: NullableStringFieldUpdateOperationsInput | string | null
+    documentTitles?: DocumentTitleUpdateManyWithoutDocument_typesNestedInput
+    documentConfigurations?: DocumentConfigurationUpdateManyWithoutDocumentTypeNestedInput
+    document_fields?: document_fieldsUpdateManyWithoutDocument_typesNestedInput
+    form_template?: FormTemplateUpdateOneWithoutDocument_typesNestedInput
+  }
+
+  export type DocumentTypeUncheckedUpdateWithoutLocationsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    formId?: NullableStringFieldUpdateOperationsInput | string | null
+    hideHeader?: BoolFieldUpdateOperationsInput | boolean
+    showFormButtons?: BoolFieldUpdateOperationsInput | boolean
+    parent_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parent_name?: NullableStringFieldUpdateOperationsInput | string | null
+    child_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    child_name?: NullableStringFieldUpdateOperationsInput | string | null
+    form_template_id?: NullableIntFieldUpdateOperationsInput | number | null
+    documentTitles?: DocumentTitleUncheckedUpdateManyWithoutDocument_typesNestedInput
+    documentConfigurations?: DocumentConfigurationUncheckedUpdateManyWithoutDocumentTypeNestedInput
+    document_fields?: document_fieldsUncheckedUpdateManyWithoutDocument_typesNestedInput
+  }
+
+  export type DocumentTitleCreateManyDocument_typesInput = {
+    id?: number
+    title: string
+    created_at?: Date | string
+    updated_at: Date | string
+    shareable?: boolean
+    is_display?: boolean
+    require_number?: boolean
+    require_valid_date?: boolean
+    require_expire_date?: boolean
+    require_doc_data?: boolean
+    doc_data_options?: NullableJsonNullValueInput | InputJsonValue
+    doc_data_name?: string | null
+    require_attachment_front?: boolean
+    require_attachment_back?: boolean
+    description?: string | null
+    form_description?: string | null
+    form_title?: string | null
   }
 
   export type DocumentConfigurationCreateManyDocumentTypeInput = {
@@ -12764,24 +17929,74 @@ export namespace Prisma {
     updated_at: Date | string
   }
 
-  export type DocumentTitleCreateManyDocumentTypeInput = {
+  export type DocumentTypeLocationCreateManyDocument_typeInput = {
     id?: number
-    title: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    shareable?: boolean
-    isDisplay?: boolean
-    requireNumber?: boolean
-    requireValidDate?: boolean
-    requireExpireDate?: boolean
-    requireDocData?: boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: string | null
-    requireAttachmentFront?: boolean
-    requireAttachmentBack?: boolean
-    description?: string | null
-    formDescription?: string | null
-    formTitle?: string | null
+    location_id: number
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type DocumentTitleUpdateWithoutDocument_typesInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    shareable?: BoolFieldUpdateOperationsInput | boolean
+    is_display?: BoolFieldUpdateOperationsInput | boolean
+    require_number?: BoolFieldUpdateOperationsInput | boolean
+    require_valid_date?: BoolFieldUpdateOperationsInput | boolean
+    require_expire_date?: BoolFieldUpdateOperationsInput | boolean
+    require_doc_data?: BoolFieldUpdateOperationsInput | boolean
+    doc_data_options?: NullableJsonNullValueInput | InputJsonValue
+    doc_data_name?: NullableStringFieldUpdateOperationsInput | string | null
+    require_attachment_front?: BoolFieldUpdateOperationsInput | boolean
+    require_attachment_back?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    form_description?: NullableStringFieldUpdateOperationsInput | string | null
+    form_title?: NullableStringFieldUpdateOperationsInput | string | null
+    documentConfigurations?: DocumentConfigurationUpdateManyWithoutDocumentTitleNestedInput
+    document_fields?: document_fieldsUpdateManyWithoutDocument_titlesNestedInput
+  }
+
+  export type DocumentTitleUncheckedUpdateWithoutDocument_typesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    shareable?: BoolFieldUpdateOperationsInput | boolean
+    is_display?: BoolFieldUpdateOperationsInput | boolean
+    require_number?: BoolFieldUpdateOperationsInput | boolean
+    require_valid_date?: BoolFieldUpdateOperationsInput | boolean
+    require_expire_date?: BoolFieldUpdateOperationsInput | boolean
+    require_doc_data?: BoolFieldUpdateOperationsInput | boolean
+    doc_data_options?: NullableJsonNullValueInput | InputJsonValue
+    doc_data_name?: NullableStringFieldUpdateOperationsInput | string | null
+    require_attachment_front?: BoolFieldUpdateOperationsInput | boolean
+    require_attachment_back?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    form_description?: NullableStringFieldUpdateOperationsInput | string | null
+    form_title?: NullableStringFieldUpdateOperationsInput | string | null
+    documentConfigurations?: DocumentConfigurationUncheckedUpdateManyWithoutDocumentTitleNestedInput
+    document_fields?: document_fieldsUncheckedUpdateManyWithoutDocument_titlesNestedInput
+  }
+
+  export type DocumentTitleUncheckedUpdateManyWithoutDocument_typesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    shareable?: BoolFieldUpdateOperationsInput | boolean
+    is_display?: BoolFieldUpdateOperationsInput | boolean
+    require_number?: BoolFieldUpdateOperationsInput | boolean
+    require_valid_date?: BoolFieldUpdateOperationsInput | boolean
+    require_expire_date?: BoolFieldUpdateOperationsInput | boolean
+    require_doc_data?: BoolFieldUpdateOperationsInput | boolean
+    doc_data_options?: NullableJsonNullValueInput | InputJsonValue
+    doc_data_name?: NullableStringFieldUpdateOperationsInput | string | null
+    require_attachment_front?: BoolFieldUpdateOperationsInput | boolean
+    require_attachment_back?: BoolFieldUpdateOperationsInput | boolean
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    form_description?: NullableStringFieldUpdateOperationsInput | string | null
+    form_title?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type DocumentConfigurationUpdateWithoutDocumentTypeInput = {
@@ -12881,69 +18096,24 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type DocumentTitleUpdateWithoutDocumentTypeInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    shareable?: BoolFieldUpdateOperationsInput | boolean
-    isDisplay?: BoolFieldUpdateOperationsInput | boolean
-    requireNumber?: BoolFieldUpdateOperationsInput | boolean
-    requireValidDate?: BoolFieldUpdateOperationsInput | boolean
-    requireExpireDate?: BoolFieldUpdateOperationsInput | boolean
-    requireDocData?: BoolFieldUpdateOperationsInput | boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: NullableStringFieldUpdateOperationsInput | string | null
-    requireAttachmentFront?: BoolFieldUpdateOperationsInput | boolean
-    requireAttachmentBack?: BoolFieldUpdateOperationsInput | boolean
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    formDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    formTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    documentConfigurations?: DocumentConfigurationUpdateManyWithoutDocumentTitleNestedInput
-    document_fields?: document_fieldsUpdateManyWithoutDocument_titlesNestedInput
-    formFieldEntries?: FormFieldUpdateManyWithoutDocumentTitleNestedInput
+  export type DocumentTypeLocationUpdateWithoutDocument_typeInput = {
+    location_id?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type DocumentTitleUncheckedUpdateWithoutDocumentTypeInput = {
+  export type DocumentTypeLocationUncheckedUpdateWithoutDocument_typeInput = {
     id?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    shareable?: BoolFieldUpdateOperationsInput | boolean
-    isDisplay?: BoolFieldUpdateOperationsInput | boolean
-    requireNumber?: BoolFieldUpdateOperationsInput | boolean
-    requireValidDate?: BoolFieldUpdateOperationsInput | boolean
-    requireExpireDate?: BoolFieldUpdateOperationsInput | boolean
-    requireDocData?: BoolFieldUpdateOperationsInput | boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: NullableStringFieldUpdateOperationsInput | string | null
-    requireAttachmentFront?: BoolFieldUpdateOperationsInput | boolean
-    requireAttachmentBack?: BoolFieldUpdateOperationsInput | boolean
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    formDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    formTitle?: NullableStringFieldUpdateOperationsInput | string | null
-    documentConfigurations?: DocumentConfigurationUncheckedUpdateManyWithoutDocumentTitleNestedInput
-    document_fields?: document_fieldsUncheckedUpdateManyWithoutDocument_titlesNestedInput
-    formFieldEntries?: FormFieldUncheckedUpdateManyWithoutDocumentTitleNestedInput
+    location_id?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type DocumentTitleUncheckedUpdateManyWithoutDocumentTypeInput = {
+  export type DocumentTypeLocationUncheckedUpdateManyWithoutDocument_typeInput = {
     id?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    shareable?: BoolFieldUpdateOperationsInput | boolean
-    isDisplay?: BoolFieldUpdateOperationsInput | boolean
-    requireNumber?: BoolFieldUpdateOperationsInput | boolean
-    requireValidDate?: BoolFieldUpdateOperationsInput | boolean
-    requireExpireDate?: BoolFieldUpdateOperationsInput | boolean
-    requireDocData?: BoolFieldUpdateOperationsInput | boolean
-    docDataOptions?: NullableJsonNullValueInput | InputJsonValue
-    docDataName?: NullableStringFieldUpdateOperationsInput | string | null
-    requireAttachmentFront?: BoolFieldUpdateOperationsInput | boolean
-    requireAttachmentBack?: BoolFieldUpdateOperationsInput | boolean
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    formDescription?: NullableStringFieldUpdateOperationsInput | string | null
-    formTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    location_id?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DocumentConfigurationCreateManyDocumentTitleInput = {
@@ -12977,25 +18147,6 @@ export namespace Prisma {
     document_type_id: number
     created_at?: Date | string
     updated_at: Date | string
-  }
-
-  export type FormFieldCreateManyDocumentTitleInput = {
-    id?: number
-    fieldName: string
-    label: string
-    type: string
-    placeholder?: string | null
-    required?: boolean
-    order?: number
-    fullWidth?: boolean
-    hidden?: boolean
-    defaultValue?: string | null
-    options?: NullableJsonNullValueInput | InputJsonValue
-    validation?: NullableJsonNullValueInput | InputJsonValue
-    conditionalShow?: NullableJsonNullValueInput | InputJsonValue
-    helpText?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
   export type DocumentConfigurationUpdateWithoutDocumentTitleInput = {
@@ -13095,60 +18246,39 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type FormFieldUpdateWithoutDocumentTitleInput = {
-    fieldName?: StringFieldUpdateOperationsInput | string
-    label?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    placeholder?: NullableStringFieldUpdateOperationsInput | string | null
-    required?: BoolFieldUpdateOperationsInput | boolean
-    order?: IntFieldUpdateOperationsInput | number
-    fullWidth?: BoolFieldUpdateOperationsInput | boolean
-    hidden?: BoolFieldUpdateOperationsInput | boolean
-    defaultValue?: NullableStringFieldUpdateOperationsInput | string | null
-    options?: NullableJsonNullValueInput | InputJsonValue
-    validation?: NullableJsonNullValueInput | InputJsonValue
-    conditionalShow?: NullableJsonNullValueInput | InputJsonValue
-    helpText?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type FieldOptionCreateManyForm_fieldInput = {
+    id?: number
+    option_value: string
+    option_label: string
+    order?: number
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
-  export type FormFieldUncheckedUpdateWithoutDocumentTitleInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    fieldName?: StringFieldUpdateOperationsInput | string
-    label?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    placeholder?: NullableStringFieldUpdateOperationsInput | string | null
-    required?: BoolFieldUpdateOperationsInput | boolean
+  export type FieldOptionUpdateWithoutForm_fieldInput = {
+    option_value?: StringFieldUpdateOperationsInput | string
+    option_label?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
-    fullWidth?: BoolFieldUpdateOperationsInput | boolean
-    hidden?: BoolFieldUpdateOperationsInput | boolean
-    defaultValue?: NullableStringFieldUpdateOperationsInput | string | null
-    options?: NullableJsonNullValueInput | InputJsonValue
-    validation?: NullableJsonNullValueInput | InputJsonValue
-    conditionalShow?: NullableJsonNullValueInput | InputJsonValue
-    helpText?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type FormFieldUncheckedUpdateManyWithoutDocumentTitleInput = {
+  export type FieldOptionUncheckedUpdateWithoutForm_fieldInput = {
     id?: IntFieldUpdateOperationsInput | number
-    fieldName?: StringFieldUpdateOperationsInput | string
-    label?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    placeholder?: NullableStringFieldUpdateOperationsInput | string | null
-    required?: BoolFieldUpdateOperationsInput | boolean
+    option_value?: StringFieldUpdateOperationsInput | string
+    option_label?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
-    fullWidth?: BoolFieldUpdateOperationsInput | boolean
-    hidden?: BoolFieldUpdateOperationsInput | boolean
-    defaultValue?: NullableStringFieldUpdateOperationsInput | string | null
-    options?: NullableJsonNullValueInput | InputJsonValue
-    validation?: NullableJsonNullValueInput | InputJsonValue
-    conditionalShow?: NullableJsonNullValueInput | InputJsonValue
-    helpText?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FieldOptionUncheckedUpdateManyWithoutForm_fieldInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    option_value?: StringFieldUpdateOperationsInput | string
+    option_label?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DocumentConfigurationCreateManyRegionInput = {
@@ -13196,6 +18326,142 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     priority?: IntFieldUpdateOperationsInput | number
     customFields?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type FormFieldCreateManyForm_templateInput = {
+    id?: number
+    field_id: string
+    field_name: string
+    field_type: string
+    label: string
+    placeholder?: string | null
+    required?: boolean
+    is_hidden?: boolean
+    order?: number
+    full_width?: boolean
+    display_conditions?: NullableJsonNullValueInput | InputJsonValue
+    validation_rules?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type DocumentTypeCreateManyForm_templateInput = {
+    id?: number
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    description?: string | null
+    formId?: string | null
+    hideHeader?: boolean
+    showFormButtons?: boolean
+    parent_type_id?: string | null
+    parent_name?: string | null
+    child_type_id?: string | null
+    child_name?: string | null
+  }
+
+  export type FormFieldUpdateWithoutForm_templateInput = {
+    field_id?: StringFieldUpdateOperationsInput | string
+    field_name?: StringFieldUpdateOperationsInput | string
+    field_type?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    placeholder?: NullableStringFieldUpdateOperationsInput | string | null
+    required?: BoolFieldUpdateOperationsInput | boolean
+    is_hidden?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    full_width?: BoolFieldUpdateOperationsInput | boolean
+    display_conditions?: NullableJsonNullValueInput | InputJsonValue
+    validation_rules?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    field_options?: FieldOptionUpdateManyWithoutForm_fieldNestedInput
+  }
+
+  export type FormFieldUncheckedUpdateWithoutForm_templateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    field_id?: StringFieldUpdateOperationsInput | string
+    field_name?: StringFieldUpdateOperationsInput | string
+    field_type?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    placeholder?: NullableStringFieldUpdateOperationsInput | string | null
+    required?: BoolFieldUpdateOperationsInput | boolean
+    is_hidden?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    full_width?: BoolFieldUpdateOperationsInput | boolean
+    display_conditions?: NullableJsonNullValueInput | InputJsonValue
+    validation_rules?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    field_options?: FieldOptionUncheckedUpdateManyWithoutForm_fieldNestedInput
+  }
+
+  export type FormFieldUncheckedUpdateManyWithoutForm_templateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    field_id?: StringFieldUpdateOperationsInput | string
+    field_name?: StringFieldUpdateOperationsInput | string
+    field_type?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    placeholder?: NullableStringFieldUpdateOperationsInput | string | null
+    required?: BoolFieldUpdateOperationsInput | boolean
+    is_hidden?: BoolFieldUpdateOperationsInput | boolean
+    order?: IntFieldUpdateOperationsInput | number
+    full_width?: BoolFieldUpdateOperationsInput | boolean
+    display_conditions?: NullableJsonNullValueInput | InputJsonValue
+    validation_rules?: NullableJsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentTypeUpdateWithoutForm_templateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    formId?: NullableStringFieldUpdateOperationsInput | string | null
+    hideHeader?: BoolFieldUpdateOperationsInput | boolean
+    showFormButtons?: BoolFieldUpdateOperationsInput | boolean
+    parent_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parent_name?: NullableStringFieldUpdateOperationsInput | string | null
+    child_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    child_name?: NullableStringFieldUpdateOperationsInput | string | null
+    documentTitles?: DocumentTitleUpdateManyWithoutDocument_typesNestedInput
+    documentConfigurations?: DocumentConfigurationUpdateManyWithoutDocumentTypeNestedInput
+    document_fields?: document_fieldsUpdateManyWithoutDocument_typesNestedInput
+    locations?: DocumentTypeLocationUpdateManyWithoutDocument_typeNestedInput
+  }
+
+  export type DocumentTypeUncheckedUpdateWithoutForm_templateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    formId?: NullableStringFieldUpdateOperationsInput | string | null
+    hideHeader?: BoolFieldUpdateOperationsInput | boolean
+    showFormButtons?: BoolFieldUpdateOperationsInput | boolean
+    parent_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parent_name?: NullableStringFieldUpdateOperationsInput | string | null
+    child_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    child_name?: NullableStringFieldUpdateOperationsInput | string | null
+    documentTitles?: DocumentTitleUncheckedUpdateManyWithoutDocument_typesNestedInput
+    documentConfigurations?: DocumentConfigurationUncheckedUpdateManyWithoutDocumentTypeNestedInput
+    document_fields?: document_fieldsUncheckedUpdateManyWithoutDocument_typesNestedInput
+    locations?: DocumentTypeLocationUncheckedUpdateManyWithoutDocument_typeNestedInput
+  }
+
+  export type DocumentTypeUncheckedUpdateManyWithoutForm_templateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    formId?: NullableStringFieldUpdateOperationsInput | string | null
+    hideHeader?: BoolFieldUpdateOperationsInput | boolean
+    showFormButtons?: BoolFieldUpdateOperationsInput | boolean
+    parent_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    parent_name?: NullableStringFieldUpdateOperationsInput | string | null
+    child_type_id?: NullableStringFieldUpdateOperationsInput | string | null
+    child_name?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

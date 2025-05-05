@@ -1,5 +1,1 @@
-import useDocumentExtraction from './useDocumentExtraction';
-
-export {
-  useDocumentExtraction
-}; 
+export { default as useDocumentExtraction } from './useDocumentExtraction'; 

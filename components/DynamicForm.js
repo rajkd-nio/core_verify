@@ -213,6 +213,15 @@ const DynamicForm = ({
   success = '',
   className = ''
 }) => {
+  // Add more detailed logging to help debug document type issues
+  console.log('DynamicForm schema details:', {
+    documentType: schema?.documentType,
+    childDocumentType: schema?.childDocumentType,
+    formId: schema?.formId,
+    title: schema?.title,
+    fieldCount: schema?.fields?.length || 0
+  });
+
   // State for file uploads - use a Map to track files by field name
   const [fileMap, setFileMap] = useState({});
   const [fileUrlMap, setFileUrlMap] = useState({});
