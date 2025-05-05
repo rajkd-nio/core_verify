@@ -97,12 +97,6 @@ const DocumentTypeSelector = ({
         if (Object.keys(schemas).length > 0) {
           loadedSchemas = schemas;
           
-          // Special handling for fingerprint clearance documents
-          if (schemas['fingerprint_clearance']) {
-            console.log('Setting documentType to fingerprint_clearance in loaded schema');
-            schemas['fingerprint_clearance'].documentType = 'fingerprint_clearance';
-          }
-          
           setChildFormSchemas(schemas);
           console.log(`Successfully loaded ${Object.keys(schemas).length} schemas for ${parentTypeId}`);
           console.log(`Schema keys: ${Object.keys(schemas).join(', ')}`);
@@ -115,12 +109,6 @@ const DocumentTypeSelector = ({
             const response = await fetch(`/api/form-schema/${parentTypeId}/${option.value}?log=true`);
             if (response.ok) {
               const schema = await response.json();
-              
-              // Special handling for fingerprint clearance documents
-              if (option.value === 'fingerprint_clearance') {
-                console.log('Setting documentType to fingerprint_clearance in individually loaded schema');
-                schema.documentType = 'fingerprint_clearance';
-              }
               
               individualSchemas[option.value] = schema;
               console.log(`Successfully loaded schema for ${option.value}`);
@@ -223,7 +211,6 @@ const DocumentTypeSelector = ({
                 <FormSelector
                   schema={{
                     ...childFormSchemas[selectedType],
-                    documentType: selectedType === 'fingerprint_clearance' || selectedType === 'finger_print_clearance' ? 'fingerprint_clearance' : childFormSchemas[selectedType].documentType,
                     childDocumentType: selectedType,
                     showFormButtons: false
                   }}

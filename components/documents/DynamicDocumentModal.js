@@ -127,6 +127,9 @@ const DynamicDocumentModal = ({
   const [formActions, setFormActions] = useState(null);
   const [fingerprintProcessed, setFingerprintProcessed] = useState(false);
   
+  // Add a flag to prioritize upload fields
+  const [prioritizeUploadFields, setPrioritizeUploadFields] = useState(true);
+  
   // Store a reference to valid form actions
   const [actionsFunctions, setActionsFunctions] = useState({
     hasValidForm: () => true, // Default to true if not yet initialized
@@ -319,6 +322,15 @@ const DynamicDocumentModal = ({
   useEffect(() => {
     const docTitle = getDocumentNameByType(documentType);
     setDocumentTitle(docTitle);
+    
+    // Reset important states when document type changes
+    setUploadSuccess(false);
+    setUploadError('');
+    setSubmitting(false);
+    setFingerprintProcessed(false);
+    
+    // Make sure the prioritizeUploadFields flag is set to true when document type changes
+    setPrioritizeUploadFields(true);
   }, [documentType]);
   
   // Helper function to get document title based on document type
@@ -348,11 +360,6 @@ const DynamicDocumentModal = ({
     setUploadError('');
     setSubmitting(false);
     setLoading(false); // Ensure global loading is turned off
-    
-    // Check if this is a fingerprint clearance document
-    if (formActions?.selectedChildType === 'fingerprint_clearance' || documentType === 'fingerprint_clearance') {
-      setFingerprintProcessed(true);
-    }
     
     // Notify parent window of success
     sendCloseMessageToParent(true, 'Document uploaded successfully');
@@ -477,77 +484,44 @@ const DynamicDocumentModal = ({
       return;
     }
     
-    // Additional logging for Fingerprint Clearance
-    if (actionInfo.selectedChildType === 'fingerprint_clearance') {
-      console.log('Fingerprint Clearance form schema received:', {
-        fields: actionInfo.schema?.fields?.map(f => f.name) || [],
-        documentType: actionInfo.schema?.documentType,
-        childType: actionInfo.selectedChildType,
-        locationId: actionInfo.schema?.locationId || config?.locationId,
-        formId: actionInfo.schema?.formId,
-        isChildTypeSelector: actionInfo.isChildTypeSelector,
-        hasChildSchemas: !!actionInfo.childFormSchemas && Object.keys(actionInfo.childFormSchemas || {}).includes('fingerprint_clearance')
+    // Check if the child document type has changed
+    if (formActions?.selectedChildType !== actionInfo.selectedChildType) {
+      console.log('Child document type changed, resetting upload state', {
+        from: formActions?.selectedChildType,
+        to: actionInfo.selectedChildType
       });
-
-      // Ensure the schema has the correct documentType for fingerprint clearance
-      if (actionInfo.schema && actionInfo.schema.documentType !== 'fingerprint_clearance') {
-        console.log('Setting documentType to fingerprint_clearance in schema');
-        actionInfo.schema.documentType = 'fingerprint_clearance';
-      }
-    }
-    
-    // Additional logging for Driver's License
-    if (actionInfo.isDriversLicenseForm || actionInfo.selectedChildType === 'drivers_license') {
-      console.log('Driver\'s License form schema received:', {
-        fields: actionInfo.schema?.fields?.map(f => ({ id: f.id, type: f.type })) || [],
-        showAllFields: actionInfo.showAllFields,
-        extracting: actionInfo.extracting,
-        documentType: actionInfo.schema?.documentType,
-        childType: actionInfo.selectedChildType,
-        locationId: actionInfo.schema?.locationId || config?.locationId,
-        formId: actionInfo.schema?.formId
-      });
-    }
-    
-    // Create a unique identifier for this actionInfo to compare with previous
-    const actionInfoId = JSON.stringify({
-      schemaId: actionInfo.schema?.id,
-      schemaDocType: actionInfo.schema?.documentType,
-      isChildTypeSelector: actionInfo.isChildTypeSelector,
-      selectedChildType: actionInfo.selectedChildType,
-      childTypeOptionsCount: actionInfo.childTypeOptions?.length,
-      // Add driver's license specific state for comparison
-      isDriversLicenseForm: actionInfo.isDriversLicenseForm,
-      showAllFields: actionInfo.showAllFields
-    });
-    
-    // Only update state if the actionInfo has meaningful changes
-    if (previousActionInfoId.current !== actionInfoId) {
-      previousActionInfoId.current = actionInfoId;
       
-      setFormSchema(actionInfo.schema);
-      setFormActions(actionInfo);
+      // Reset states for a new document type
+      setUploadSuccess(false);
+      setUploadError('');
+      setSubmitting(false);
       
-      // Safely extract the functions with extra safety checks
-      const functions = {
-        hasValidForm: typeof actionInfo.hasValidForm === 'function' 
-          ? actionInfo.hasValidForm 
-          : () => {
-              console.log('Using fallback hasValidForm function');
-              return true;
-            },
-        submitFormAction: typeof actionInfo.submitFormAction === 'function' 
-          ? actionInfo.submitFormAction 
-          : () => {
-              console.log('Using fallback submitFormAction function');
-              return false;
-            },
-        getSubmitButtonText: typeof actionInfo.getSubmitButtonText === 'function'
-          ? actionInfo.getSubmitButtonText
-          : () => 'Submit'
-      };
-      setActionsFunctions(functions);
+      // Make sure the prioritizeUploadFields flag is set to true when child type changes
+      setPrioritizeUploadFields(true);
+      
+      // Send a message to force reset the form state
+      setTimeout(() => {
+        console.log('Sending reset message to form components');
+        window.dispatchEvent(new CustomEvent('resetDocumentForm', { 
+          detail: { 
+            childType: actionInfo.selectedChildType,
+            timestamp: new Date().toISOString()
+          } 
+        }));
+      }, 100);
     }
+    
+    // Store form actions and functions for later use
+    setFormActions(actionInfo);
+    
+    // Create wrapper functions for actions
+    const actionsFunctions = {
+      submitForm: actionInfo.submitFormAction || (() => false),
+      getSubmitButtonText: actionInfo.getSubmitButtonText || (() => 'Upload Document'),
+      hasValidForm: actionInfo.hasValidForm || (() => false)
+    };
+    
+    setActionsFunctions(actionsFunctions);
   };
 
   // Explicit cancel handler for the footer cancel button
@@ -596,8 +570,8 @@ const DynamicDocumentModal = ({
     // Handle the action based on the button configuration
     switch (buttonConfig.action) {
       case 'submit':
-        if (typeof actionsFunctions.submitFormAction === 'function') {
-          actionsFunctions.submitFormAction();
+        if (typeof actionsFunctions.submitForm === 'function') {
+          actionsFunctions.submitForm();
         }
         break;
         
@@ -757,6 +731,7 @@ const DynamicDocumentModal = ({
               parentOrigin={parentOrigin}
               hideHeader={true} // Always hide the form's internal header, we're showing our own
               onSchemaLoaded={handleSchemaLoaded}
+              prioritizeUploadFields={prioritizeUploadFields}
             />
           )}
         </ModalBody>
@@ -879,99 +854,13 @@ const DynamicDocumentModal = ({
                     disabled={
                       uploadError || 
                       submitting || 
-                      (formActions?.selectedChildType === 'fingerprint_clearance' ? 
-                        false : 
-                        // Special handling for driver's license during extraction
-                        formActions?.isDriversLicenseForm && formActions?.extracting ? 
-                          true : 
-                          // For driver's license, only enable when all fields are showing
-                          formActions?.isDriversLicenseForm && !formActions?.showAllFields ?
-                            true :
-                            // Standard form validation for other document types
-                            (typeof actionsFunctions.hasValidForm === 'function' ? !actionsFunctions.hasValidForm() : false))
+                      (typeof actionsFunctions.hasValidForm === 'function' ? !actionsFunctions.hasValidForm() : false)
                     }
-                    onClick={() => {
-                      try {
-                        // Log the submission attempt with relevant context
-                        logData('FORM_SUBMISSION_ATTEMPT', {
-                          documentType,
-                          childDocumentType: formActions?.selectedChildType,
-                          isDriversLicenseForm: formActions?.isDriversLicenseForm,
-                          showAllFields: formActions?.showAllFields,
-                          timestamp: new Date().toISOString(),
-                          isEmbedded,
-                          hasAuthData: !!config?.authData,
-                          locationId: config?.locationId || formActions?.schema?.locationId
-                        });
-                        
-                        setSubmitting(true);
-                        // Set global loading state
-                        setLoading(true);
-                        setLoadingMessage(`Uploading ${documentTitle.toLowerCase()}...`);
-                        
-                        // For fingerprint clearance, add special logging
-                        if (formActions?.selectedChildType === 'fingerprint_clearance') {
-                          console.log('Submitting fingerprint clearance document to NurseIO');
-                          
-                          // If there's auth data in the config, log it (without sensitive data)
-                          if (config?.authData) {
-                            console.log('Auth data available for submission:', {
-                              hasToken: !!config.authData.token,
-                              hasUserId: !!config.authData.userId,
-                              provider: config.authData.provider || 'unknown'
-                            });
-                          }
-                        }
-                        
-                        // For driver's license, add special logging
-                        if (formActions?.isDriversLicenseForm) {
-                          console.log('Submitting driver\'s license document, showAllFields:', formActions.showAllFields);
-                        }
-                        
-                        // Use the safely stored function with error handling
-                        if (typeof actionsFunctions.submitFormAction === 'function') {
-                          actionsFunctions.submitFormAction();
-                        } else {
-                          console.error('submitFormAction is not a function');
-                          // Fall back to submitting the form directly
-                          const form = document.getElementById('document-upload-form');
-                          if (form) {
-                            console.log('Submitting form directly via DOM event');
-                            form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-                          }
-                        }
-                      } catch (error) {
-                        console.error('Error submitting form:', error);
-                        setUploadError('Error submitting form. Please try again.');
-                        setSubmitting(false);
-                        setLoading(false); // Ensure global loading is turned off
-                      }
-                    }}
                   >
-                    {submitting ? (
-                      <>
-                        <div className="submit-loading-dots">
-                          <div className="dot dot1"></div>
-                          <div className="dot dot2"></div>
-                          <div className="dot dot3"></div>
-                        </div>
-                        Processing
-                      </>
-                    ) : fingerprintProcessed && formActions?.selectedChildType === 'fingerprint_clearance' ? (
-                      <>
-                        <svg width="14" height="14" viewBox="0 0 20 20" fill="none" className="mr-2" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18ZM14.59 5.58L8 12.17L5.41 9.59L4 11L8 15L16 7L14.59 5.58Z" fill="white"/>
-                        </svg>
-                        Document Processed
-                      </>
-                    ) : formActions?.isDriversLicenseForm && !formActions?.showAllFields ? (
-                      <>Process Document</>
-                    ) : (
-                      <>
-                        {typeof actionsFunctions.getSubmitButtonText === 'function' 
-                          ? actionsFunctions.getSubmitButtonText() 
-                          : (formSchema && formSchema.submitButtonText ? formSchema.submitButtonText : 'Submit')}
-                      </>
+                    {submitting ? 'Uploading...' : (
+                      typeof actionsFunctions.getSubmitButtonText === 'function' ? 
+                        actionsFunctions.getSubmitButtonText() : 
+                        'Upload Document'
                     )}
                   </Button>
                 )}

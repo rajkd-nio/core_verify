@@ -1,11 +1,5 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/admin/forms/edit/[formKey]/page": "app/admin/forms/edit/[formKey]/page.js",
   "/admin/forms/page": "app/admin/forms/page.js",
-  "/admin/document-types/page": "app/admin/document-types/page.js",
-  "/api/location-document-types/[locationId]/route": "app/api/location-document-types/[locationId]/route.js",
-  "/api/form-schema/[typeId]/[childTypeId]/route": "app/api/form-schema/[typeId]/[childTypeId]/route.js",
-  "/api/forms/[formKey]/route": "app/api/forms/[formKey]/route.js",
-  "/api/form-schema/route": "app/api/form-schema/route.js",
+  "/admin/forms/edit/[formKey]/page": "app/admin/forms/edit/[formKey]/page.js",
   "/iframe-uploader/page": "app/iframe-uploader/page.js"
 }

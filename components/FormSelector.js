@@ -2,13 +2,10 @@
 
 import React, { useState } from 'react';
 import DynamicForm from './DynamicForm';
-import FingerPrintClearanceForm from './FingerPrintClearanceForm';
-import DriversLicenseForm from './documents/DriversLicenseForm';
 import InlineSkeletonLoader from './InlineSkeletonLoader';
 
 /**
- * FormSelector component that chooses between different form types
- * based on the document type
+ * FormSelector component that uses the standard DynamicForm for all document types
  */
 const FormSelector = ({ 
   schema, 
@@ -19,7 +16,8 @@ const FormSelector = ({
   error, 
   success,
   className = '',
-  onSchemaLoaded
+  onSchemaLoaded,
+  prioritizeUploadFields = false
 }) => {
   const [loading, setLoading] = useState(false);
   
@@ -43,76 +41,11 @@ const FormSelector = ({
     fieldCount: schema?.fields?.length || 0
   });
   
-  // Check if this is a fingerprint clearance form - improve detection logic
-  const isFingerPrintClearanceForm = 
-    schema?.documentType === 'finger_print_clearance' || 
-    schema?.documentType === 'fingerprint_clearance' ||
-    schema?.childDocumentType === 'fingerprint_clearance' ||
-    schema?.childDocumentType === 'finger_print_clearance' ||
-    schema?.documentType?.toLowerCase().replace(/\s+/g, '_') === 'finger_print_clearance' ||
-    /finger\s*print\s*clearance/i.test(schema?.documentType) ||
-    /finger\s*print\s*clearance/i.test(schema?.title || '') ||
-    (schema?.formId && /fingerprint/i.test(schema?.formId));
-  
-  // Check if this is a driver's license form
-  const isDriversLicenseForm = 
-    schema?.childDocumentType === 'drivers_license' ||
-    schema?.formId?.includes('drivers_license') ||
-    /driver('?s)?\s*license/i.test(schema?.title || '');
-  
-  console.log('FormSelector form type check:', { 
-    isFingerPrintClearanceForm, 
-    isDriversLicenseForm,
-    documentType: schema?.documentType,
-    childDocumentType: schema?.childDocumentType,
-    title: schema?.title 
-  });
-  
-  // Add onSchemaLoaded callback to schema for driver's license and other forms
-  const enhancedSchema = {
-    ...schema,
-    onSchemaLoaded: onSchemaLoaded
-  };
-  
-  // Render the appropriate form based on document type
-  if (isFingerPrintClearanceForm) {
-    console.log('Rendering FingerPrintClearanceForm component');
-    return (
-      <FingerPrintClearanceForm
-        schema={enhancedSchema}
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-        onCancel={onCancel}
-        isSubmitting={isSubmitting}
-        error={error}
-        success={success}
-        className={className}
-      />
-    );
-  }
-  
-  // Render the driver's license form
-  if (isDriversLicenseForm) {
-    console.log('Rendering DriversLicenseForm component');
-    return (
-      <DriversLicenseForm
-        schema={enhancedSchema}
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-        onCancel={onCancel}
-        isSubmitting={isSubmitting}
-        error={error}
-        success={success}
-        className={className}
-      />
-    );
-  }
-  
-  // For all other document types, use the standard DynamicForm
-  console.log('Rendering standard DynamicForm component');
+  // Use the standard DynamicForm for all document types
+  console.log('Rendering standard DynamicForm component for all document types');
   return (
     <DynamicForm
-      schema={enhancedSchema}
+      schema={schema}
       initialValues={initialValues}
       onSubmit={onSubmit}
       onCancel={onCancel}
@@ -120,6 +53,7 @@ const FormSelector = ({
       error={error}
       success={success}
       className={className}
+      prioritizeUploadFields={prioritizeUploadFields}
     />
   );
 };

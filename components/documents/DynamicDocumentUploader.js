@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import FormSelector from '../FormSelector';
 import { fetchFormSchema, fetchLocationDocumentTypes } from '../../utils/formSchemaApi';
 import { uploadFile } from '../../utils/api';
@@ -35,7 +35,8 @@ const DynamicDocumentUploader = ({
   isEmbedded = false,
   parentOrigin = '*',
   hideHeader = false,
-  onSchemaLoaded = null
+  onSchemaLoaded = null,
+  prioritizeUploadFields = false
 }) => {
   // Component state
   const [schema, setSchema] = useState(null);
@@ -56,6 +57,9 @@ const DynamicDocumentUploader = ({
   const [childTypeOptions, setChildTypeOptions] = useState([]);
   const [selectedChildType, setSelectedChildType] = useState('');
   const [childFormSchemas, setChildFormSchemas] = useState({});
+  
+  // Add a ref to store the action info object
+  const actionInfoRef = useRef(null);
   
   // Fetch form schema on component mount or when document type changes
   useEffect(() => {
@@ -339,6 +343,9 @@ const DynamicDocumentUploader = ({
           verifyConfig.childTypeId = childTypeId;
         }
         
+        // Reset initial values when changing child type
+        setInitialValues({});
+        
         logData('CHILD_DOCUMENT_TYPE_SELECTED', { childTypeId });
       }
       
@@ -509,7 +516,7 @@ const DynamicDocumentUploader = ({
           !!schema;
       };
       
-      // Pass both the schema and action info
+      // Create a stable reference to the action info object
       const actionInfo = {
         schema: schema,
         isChildTypeSelector,
@@ -521,10 +528,24 @@ const DynamicDocumentUploader = ({
         hasValidForm
       };
       
-      // Log before sending for debugging
-      console.log('Sending actionInfo to parent:', actionInfo);
+      // Store the action info in a ref to avoid constant regeneration
+      const actionInfoStr = JSON.stringify({
+        isChildTypeSelector,
+        selectedChildType,
+        childTypeOptionsLength: childTypeOptions.length,
+        schemaId: schema?.formId
+      });
       
-      onSchemaLoaded(actionInfo);
+      // Only call onSchemaLoaded if something relevant changed
+      if (actionInfoRef.current !== actionInfoStr) {
+        actionInfoRef.current = actionInfoStr;
+        
+        // Log before sending for debugging
+        console.log('Sending actionInfo to parent:', actionInfo);
+        
+        // Call the callback with the action info
+        onSchemaLoaded(actionInfo);
+      }
     }
   // Remove childFormSchemas from the dependency array to prevent infinite loop
   }, [schema, onSchemaLoaded, isChildTypeSelector, selectedChildType, childTypeOptions]);
@@ -594,9 +615,7 @@ const DynamicDocumentUploader = ({
       <div className="document-content">
         <FormSelector
           schema={{
-            ...schema,
-            // Set documentType to fingerprint_clearance if selectedChildType is fingerprint_clearance
-            documentType: selectedChildType === 'fingerprint_clearance' || selectedChildType === 'finger_print_clearance' ? 'fingerprint_clearance' : schema.documentType,
+            ...JSON.parse(JSON.stringify(schema)),
             childDocumentType: selectedChildType, // Ensure child document type is passed
             showFormButtons: false // Always hide form buttons as they're in the modal footer
           }}
@@ -607,7 +626,7 @@ const DynamicDocumentUploader = ({
           error={error}
           success={success}
           className="px-3"
-          onSchemaLoaded={onSchemaLoaded} // Pass the callback to FormSelector
+          prioritizeUploadFields={prioritizeUploadFields}
         />
       </div>
     </div>

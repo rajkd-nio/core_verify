@@ -218,12 +218,11 @@ const convertToFormSchema = (documentType, documentTitle) => {
       id: "notes",
       name: "notes",
       type: "textarea",
-      label: "Notes",
-      placeholder: "Enter notes or description",
+      label: "Additional Notes",
+      placeholder: "Enter any additional notes or comments",
       required: false,
-      order: 9,
-      fullWidth: true,
-      rows: 3
+      order: 8,
+      fullWidth: true
     });
     
     // Add shareable checkbox
@@ -234,7 +233,7 @@ const convertToFormSchema = (documentType, documentTitle) => {
       label: "Shareable",
       defaultValue: documentTitle.shareable,
       required: false,
-      order: 10,
+      order: 9,
       fullWidth: true
   });
 
@@ -818,8 +817,7 @@ export class DocumentService {
           }
         });
         
-        // Add notes field - Skip for fingerprint clearance
-        if (!isFingerPrintClearance) {
+        // Add notes field
           formSchema.fields.push({
             id: "notes",
             name: "notes",
@@ -830,7 +828,6 @@ export class DocumentService {
             order: 8,
             fullWidth: true
           });
-        }
         
         // Add shareable field
         formSchema.fields.push({
@@ -1462,49 +1459,13 @@ export class DocumentService {
         childType.fields.forEach((field, index) => {
           const fieldWithAdjustedOrder = {
             ...field,
-            order: field.order + (isFingerPrintClearance ? 0 : 1) // Add 1 to allow for title field, except for fingerprint clearance
+            order: field.order + 1 // Add 1 to allow for title field
           };
           formSchema.fields.push(fieldWithAdjustedOrder);
         });
       }
       
-      // Special case for Finger Print Clearance - remove location restriction
-      if (isFingerPrintClearance) {
-        // Add file upload field for front of the document
-        formSchema.fields.push({
-          id: "fileUpload",
-          name: "fileUpload",
-          type: "file",
-          label: `Attach Front (PDF, JPG, PNG)`,
-          accept: ".pdf,.jpg,.jpeg,.png",
-          required: true,
-          order: 90, // High order to ensure it appears after all other fields but before the back side
-          fullWidth: true,
-          validation: {
-            maxSize: 10000000,
-            fileTypes: ["application/pdf", "image/jpeg", "image/png"],
-            message: "Please upload a PDF, JPG, or PNG file less than 10MB"
-          }
-        });
-        
-        // Add file upload field for back of the document
-        formSchema.fields.push({
-          id: "fileUploadBack",
-          name: "fileUploadBack",
-          type: "file",
-          label: `Attach Back (PDF, JPG, PNG)`,
-          accept: ".pdf,.jpg,.jpeg,.png",
-          required: true,
-          order: 91, // Right after the front side upload
-          fullWidth: true,
-          validation: {
-            maxSize: 10000000,
-            fileTypes: ["application/pdf", "image/jpeg", "image/png"],
-            message: "Please upload a PDF, JPG, or PNG file less than 10MB"
-          }
-        });
-      } else {
-        // Standard file upload field for other document types
+      // Standard file upload field for all document types
         formSchema.fields.push({
           id: "fileUpload",
           name: "fileUpload",
@@ -1520,10 +1481,8 @@ export class DocumentService {
             message: "Please upload a PDF, JPG, or PNG file less than 10MB"
           }
         });
-      }
       
-      // Add notes field - Skip for fingerprint clearance
-      if (!isFingerPrintClearance) {
+      // Add notes field for all document types
         formSchema.fields.push({
           id: "notes",
           name: "notes",
@@ -1534,10 +1493,8 @@ export class DocumentService {
           order: 101,
           fullWidth: true
         });
-      }
       
-      // Add shareable field for non-fingerprint clearance documents
-      if (!isFingerPrintClearance) {
+      // Add shareable field for all document types
         formSchema.fields.push({
           id: "shareable",
           name: "shareable",
@@ -1552,7 +1509,6 @@ export class DocumentService {
           ],
           defaultValue: "true"
         });
-      }
 
       // Sort fields by order
       formSchema.fields.sort((a, b) => a.order - b.order);

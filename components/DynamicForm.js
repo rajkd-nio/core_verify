@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -211,7 +211,8 @@ const DynamicForm = ({
   isSubmitting = false,
   error = '',
   success = '',
-  className = ''
+  className = '',
+  prioritizeUploadFields = false
 }) => {
   // Add more detailed logging to help debug document type issues
   console.log('DynamicForm schema details:', {
@@ -226,6 +227,83 @@ const DynamicForm = ({
   const [fileMap, setFileMap] = useState({});
   const [fileUrlMap, setFileUrlMap] = useState({});
   const [validationErrors, setValidationErrors] = useState(null);
+  
+  // Add state to check if any files have been uploaded
+  const [hasUploadedFiles, setHasUploadedFiles] = useState(false);
+  
+  // Store the current document type in a ref to detect changes
+  const previousSchemaRef = useRef({ 
+    documentType: schema?.documentType, 
+    childDocumentType: schema?.childDocumentType,
+    formId: schema?.formId
+  });
+  
+  // Reset upload state when schema changes
+  useEffect(() => {
+    const currentSchema = { 
+      documentType: schema?.documentType, 
+      childDocumentType: schema?.childDocumentType,
+      formId: schema?.formId
+    };
+    
+    // Check if document type or child type has changed
+    if (previousSchemaRef.current.documentType !== currentSchema.documentType || 
+        previousSchemaRef.current.childDocumentType !== currentSchema.childDocumentType ||
+        previousSchemaRef.current.formId !== currentSchema.formId) {
+      
+      console.log('Document type changed, resetting upload state', {
+        from: previousSchemaRef.current,
+        to: currentSchema
+      });
+      
+      // Reset upload state
+      setFileMap({});
+      setFileUrlMap({});
+      setHasUploadedFiles(false);
+      setValidationErrors(null);
+      
+      // Clean up any existing file URLs
+      Object.values(fileUrlMap).forEach(url => {
+        if (url) URL.revokeObjectURL(url);
+      });
+      
+      // Update the ref to the current schema
+      previousSchemaRef.current = currentSchema;
+    }
+  }, [schema?.documentType, schema?.childDocumentType, schema?.formId, fileUrlMap]);
+  
+  // Check if schema has upload fields
+  const hasUploadFields = useMemo(() => {
+    if (!schema?.fields || !Array.isArray(schema.fields)) {
+      return false;
+    }
+    
+    const result = schema.fields.some(field => 
+      // Check for type="file"
+      field.type === 'file' || 
+      // Also check for common file upload field names
+      field.name === 'fileUpload' || 
+      field.name === 'fileUploadBack' ||
+      // Check for ID as well
+      field.id === 'fileUpload' || 
+      field.id === 'fileUploadBack'
+    );
+    
+    console.log('Schema has upload fields:', result, {
+      documentType: schema?.documentType,
+      childDocumentType: schema?.childDocumentType,
+      fieldCount: schema?.fields?.length || 0,
+      uploadFieldCount: schema?.fields?.filter(f => 
+        f.type === 'file' || 
+        f.name === 'fileUpload' || 
+        f.name === 'fileUploadBack' || 
+        f.id === 'fileUpload' || 
+        f.id === 'fileUploadBack'
+      ).length || 0
+    });
+    
+    return result;
+  }, [schema?.fields]);
   
   // Use the document extraction hook
   const {
@@ -298,6 +376,16 @@ const DynamicForm = ({
     if (initialValues && Object.keys(initialValues).length > 0) {
       logData('SETTING_INITIAL_VALUES', initialValues);
       reset(initialValues);
+      
+      // Check if initialValues has any file URLs, which would indicate files are already uploaded
+      const hasFileUrls = Object.keys(initialValues).some(key => 
+        (key === 'fileUpload' || key === 'fileUploadBack' || key.includes('file') || key.includes('File')) && 
+        initialValues[key]
+      );
+      
+      if (hasFileUrls) {
+        setHasUploadedFiles(true);
+      }
     }
   }, [initialValues, reset]);
   
@@ -328,6 +416,14 @@ const DynamicForm = ({
       });
     };
   }, [fileMap, fileUrlMap]);
+  
+  // Check if fileMap has any files and set hasUploadedFiles accordingly
+  useEffect(() => {
+    // If fileMap has any files, set hasUploadedFiles to true
+    if (Object.keys(fileMap).length > 0) {
+      setHasUploadedFiles(true);
+    }
+  }, [fileMap]);
   
   // Custom validation for fields that can't be easily handled by Zod
   const validateDateFields = (data) => {
@@ -458,6 +554,9 @@ const DynamicForm = ({
         [fieldName]: newUrl
       }));
       
+      // Set that we have uploaded files - this is the key flag for showing other fields
+      setHasUploadedFiles(true);
+      
       logData('FILE_SELECTED', {
         fieldName,
         fileName: file.name,
@@ -472,6 +571,14 @@ const DynamicForm = ({
           delete newErrors[fieldName];
           return Object.keys(newErrors).length > 0 ? newErrors : null;
         });
+      }
+
+      // If prioritizeUploadFields is true, automatically trigger document extraction
+      if (prioritizeUploadFields) {
+        // Wait a short time for the file to be properly stored in state
+        setTimeout(() => {
+          handleProcessDocument(file, fieldName);
+        }, 100);
       }
     }
   };
@@ -872,6 +979,30 @@ const DynamicForm = ({
     );
   };
 
+  // Add listener for resetDocumentForm event
+  useEffect(() => {
+    const handleResetEvent = (event) => {
+      console.log('Received resetDocumentForm event', event.detail);
+      
+      // Reset file state
+      setFileMap({});
+      setFileUrlMap({});
+      setHasUploadedFiles(false);
+      setValidationErrors(null);
+      
+      // Clean up any existing file URLs
+      Object.values(fileUrlMap).forEach(url => {
+        if (url) URL.revokeObjectURL(url);
+      });
+    };
+    
+    window.addEventListener('resetDocumentForm', handleResetEvent);
+    
+    return () => {
+      window.removeEventListener('resetDocumentForm', handleResetEvent);
+    };
+  }, [fileUrlMap]);
+  
   if (!schema) {
     return (
       <Alert color="danger">
@@ -881,89 +1012,112 @@ const DynamicForm = ({
     );
   }
 
+  // Determine which fields should be displayed based on whether files have been uploaded
+  const visibleFields = useMemo(() => {
+    if (!hasUploadFields || !prioritizeUploadFields || hasUploadedFiles || Object.keys(initialValues).length > 0) {
+      // Show all fields if any file has been uploaded or if we have initial values
+      // or if we don't need to prioritize upload fields
+      
+      console.log('Showing all fields because:', {
+        hasUploadFields,
+        prioritizeUploadFields,
+        hasUploadedFiles,
+        hasInitialValues: Object.keys(initialValues).length > 0,
+        fieldCount: sortedFields.length
+      });
+      
+      return sortedFields;
+    } else {
+      // Only show upload fields initially
+      const uploadOnlyFields = sortedFields.filter(field => 
+        field.type === 'file' || 
+        field.name === 'fileUpload' || 
+        field.name === 'fileUploadBack' ||
+        field.id === 'fileUpload' || 
+        field.id === 'fileUploadBack'
+      );
+      
+      console.log('Showing only upload fields:', {
+        uploadFieldCount: uploadOnlyFields.length,
+        totalFieldCount: sortedFields.length,
+        uploadFields: uploadOnlyFields.map(f => f.name || f.id)
+      });
+      
+      return uploadOnlyFields;
+    }
+  }, [sortedFields, hasUploadFields, hasUploadedFiles, initialValues, prioritizeUploadFields]);
+
   return (
     <div className={`dynamic-form form-container ${className}`} style={{ position: 'relative' }}>
       {/* Loading overlay */}
       {(extracting || isSubmitting) && (
         <LoadingOverlay 
-          message={extracting ? "Processing document..." : "Submitting form..."}
-          progress={extracting ? Math.floor(extractionProgress * 100) : undefined}
+          message={
+            extracting 
+              ? 'Processing document...' 
+              : 'Submitting form...'
+          }
+          progress={extracting ? extractionProgress : null}
         />
       )}
       
       {/* Error alert */}
       {error && (
-        <Alert color="danger" className="compact-alert mt-3 mb-3">
-          <div className="error-icon mr-3">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 22C6.477 22 2 17.523 2 12C2 6.477 6.477 2 12 2C17.523 2 22 6.477 22 12C22 17.523 17.523 22 12 22ZM12 20C16.418 20 20 16.418 20 12C20 7.582 16.418 4 12 4C7.582 4 4 7.582 4 12C4 16.418 7.582 20 12 20ZM11 15H13V17H11V15ZM11 7H13V13H11V7Z" fill="#d32f2f"/>
-            </svg>
-          </div>
-          <div>
-            <h5 className="mb-1">Error</h5>
-            <p className="mb-0 small">{error}</p>
-          </div>
+        <Alert color="danger" className="mb-3">
+          {error}
         </Alert>
       )}
       
       {/* Success alert */}
       {success && (
-        <Alert color="success" className="compact-alert mt-3 mb-3">
-          <div className="success-icon mr-3">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 22C6.477 22 2 17.523 2 12C2 6.477 6.477 2 12 2C17.523 2 22 6.477 22 12C22 17.523 17.523 22 12 22ZM12 20C16.418 20 20 16.418 20 12C20 7.582 16.418 4 12 4C7.582 4 4 7.582 4 12C4 16.418 7.582 20 12 20ZM11.003 16L6.76 11.757L8.174 10.343L11.003 13.172L16.242 7.93L17.656 9.344L11.003 16Z" fill="#388e3c"/>
-            </svg>
-          </div>
-          <div>
-            <h5 className="mb-1">Success</h5>
-            <p className="mb-0 small">{success}</p>
-          </div>
+        <Alert color="success" className="mb-3">
+          {success}
         </Alert>
       )}
       
-      {/* Main form */}
-      <form id="document-upload-form" onSubmit={handleSubmit(handleFormSubmit)} className="form-fields-container">
-        {/* Document type selection or display */}
-        {schema && schema.documentTypeDisplay && (
-          <div className="form-section-title">
-            {schema.documentTypeDisplay}
-          </div>
-        )}
+      {/* Form title with explanatory text if upload fields are present and no files uploaded yet */}
+      {hasUploadFields && prioritizeUploadFields && !hasUploadedFiles && Object.keys(initialValues).length === 0 && (
+        <Alert color="info" className="mb-3">
+          <h5 className="mb-1">Upload Document First</h5>
+          <p className="mb-0">Please upload your document file. Additional fields will appear after upload.</p>
+        </Alert>
+      )}
+      
+      <form id="document-upload-form" onSubmit={handleSubmit(handleFormSubmit)} className="mb-4">
+        <Row>
+          {visibleFields.map(field => renderField(field))}
+        </Row>
         
-        {/* Visible form fields */}
-        {schema && schema.fields && renderFields()}
-        
-        {/* Form submission buttons (only shown if schema specifies to show form buttons) */}
-        {schema && schema.showFormButtons !== false && (
-          <div className="form-buttons">
-            {schema.showCancelButton !== false && (
-              <Button
-                outline
-                color="secondary"
-                type="button"
-                className="btn-rounded font-weight-bold"
-                onClick={onCancel}
-                style={{ borderColor: '#FF69B4', color: '#FF69B4' }}
+        {/* Form buttons will only be shown if explicitly requested in the schema */}
+        {schema.showFormButtons && (
+          <div className="d-flex justify-content-end mt-4">
+            {/* Cancel button */}
+            {schema.cancelButtonText && (
+              <Button 
+                color="secondary" 
+                onClick={() => {
+                  // Reset form state
+                  resetExtraction();
+                  
+                  // Call onCancel handler if provided
+                  if (onCancel) {
+                    onCancel();
+                  }
+                }}
+                className="mr-2"
+                disabled={isSubmitting || extracting}
               >
-                {schema.cancelButtonText || 'Cancel'}
+                {schema.cancelButtonText}
               </Button>
             )}
             
-            <Button
-              color="primary"
+            {/* Submit button */}
+            <Button 
+              color="primary" 
               type="submit"
-              className="btn-rounded font-weight-bold"
-              disabled={isSubmitting || Object.keys(errors).length > 0}
-              style={{ backgroundColor: '#FF69B4', borderColor: '#FF69B4' }}
+              disabled={isSubmitting || extracting}
             >
-              {isSubmitting ? (
-                <>
-                  <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>
-                  {schema.submittingButtonText || 'Processing...'}
-                </>
-              ) : (
-                schema.submitButtonText || 'Submit'
-              )}
+              {isSubmitting ? 'Submitting...' : schema.submitButtonText || 'Submit'}
             </Button>
           </div>
         )}

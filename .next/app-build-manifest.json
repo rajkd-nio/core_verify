@@ -1,25 +1,15 @@
 {
   "pages": {
-    "/admin/forms/page": [
+    "/admin/forms/edit/[formKey]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/admin/forms/page.js"
+      "static/chunks/app/admin/forms/edit/[formKey]/page.js"
     ],
     "/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
-    ],
-    "/admin/forms/edit/[formKey]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/forms/edit/[formKey]/page.js"
-    ],
-    "/admin/document-types/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/document-types/page.js"
     ],
     "/iframe-uploader/page": [
       "static/chunks/webpack.js",
@@ -33,10 +23,10 @@
       "static/css/app/iframe-uploader/layout.css",
       "static/chunks/app/iframe-uploader/layout.js"
     ],
-    "/_not-found/page": [
+    "/admin/forms/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/chunks/app/admin/forms/page.js"
     ]
   }
 }

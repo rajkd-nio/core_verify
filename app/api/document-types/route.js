@@ -23,7 +23,7 @@ export async function GET(request) {
         { child_name: 'asc' }
       ]
     });
-
+    
     // Transform the data to a more friendly format
     const transformedTypes = documentTypes.map(docType => ({
       id: docType.id,
@@ -43,7 +43,7 @@ export async function GET(request) {
       } : null,
       locations: docType.locations
     }));
-
+    
     return NextResponse.json(transformedTypes);
   } catch (error) {
     console.error('Error fetching document types:', error);
